@@ -8,19 +8,11 @@ connection.sync();
 
 //Generate Tables
 
-var Company = require('./api/models/company.model');
-var Phone = require('./api/models/phone.model');
-var Shuttle = require('./api/models/shuttle.model');
-var Place = require('./api/models/place.model');
-var Image = require('./api/models/image.model');
-var Reservation = require('./api/models/reservation.model');
+var Customer = require('./api/models/customer.model');
+var Location = require('./api/models/location.model');
 
-Company.build();
-Phone.build();
-Shuttle.build();
-Place.build();
-Image.build();
-Reservation.build();
+Customer.build();
+Location.build();
 
 var routes = require('./api/routes/routes')
 
