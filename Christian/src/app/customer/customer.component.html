@@ -20,7 +20,7 @@
         <tr *ngFor="let c of customers">
           <td>{{c.name}}</td>
           <td>{{c.lastName}}</td>
-          <td>{{c.id}}</td>
+          <td>{{c.citizenId}}</td>
           <td>{{c.location.name}}</td>
           <td class="text-center">
             <button type="button" class="btn btn-primary">Ver
@@ -64,7 +64,7 @@
             </div>
             <div class="form-group col-md-6">
               <label for="id">Cédula</label>
-              <input type="text" #id="ngModel" name="id" [(ngModel)]="customer.id" [class.is-invalid]="id.invalid && (id.dirty || id.touched)"
+              <input type="text" #id="ngModel" name="id" [(ngModel)]="customer.citizenId" [class.is-invalid]="id.invalid && (id.dirty || id.touched)"
                 class="form-control" id="id" required>
               <div class="invalid-feedback">*Debe ingresar una cedula</div>
             </div>

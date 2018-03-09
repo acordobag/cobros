@@ -7,6 +7,7 @@ var bcrypt = require('bcrypt');
 module.exports.save = function (req, res) {
 
     var customer = {
+        citizenId: req.body.citizenId,
         name: req.body.name,
         lastName: req.body.lastName,
         email: req.body.email,

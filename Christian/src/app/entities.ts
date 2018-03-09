@@ -1,5 +1,6 @@
 export class Customer {
-    id: string;
+    id: number;
+    citizenId: string;
     name: string;
     lastName: string;
     location: Location;
@@ -7,11 +8,12 @@ export class Customer {
     phone: number;
 
     constructor() {
-        this.id = "";
+        this.id = undefined;
+        this.citizenId = "";
         this.name = "";
         this.lastName = "";
         this.email = "";
-        this.phone = 1;
+        this.phone = undefined;
         this.location = new Location();
     }
 }
