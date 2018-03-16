@@ -10,9 +10,15 @@ connection.sync();
 
 var Customer = require('./api/models/customer.model');
 var Location = require('./api/models/location.model');
+var Account = require('./api/models/account.model');
+var Payment = require('./api/models/payment.model');
+var PaymentTerm = require('./api/models/paymentTerm.model');
 
 Customer.build();
 Location.build();
+Account.build();
+Payment.build();
+PaymentTerm.build();
 
 var routes = require('./api/routes/routes')
 

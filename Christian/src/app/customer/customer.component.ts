@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Customer } from '../entities';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { HttpService } from '../services/http.service';
 
 declare var jquery: any;
 declare var $: any;
@@ -17,16 +18,14 @@ export class CustomerComponent implements OnInit, AfterViewInit {
   private customer: Customer;
   private locations: Location[];
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpService) { }
 
   ngOnInit(): void {
     this.createNewCustomer();
     this.updatedCustomerList();
-    this.http.get('http://10.0.0.12:8000/api/location')
-      .map(res => res.json())
-      .subscribe(res => {
-        this.locations = res;
-      });
+    this.http.get('location', res => {
+      this.locations = res;
+    })
   }
 
   ngAfterViewInit(): void {
@@ -34,6 +33,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
 
   createDataTable(): void {
     $("#customerTable").DataTable({
+      responsive: true,
       select: true,
       language: {
         "info": "Mostrando pagina _PAGE_ de _PAGES_",
@@ -50,14 +50,12 @@ export class CustomerComponent implements OnInit, AfterViewInit {
   }
 
   updatedCustomerList() {
-    this.http.get('http://10.0.0.12:8000/api/customer')
-      .map(res => res.json())
-      .subscribe(res => {
-        this.customers = res;
-        setTimeout(() => {
-          this.createDataTable();
-        }, 300)
-      });
+    this.http.get('customer', res => {
+      this.customers = res;
+      setTimeout(() => {
+        this.createDataTable();
+      })
+    });
   }
 
   createNewCustomer(): void {
@@ -65,11 +63,9 @@ export class CustomerComponent implements OnInit, AfterViewInit {
   }
 
   saveCreatedUser() {
-    this.http.post('http://10.0.0.12:8000/api/customer', this.customer)
-      .map(res => { res.json() })
-      .subscribe(res => {
-        location.reload();
-      })
+    this.http.post('customer', this.customer, res => {
+      location.reload();
+    })
   }
 
   compareFn(i1, i2) {

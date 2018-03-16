@@ -6,6 +6,7 @@ export class Customer {
     location: Location;
     email: string;
     phone: number;
+    accounts: Array<Account>;
 
     constructor() {
         this.id = undefined;
@@ -15,6 +16,7 @@ export class Customer {
         this.email = "";
         this.phone = undefined;
         this.location = new Location();
+        this.accounts = new Array<Account>();
     }
 }
 
@@ -35,13 +37,13 @@ export class Account {
     actualAmmount: number;
     interestRate: number;
     numberOfPayments: number;
-    charge: number
-    paymentTerm: PaymentMethod;
-    customer: Customer;
+    charge: number;
+    paymentTerm: PaymentTerm;
+    customerId: number;
     payments: Array<Payment>;
     already_pay: boolean;
 }
-export class PaymentMethod {
+export class PaymentTerm {
     id: number;
     name: string;
 }

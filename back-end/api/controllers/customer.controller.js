@@ -1,8 +1,11 @@
 var Customer = require('../models/customer.model');
 var Location = require('../models/location.model');
+var Account = require('../models/account.model');
+var PaymentTerm = require('../models/paymentTerm.model');
 var jwt = require('jwt-simple');
 var config = require('../config/database');
 var bcrypt = require('bcrypt');
+
 
 module.exports.save = function (req, res) {
 
@@ -26,10 +29,28 @@ module.exports.save = function (req, res) {
 };
 
 module.exports.findAll = function (req, res) {
-    Customer.findAll({ include: [Location] }).then(function (locations) {
-        if (locations) {
-            res.send(locations);
-        } else if (!locations) {
+    Customer.findAll({ include: [Location, Account] }).then(function (pcustomers) {
+        if (pcustomers) {
+            res.send(pcustomers);
+        } else if (!pcustomers) {
+            res.send({ status: 400, msj: "NO HAY NINGUN REGISTRO" });
+        }
+    });
+};
+
+module.exports.findById = function (req, res) {
+    Customer.findOne({
+        where: {
+            id: req.body.id
+        },
+        include: [Location, {
+            model: Account,
+            include: [PaymentTerm]
+        }]
+    }).then(function (pcustomers) {
+        if (pcustomers) {
+            res.send(pcustomers);
+        } else if (!pcustomers) {
             res.send({ status: 400, msj: "NO HAY NINGUN REGISTRO" });
         }
     });

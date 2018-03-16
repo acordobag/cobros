@@ -23,7 +23,7 @@
         "assets/vendor/bootstrap/css/bootstrap.min.css",
         "assets/vendor/bootstrap/css/bootstrap-grid.min.css",
         "assets/vendor/bootstrap/css/bootstrap-reboot.min.css",
-        "assets/css/sb-admin.min.css",
+        "assets/css/sb-admin.css",
         "assets/vendor/datatables/dataTables.bootstrap4.css",
         "assets/vendor/font-awesome/css/font-awesome.min.css"
       ],

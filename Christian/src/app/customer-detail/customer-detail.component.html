@@ -1,0 +1,141 @@
+<div class="container">
+  <div class="">
+    <div class="card">
+      <div class="card-header">
+        <h5>Detalles del cliente</h5>
+      </div>
+      <div class="card-body">
+        <form id="customerForm" #form="ngForm" class="row">
+          <div class="form-group col-md-6">
+            <label for="name">Nombre</label>
+            <input type="text" #name="ngModel" name="name" [(ngModel)]="customer.name" [class.is-invalid]="name.invalid && (name.dirty || name.touched)"
+              class="form-control" id="name" required>
+            <div class="invalid-feedback">*Debe ingresar un nombre</div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="lastName">Apellidos</label>
+            <input type="text" #lastName="ngModel" name="lastName" [(ngModel)]="customer.lastName" [class.is-invalid]="lastName.invalid && (lastName.dirty || lastName.touched)"
+              class="form-control" id="lastName" required>
+            <div class="invalid-feedback">*Debe ingresar un apellido</div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="id">Cédula</label>
+            <input type="text" #id="ngModel" name="id" [(ngModel)]="customer.citizenId" [class.is-invalid]="id.invalid && (id.dirty || id.touched)"
+              class="form-control" id="id" required>
+            <div class="invalid-feedback">*Debe ingresar una cedula</div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="phone">Telefono</label>
+            <input type="number" #phone="ngModel" name="phone" [(ngModel)]="customer.phone" [class.is-invalid]="phone.invalid && (phone.dirty || phone.touched)"
+              class="form-control" id="phone" required>
+            <div class="invalid-feedback">*Debe ingresar un telefono</div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="mail">Correo Electronico</label>
+            <input type="email" #email="ngModel" name="email" [(ngModel)]="customer.email" [class.is-invalid]="email.invalid && (email.dirty || email.touched)"
+              class="form-control" id="mail" email required>
+            <div class="invalid-feedback">*Debe ingresar un email</div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="location">Ubicación</label>
+            <select [compareWith]="compareFn" [class.is-invalid]="location.invalid && (location.dirty || location.touched)" class="form-control"
+              id="location" #location="ngModel" name="location" [(ngModel)]="customer.location" required>
+              <option [ngValue]="location" *ngFor="let location of locations">{{location.name}}</option>
+            </select>
+            <div class="invalid-feedback">*Debe escoger una ubicación</div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <br>
+    <div class="card">
+      <div class="card-header">
+        <h5>Cuentas de {{customer.name + ' ' + customer.lastName}}</h5>
+      </div>
+      <div class="card-body">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-primary pull-right" data-toggle="modal" (click)="createNewAccount()" data-target="#newUserAccount">Agregar</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="accountsTable" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th>Articulo</th>
+                <th>Deuda actual</th>
+                <th>Abono</th>
+                <th>Tipo de pago</th>
+                <th>Detalles</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let a of customer.accounts">
+                <td>{{a.name}}</td>
+                <td>{{a.actualAmmount | currency:'₡'}}</td>
+                <td>{{a.charge}}</td>
+                <td>{{a.paymentTerm.name}}</td>
+                <td class="text-center">
+                  <button type="button" class="btn btn-primary">Ver
+                    <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <br>
+  </div>
+</div>
+
+<div class="modal fade" id="newUserAccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nuevo usuario</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <form #form="ngForm" class="row">
+            <div class="form-group col-md-6">
+              <label for="name">Articulo</label>
+              <input type="text" #name="ngModel" name="name" [(ngModel)]="account.name" [class.is-invalid]="name.invalid && (name.dirty || name.touched)"
+                class="form-control" id="name" required>
+              <div class="invalid-feedback">*Debe ingresar un nombre de articulo</div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="numberOfPayments">Numero de cuotas</label>
+              <input type="number" #numberOfPayments="ngModel" name="numberOfPayments" [(ngModel)]="account.numberOfPayments" [class.is-invalid]="numberOfPayments.invalid && (numberOfPayments.dirty || numberOfPayments.touched)"
+                class="form-control" id="numberOfPayments" required>
+              <div class="invalid-feedback">*Debe ingresar un numero</div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="charge">Monto de cuota</label>
+              <input type="number" #charge="ngModel" name="charge" [ngModel]="account.charge" [class.is-invalid]="charge.invalid && (charge.dirty || charge.touched)"
+                class="form-control" id="phone" required>
+              <div class="invalid-feedback">*Debe un monto</div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="paymentTerm">Términos de pago</label>
+              <select [compareWith]="compareFn" [class.is-invalid]="paymentTerm.invalid && (paymentTerm.dirty || paymentTerm.touched)"
+                class="form-control" id="paymentTerm" #paymentTerm="ngModel" name="paymentTerm" [(ngModel)]="account.paymentTerm"
+                required>
+                <option [ngValue]="paymentTerm" *ngFor="let paymentTerm of paymentTerms">{{paymentTerm.name}}</option>
+              </select>
+              <div class="invalid-feedback">*Debe escoger una opción</div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+        <button class="btn btn-primary" [disabled]="form.invalid" (click)="saveCreatedAccount()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
