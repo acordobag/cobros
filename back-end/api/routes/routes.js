@@ -41,7 +41,7 @@ router.route('/user')
         UserController.save(req, res)
     });
 
-router.route('/user:id')
+router.route('/user/:id')
     .get(function (req, res) {
         UserController.findById(req, res);
     })
@@ -57,6 +57,11 @@ router.route('/account')
     })
     .get(function (req, res) {
         AccountController.findAll(req, res);
+    })
+    
+router.route('/account/:id')
+    .get(function (req, res) {
+        AccountController.findById(req, res);
     })
 
 router.route('/paymentTerm')

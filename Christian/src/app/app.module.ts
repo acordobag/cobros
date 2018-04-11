@@ -14,6 +14,8 @@ import { HomeComponent } from './home/home.component';
 import { GuardService } from './guards/guard.service';
 import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
 import { HttpService } from './services/http.service';
+import { NgxMaskModule } from 'ngx-mask'
+import { Options } from 'selenium-webdriver/ie';
 
 
 @NgModule({
@@ -31,7 +33,8 @@ import { HttpService } from './services/http.service';
     RouterModule,
     AppRoutingModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    NgxMaskModule.forRoot()
   ],
   providers: [GuardService, HttpService],
   bootstrap: [AppComponent]

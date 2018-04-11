@@ -5,7 +5,7 @@
         <h5>Detalles del cliente</h5>
       </div>
       <div class="card-body">
-        <form id="customerForm" #form="ngForm" class="row">
+        <form id="customerForm" #formCustomer="ngForm" class="row">
           <div class="form-group col-md-6">
             <label for="name">Nombre</label>
             <input type="text" #name="ngModel" name="name" [(ngModel)]="customer.name" [class.is-invalid]="name.invalid && (name.dirty || name.touched)"
@@ -45,6 +45,9 @@
             <div class="invalid-feedback">*Debe escoger una ubicación</div>
           </div>
         </form>
+        <div class="btn-group-right" role="group">
+          <button type="button" class="btn btn-primary float-right" (click)="editCustomer()">{{btnEditar}}</button>
+        </div>
       </div>
     </div>
     <br>
@@ -53,8 +56,8 @@
         <h5>Cuentas de {{customer.name + ' ' + customer.lastName}}</h5>
       </div>
       <div class="card-body">
-        <div class="btn-group" role="group">
-          <button type="button" class="btn btn-primary pull-right" data-toggle="modal" (click)="createNewAccount()" data-target="#newUserAccount">Agregar</button>
+        <div class="btn-group-right" role="group">
+          <button type="button" class="btn btn-primary float-right" data-toggle="modal" (click)="createNewAccount()" data-target="#newUserAccount">Agregar</button>
         </div>
       </div>
       <div class="card-body">
@@ -62,6 +65,7 @@
           <table class="table table-bordered" id="accountsTable" width="100%" cellspacing="0">
             <thead>
               <tr>
+                <th>Id</th>
                 <th>Articulo</th>
                 <th>Deuda actual</th>
                 <th>Abono</th>
@@ -71,9 +75,10 @@
             </thead>
             <tbody>
               <tr *ngFor="let a of customer.accounts">
+                <td>{{a.id}}</td>
                 <td>{{a.name}}</td>
                 <td>{{a.actualAmmount | currency:'₡'}}</td>
-                <td>{{a.charge}}</td>
+                <td>{{a.charge | currency:'₡'}}</td>
                 <td>{{a.paymentTerm.name}}</td>
                 <td class="text-center">
                   <button type="button" class="btn btn-primary">Ver
@@ -94,7 +99,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Nuevo usuario</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Agregar cuenta a {{customer.name}}</h5>
         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
@@ -116,15 +121,14 @@
             </div>
             <div class="form-group col-md-6">
               <label for="charge">Monto de cuota</label>
-              <input type="number" #charge="ngModel" name="charge" [ngModel]="account.charge" [class.is-invalid]="charge.invalid && (charge.dirty || charge.touched)"
-                class="form-control" id="phone" required>
+              <input type="number" #charge="ngModel" name="charge" [(ngModel)]="account.charge" [class.is-invalid]="charge.invalid && (charge.dirty || charge.touched)"
+                class="form-control" id="charge" required>
               <div class="invalid-feedback">*Debe un monto</div>
             </div>
             <div class="form-group col-md-6">
               <label for="paymentTerm">Términos de pago</label>
-              <select [compareWith]="compareFn" [class.is-invalid]="paymentTerm.invalid && (paymentTerm.dirty || paymentTerm.touched)"
-                class="form-control" id="paymentTerm" #paymentTerm="ngModel" name="paymentTerm" [(ngModel)]="account.paymentTerm"
-                required>
+              <select [compareWith]="compareFn" [(ngModel)]="account.paymentTerm" [class.is-invalid]="paymentTerm.invalid && (paymentTerm.dirty || paymentTerm.touched)"
+                class="form-control" id="paymentTerm" #paymentTerm="ngModel" name="paymentTerm" required>
                 <option [ngValue]="paymentTerm" *ngFor="let paymentTerm of paymentTerms">{{paymentTerm.name}}</option>
               </select>
               <div class="invalid-feedback">*Debe escoger una opción</div>
@@ -135,6 +139,44 @@
       <div class="modal-footer">
         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
         <button class="btn btn-primary" [disabled]="form.invalid" (click)="saveCreatedAccount()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="modal fade" id="newAccountPayment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Agregar abono a {{account.name}}</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <form #formPayment="ngForm" class="row">
+            <div class="form-group col-md-6">
+              <label for="name">Abono</label>
+              <input type="text" #name="ngModel" name="name" [(ngModel)]="account.name" [class.is-invalid]="name.invalid && (name.dirty || name.touched)"
+                class="form-control" id="name" required>
+              <div class="invalid-feedback">*Debe ingresar un nombre de articulo</div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="numberOfPayments">Numero de cuotas</label>
+              <input type="number" #numberOfPayments="ngModel" name="numberOfPayments" [(ngModel)]="account.numberOfPayments" [class.is-invalid]="numberOfPayments.invalid && (numberOfPayments.dirty || numberOfPayments.touched)"
+                class="form-control" id="numberOfPayments" required>
+              <div class="invalid-feedback">*Debe ingresar un numero</div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+        <button class="btn btn-primary" [disabled]="formPayment.invalid" (click)="saveCreatedAccount()">Guardar</button>
       </div>
     </div>
   </div>

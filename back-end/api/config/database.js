@@ -1,6 +1,6 @@
 var Sequelize = require('sequelize');
-var connection = new Sequelize("arley", "root", "root", {
-  host: 'localhost',
+var connection = new Sequelize("arley", "root", "CAca1978", {
+  host: '159.65.228.171',
   dialect: 'mysql',
   define: { timestamps: false },
   pool: {

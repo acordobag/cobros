@@ -40,7 +40,7 @@ module.exports.findAll = function (req, res) {
     });
 };
 
-module.exports.findByCustomer = function (req, res) {
+module.exports.findById = function (req, res) {
     Account.find({
         where: {
             id: req.body.id

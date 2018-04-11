@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Customer, Account, PaymentTerm } from '../entities';
+import { Customer, Account, PaymentTerm, Payment } from '../entities';
 import { ActivatedRoute } from '@angular/router';
 import { HttpService } from '../services/http.service';
 
@@ -15,7 +15,11 @@ export class CustomerDetailComponent implements OnInit {
   private customer: Customer;
   private locations: Array<Location>;
   private account: Account;
+  private payment: Payment;
   private paymentTerms: Array<PaymentTerm>;
+  private btnEditar: string;
+  private selectedAccount: Account;
+  private table: any;
 
   constructor(private route: ActivatedRoute, private http: HttpService) {
     this.customer = new Customer();
@@ -23,7 +27,8 @@ export class CustomerDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.disableInputs();
+    this.btnEditar = "Editar";
+    this.changeInputsState(true);
     this.createNewAccount();
     this.http.get('location', res => {
       this.locations = res;
@@ -37,9 +42,16 @@ export class CustomerDetailComponent implements OnInit {
       this.http.get('customer/' + id, res => {
         this.customer = res;
         setTimeout(() => {
-          $('#accountsTable').DataTable({
+          this.table = $('#accountsTable').DataTable({
             responsive: true,
             select: true,
+            "columnDefs": [
+              {
+                "targets": [0],
+                "visible": false,
+                "searchable": false
+              }
+            ],
             language: {
               "info": "Mostrando pagina _PAGE_ de _PAGES_",
               "infoEmpty": "No hay registros disponibles",
@@ -52,19 +64,31 @@ export class CustomerDetailComponent implements OnInit {
               }
             }
           });
+          var self = this;
+          this.table.on('select', function (e, dt, type, indexes) {
+            if (type === 'row') {
+              var data = self.table.rows({ selected: true }).data();
+              self.http.get('account/' + data[0][0], res => {
+                this.selectedAccount = res
+              });
+            }
+          });
         });
       });
     });
   }
 
-  disableInputs(){
-    $('#customerForm').each(()=>{
-      $(this).prop('readonly', true);
-    });
+  changeInputsState(v: boolean): void {
+    $('#customerForm :input').prop('disabled', v);
   }
   createNewAccount() {
     this.account = new Account();
     this.account.customerId = this.customer.id;
+  }
+
+  createNewPayment() {
+    this.payment = new Payment();
+    // this.payment.accountId= this.
   }
 
   saveCreatedAccount() {
@@ -73,6 +97,17 @@ export class CustomerDetailComponent implements OnInit {
     this.http.post('account', this.account, res => {
       location.reload();
     })
+  }
+
+  editCustomer() {
+    if (this.btnEditar == "Editar") {
+      this.btnEditar = "Guardar";
+      this.changeInputsState(false);
+      //Update Method
+    } else {
+      this.btnEditar = "Editar";
+      this.changeInputsState(true);
+    }
   }
 
   compareFn(i1, i2) {
