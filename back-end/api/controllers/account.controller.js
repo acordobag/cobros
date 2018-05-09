@@ -1,8 +1,8 @@
 var Account = require('../models/account.model');
 var Payment = require('../models/payment.model');
+var Customer = require('../models/customer.model');
 var Location = require('../models/location.model');
 var PaymentTerm = require('../models/paymentTerm.model');
-var jwt = require('jwt-simple');
 var config = require('../config/database');
 var bcrypt = require('bcrypt');
 
@@ -16,7 +16,7 @@ module.exports.save = function (req, res) {
         numberOfPayments: req.body.numberOfPayments,
         charge: req.body.charge,
         paymentTermId: req.body.paymentTerm.id,
-        customerId: req.body.customerId,
+        customerId: req.body.customer.id,
         already_pay: req.body.already_pay
     };
 
@@ -61,12 +61,24 @@ module.exports.addPayment = function (req, res) {
         approved: req.body.approved,
         date: req.body.date,
         userId: req.body.user.id,
-        accountId: req.body.account.id
+        accountId: req.body.accountId
     }
 
-    Account.create(payment).then(function (ppayment) {
+    Payment.create(payment).then(function (ppayment) {
         if (ppayment) {
-            res.send(ppayment);
+            Account.find({
+                where: {
+                    id: payment.accountId
+                }
+            }).then(function (account) {
+                if (account) {
+                    account.updateAttributes({
+                        actualAmmount: account.actualAmmount - payment.ammount
+                    }).then(function () { res.send(ppayment); })
+
+                }
+            });
+
         } else if (!ppayment) {
             res.send({ status: 400, msj: "NO SE REGISTRO" });
         }

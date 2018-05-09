@@ -8,7 +8,8 @@ module.exports = Customer = connection.define('customer', {
     name: Sequelize.STRING,
     lastName: Sequelize.STRING,
     email: Sequelize.STRING,
-    phone: Sequelize.STRING
+    phone: Sequelize.STRING,
+    fullName: Sequelize.STRING
 });
 
 var Location = require('./location.model');

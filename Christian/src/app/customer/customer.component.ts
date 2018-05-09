@@ -63,6 +63,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
   }
 
   saveCreatedUser() {
+    this.customer.fullName = this.customer.name + " " + this.customer.lastName;
     this.http.post('customer', this.customer, res => {
       location.reload();
     })

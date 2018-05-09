@@ -1,3 +1,5 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/compiler/src/core";
+
 export class Customer {
     id: number;
     citizenId: string;
@@ -7,6 +9,7 @@ export class Customer {
     email: string;
     phone: number;
     accounts: Array<Account>;
+    fullName: String;
 
     constructor() {
         this.id = undefined;
@@ -15,8 +18,9 @@ export class Customer {
         this.lastName = "";
         this.email = "";
         this.phone = undefined;
-        this.location = new Location();
+        this.location = undefined;
         this.accounts = new Array<Account>();
+        this.fullName = "";
     }
 }
 
@@ -32,6 +36,7 @@ export class Location {
 }
 
 export class Account {
+    id: number;
     name: string;
     initialAmmount: number;
     actualAmmount: number;
@@ -39,9 +44,13 @@ export class Account {
     numberOfPayments: number;
     charge: number;
     paymentTerm: PaymentTerm;
-    customerId: number;
+    customer: Customer;
     payments: Array<Payment>;
     already_pay: boolean;
+
+    constructor() {
+        this.customer = new Customer();
+    }
 }
 export class PaymentTerm {
     id: number;
@@ -54,7 +63,7 @@ export class Payment {
     date: Date;
     user: User;
     accountId: number;
-    
+
     constructor() {
         this.ammount = 0;
         this.approved = false;

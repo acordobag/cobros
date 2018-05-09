@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-  <a class="navbar-brand" href="index.html">Start Bootstrap</a>
+  <a class="navbar-brand" href="index.html">Cobros v0.1</a>
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive"
     aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -7,53 +7,28 @@
   <div class="collapse navbar-collapse" id="navbarResponsive">
     <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
       <li class="nav-item">
+        <a class="nav-link" routerLink="/home/payments">
+          <i class="fa fa-fw fa-clock-o"></i>
+          <span class="nav-link-text">Abonos por aprobar</span>
+        </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" routerLink="/home/customers">
           <i class="fa fa-fw fa-address-book"></i>
           <span class="nav-link-text">Clientes</span>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link">
+        <a class="nav-link" routerLink="/home/accounts">
           <i class="fa fa-fw fa-credit-card-alt"></i>
           <span class="nav-link-text">Cuentas</span>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link">
+        <a class="nav-link" routerLink="/home/locations">
           <i class="fa fa-fw fa-map-marker "></i>
           <span class="nav-link-text">Ubicaciones</span>
         </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti" data-parent="#exampleAccordion">
-          <i class="fa fa-fw fa-sitemap"></i>
-          <span class="nav-link-text">Menu Levels</span>
-        </a>
-        <ul class="sidenav-second-level collapse" id="collapseMulti">
-          <li>
-            <a href="#">Second Level Item</a>
-          </li>
-          <li>
-            <a href="#">Second Level Item</a>
-          </li>
-          <li>
-            <a href="#">Second Level Item</a>
-          </li>
-          <li>
-            <a class="nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti2">Third Level</a>
-            <ul class="sidenav-third-level collapse" id="collapseMulti2">
-              <li>
-                <a href="#">Third Level Item</a>
-              </li>
-              <li>
-                <a href="#">Third Level Item</a>
-              </li>
-              <li>
-                <a href="#">Third Level Item</a>
-              </li>
-            </ul>
-          </li>
-        </ul>
       </li>
     </ul>
     <ul class="navbar-nav sidenav-toggler">
@@ -144,8 +119,13 @@
         </div>
       </li>
       <li class="nav-item">
+
+        <a class="nav-link">
+          <i class="fa fa-fw fa-user"></i>{{loggedUser.name+" "+ loggedUser.lastName}}</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
-          <i class="fa fa-fw fa-sign-out"></i>Logout</a>
+          <i class="fa fa-fw fa-sign-out"></i>Cerrar Session</a>
       </li>
     </ul>
   </div>

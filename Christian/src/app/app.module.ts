@@ -16,6 +16,10 @@ import { CustomerDetailComponent } from './customer-detail/customer-detail.compo
 import { HttpService } from './services/http.service';
 import { NgxMaskModule } from 'ngx-mask'
 import { Options } from 'selenium-webdriver/ie';
+import { LocationComponent } from './location/location.component';
+import { AccountsComponent } from './accounts/accounts.component';
+import { TypeaheadModule, BsDatepickerModule } from 'ngx-bootstrap';
+import { PaymentsComponent } from './payments/payments.component';
 
 
 @NgModule({
@@ -26,7 +30,10 @@ import { Options } from 'selenium-webdriver/ie';
     CustomerComponent,
     LoginComponent,
     HomeComponent,
-    CustomerDetailComponent
+    CustomerDetailComponent,
+    LocationComponent,
+    AccountsComponent,
+    PaymentsComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +41,9 @@ import { Options } from 'selenium-webdriver/ie';
     AppRoutingModule,
     FormsModule,
     HttpModule,
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    TypeaheadModule.forRoot(),
+    BsDatepickerModule.forRoot()
   ],
   providers: [GuardService, HttpService],
   bootstrap: [AppComponent]

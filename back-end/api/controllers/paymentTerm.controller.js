@@ -1,5 +1,4 @@
 var PaymentTerm = require('../models/paymentTerm.model');
-var jwt = require('jwt-simple');
 var config = require('../config/database');
 var bcrypt = require('bcrypt');
 

@@ -58,7 +58,12 @@ router.route('/account')
     .get(function (req, res) {
         AccountController.findAll(req, res);
     })
-    
+
+router.route('/payment')
+    .post(function (req, res) {
+        AccountController.addPayment(req, res)
+    })
+
 router.route('/account/:id')
     .get(function (req, res) {
         AccountController.findById(req, res);

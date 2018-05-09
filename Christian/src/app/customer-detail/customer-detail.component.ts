@@ -83,7 +83,7 @@ export class CustomerDetailComponent implements OnInit {
   }
   createNewAccount() {
     this.account = new Account();
-    this.account.customerId = this.customer.id;
+    this.account.customer = this.customer;
   }
 
   createNewPayment() {
@@ -96,7 +96,7 @@ export class CustomerDetailComponent implements OnInit {
     this.account.actualAmmount = this.account.initialAmmount;
     this.http.post('account', this.account, res => {
       location.reload();
-    })
+    });
   }
 
   editCustomer() {

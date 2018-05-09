@@ -1,0 +1,138 @@
+<div class="">
+  <div class="card-body">
+    <div class="col-md-12" role="group">
+      <div class="">
+        <button type="button" class="btn btn-primary d-none d-sm-block" data-toggle="modal" (click)="createNewAccount()" data-target="#newUserAccount">Agregar</button>
+      </div>
+      <div class="col-sm-12 pr-0 pl-0">
+        <button type="button" class="btn btn-primary btn-block d-block d-sm-none" data-toggle="modal" (click)="createNewAccount()"
+          data-target="#newUserAccount">Agregar</button>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered" id="accountsTable" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Articulo</th>
+            <th>Deuda actual</th>
+            <th>Abono</th>
+            <th>Tipo de pago</th>
+            <th>Detalles</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let a of accounts">
+            <td>{{a.id}}</td>
+            <td>{{a.name}}</td>
+            <td>{{a.actualAmmount | currency:'₡'}}</td>
+            <td>{{a.charge | currency:'₡'}}</td>
+            <td>{{a.paymentTerm.name}}</td>
+            <td class="text-center">
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newAccountPayment">Abono
+                <i class="fa fa-money" aria-hidden="true"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="newUserAccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Agregar cuenta nueva</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <form #formAccount="ngForm" class="row">
+            <div class="form-group col-md-6">
+              <label for="name">Articulo</label>
+              <input type="text" #name="ngModel" name="name" [(ngModel)]="account.name" [class.is-invalid]="name.invalid && (name.dirty || name.touched)"
+                class="form-control" id="name" required>
+              <div class="invalid-feedback">*Debe ingresar un nombre de articulo</div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="numberOfPayments">Numero de cuotas</label>
+              <input type="number" #numberOfPayments="ngModel" name="numberOfPayments" [(ngModel)]="account.numberOfPayments" [class.is-invalid]="numberOfPayments.invalid && (numberOfPayments.dirty || numberOfPayments.touched)"
+                class="form-control" id="numberOfPayments" required>
+              <div class="invalid-feedback">*Debe ingresar un numero</div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="charge">Monto de cuota</label>
+              <input type="number" #charge="ngModel" name="charge" [(ngModel)]="account.charge" [class.is-invalid]="charge.invalid && (charge.dirty || charge.touched)"
+                class="form-control" id="charge" required>
+              <div class="invalid-feedback">*Debe un monto</div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="paymentTerm">Términos de pago</label>
+              <select [compareWith]="compareFn" [(ngModel)]="account.paymentTerm" [class.is-invalid]="paymentTerm.invalid && (paymentTerm.dirty || paymentTerm.touched)"
+                class="form-control" id="paymentTerm" #paymentTerm="ngModel" name="paymentTerm" required>
+                <option [ngValue]="paymentTerm" *ngFor="let paymentTerm of paymentTerms">{{paymentTerm.name}}</option>
+              </select>
+              <div class="invalid-feedback">*Debe escoger una opción</div>
+            </div>
+            <div class="form-group col-md-12">
+              <label for="customer">Cliente</label>
+              <input id="customer" [ngModel]="account.customer.fullName" [typeahead]="customers" [typeaheadSingleWords]="typeaheadSingleWords"
+                [typeaheadScrollable]="true" [typeaheadOptionsInScrollableView]="5" typeaheadOptionField="fullName" (typeaheadOnSelect)="setCustomer($event)"
+                class="form-control" #customer="ngModel" [class.is-invalid]="customer.invalid && (customer.dirty || customer.touched)"
+                name="customer" required>
+              <div class="invalid-feedback">*Debe escoger una opción</div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+        <button class="btn btn-primary" [disabled]="formAccount.invalid" (click)="saveCreatedAccount()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="newAccountPayment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Agregar abono a {{selectedAccount?.name}}</h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <form #formPayment="ngForm" class="row">
+            <div class="form-group col-md-6">
+              <label for="ammount">Monto del abono</label>
+              <input type="text" #ammount="ngModel" name="ammount" [ngModel]="payment.ammount" (ngModelChange)="payment.ammount = $event"
+                [class.is-invalid]="ammount.invalid && (ammount.dirty || ammount.touched)" class="form-control" id="ammount"
+                required>
+              <div class="invalid-feedback">*Debe ingresar un monto</div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="date">Fecha del abono</label>
+              <input type="text" #date="ngModel" name="date" [(ngModel)]="payment.date" bsDatepicker [bsConfig]="{containerClass:'theme-dark-blue', showWeekNumbers: false}"
+                [maxDate]="today" [class.is-invalid]="date.invalid && (date.dirty || date.touched)" class="form-control"
+                id="date" required>
+              <div class="invalid-feedback">*Debe ingresar una fecha</div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+        <button class="btn btn-primary" [disabled]="formPayment.invalid" (click)="saveCreatedPayment()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>

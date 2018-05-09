@@ -7,6 +7,9 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { GuardService } from './guards/guard.service';
 import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
+import { LocationComponent } from './location/location.component';
+import { AccountsComponent } from './accounts/accounts.component';
+import { PaymentsComponent } from './payments/payments.component';
 
 const appRoutes: Routes = [
   { path: "", redirectTo: "login", pathMatch: "full" },
@@ -17,7 +20,10 @@ const appRoutes: Routes = [
     canActivate: [GuardService],
     children: [
       { path: "customers", component: CustomerComponent },
-      { path: "customer-detail/:id", component: CustomerDetailComponent }
+      { path: "customer-detail/:id", component: CustomerDetailComponent },
+      { path: "locations", component: LocationComponent },
+      { path: "accounts", component: AccountsComponent },
+      { path: "payments", component: PaymentsComponent }
     ]
   }
 ]

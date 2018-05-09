@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from '../entities';
 
 declare var jquery: any;
 declare var $: any;
@@ -10,9 +11,19 @@ declare var $: any;
 })
 export class NavbarComponent implements OnInit {
 
+  loggedUser: User;
+
   constructor() { }
 
   ngOnInit() {
+    this.loadTemplateLogic();
+    this.loggedUser= JSON.parse(localStorage.getItem('currentUser'));
+  }
+
+  loadTemplateLogic() {
+    $('.nav-item').click(function(){
+      $('#navbarResponsive').collapse('hide');
+    });
 
     $("#sidenavToggler").click(function (e) {
       e.preventDefault();

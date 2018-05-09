@@ -12,12 +12,16 @@ import { HttpService } from '../services/http.service';
 export class LoginComponent implements OnInit {
 
   private user: User;
+  private fail: boolean;
+  private message: string;
 
   constructor(private http: HttpService, private router: Router) {
-    this.user = new User();
   }
 
   ngOnInit() {
+    this.user = new User();
+    this.fail=false;
+    this.message="";
   }
 
   login() {
@@ -25,6 +29,9 @@ export class LoginComponent implements OnInit {
       if (res.token) {
         localStorage.setItem('currentUser', JSON.stringify(res));
         this.router.navigate(["/home/customers"]);
+      }else if(res.status==400){
+        this.fail=true;
+        this.message=res.msg;
       }
     });
   }

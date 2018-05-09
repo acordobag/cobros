@@ -6,7 +6,7 @@ declare var $: any;
 
 @Injectable()
 export class HttpService {
-  private apiServer = "http://10.0.0.12:8000/api/";
+  private apiServer = "http://acordoba.dynu.com:8000/api/";
   constructor(private http: Http) { }
 
   post(path: string, param: object, callback?): any {
@@ -20,6 +20,7 @@ export class HttpService {
   }
 
   get(path: string, callback?): any {
+    this.showSpinner();
     this.http.get(this.apiServer + path)
       .map(res => res.json())
       .subscribe(res => {

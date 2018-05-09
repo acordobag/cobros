@@ -2,7 +2,6 @@ var Customer = require('../models/customer.model');
 var Location = require('../models/location.model');
 var Account = require('../models/account.model');
 var PaymentTerm = require('../models/paymentTerm.model');
-var jwt = require('jwt-simple');
 var config = require('../config/database');
 var bcrypt = require('bcrypt');
 
@@ -13,6 +12,7 @@ module.exports.save = function (req, res) {
         citizenId: req.body.citizenId,
         name: req.body.name,
         lastName: req.body.lastName,
+        fullName: req.body.fullName,
         email: req.body.email,
         phone: req.body.phone,
         locationId: req.body.location.id

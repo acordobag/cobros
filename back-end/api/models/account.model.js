@@ -15,6 +15,7 @@ module.exports = Account = connection.define('account', {
     already_pay: Sequelize.BOOLEAN,
 });
 
+
 Account.hasMany(Payment);
 Account.belongsTo(PaymentTerm);
 
