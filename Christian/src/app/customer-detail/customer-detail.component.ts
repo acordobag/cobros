@@ -81,6 +81,7 @@ export class CustomerDetailComponent implements OnInit {
   changeInputsState(v: boolean): void {
     $('#customerForm :input').prop('disabled', v);
   }
+  
   createNewAccount() {
     this.account = new Account();
     this.account.customer = this.customer;

@@ -63,6 +63,17 @@ router.route('/payment')
     .post(function (req, res) {
         AccountController.addPayment(req, res)
     })
+    .get(function (req, res) {
+        AccountController.findAllPendingPayments(req, res);
+    })
+router.route('/approveOnePayment')
+    .post(function (req, res) {
+        AccountController.approvePayment(req, res)
+    })
+router.route('/approveListOfPayment')
+    .post(function (req, res) {
+        AccountController.approveListOfPayments(req, res)
+    })
 
 router.route('/account/:id')
     .get(function (req, res) {

@@ -57,16 +57,6 @@ export class AccountsComponent implements OnInit {
         }
       }
     });
-    var self = this;
-    this.table.on('select', function (e, dt, type, indexes) {
-      if (type === 'row') {
-        var data = self.table.rows({ selected: true }).data();
-        self.http.get('account/' + data[0][0], res => {
-          self.selectedAccount = res;
-          self.createNewPayment();
-        });
-      }
-    });
   }
 
   updatedAccountList() {
@@ -83,14 +73,15 @@ export class AccountsComponent implements OnInit {
     this.account = new Account();
   }
 
-  createNewPayment() {
-    this.formAccount.resetForm();
-    this.payment = new Payment();
-    this.payment.accountId = this.selectedAccount.id;
-    this.payment.ammount = this.selectedAccount.charge;
-    this.payment.user = JSON.parse(localStorage.getItem('currentUser'));
-    console.log(this.payment)
-
+  createNewPayment(id) {
+    this.http.get('account/' + id, res => {
+      this.selectedAccount = res;
+      this.formAccount.resetForm();
+      this.payment = new Payment();
+      this.payment.account.id = this.selectedAccount.id;
+      this.payment.ammount = this.selectedAccount.charge;
+      this.payment.user = JSON.parse(localStorage.getItem('currentUser'));
+    });
   }
 
   loadComboBoxes() {

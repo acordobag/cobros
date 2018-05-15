@@ -63,6 +63,7 @@
       -webkit-transform: scaleY(1.0);
     }
   }
-tr{
-  cursor: pointer;
+  table.dataTable tbody tr.selected {
+    color: black;
+    background-color: #e9ecef;
 }

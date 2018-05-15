@@ -1,6 +1,6 @@
 <div class="card-body">
   <div class="btn-group col-sm-12" role="group">
-    <button type="button" class="btn btn-primary pull-right" data-toggle="modal" (click)="createNewCustomer()" data-target="#newUser">Agregar</button>
+    <button type="button" class="btn btn-primary pull-right" data-toggle="modal" (click)="createNewCustomer()" data-target="#newUser">Agregar <i class="fa fa-plus" aria-hidden="true"></i></button>
   </div>
 </div>
 <div class="card-body">
@@ -11,15 +11,20 @@
           <th>Nombre</th>
           <th>Apellido</th>
           <th>Cédula</th>
-          <th>Ubicacón</th>
+          <th>Ubicación</th>
+          <th>Opciones</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let c of customers" [routerLink]="[ '/home/customer-detail',c.id]">
+        <tr *ngFor="let c of customers">
           <td>{{c.name}}</td>
           <td>{{c.lastName}}</td>
           <td>{{c.citizenId}}</td>
           <td>{{c.location.name}}</td>
+          <td class="text-center">
+            <button type="button" class="btn btn-primary" [routerLink]="[ '/home/customer',c.id]">Ver
+              <i class="fa fa fa-eye" aria-hidden="true"></i>
+            </button></td>
         </tr>
       </tbody>
     </table>

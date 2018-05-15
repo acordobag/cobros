@@ -2,11 +2,15 @@
   <div class="card-body">
     <div class="col-md-12" role="group">
       <div class="">
-        <button type="button" class="btn btn-primary d-none d-sm-block" data-toggle="modal" (click)="createNewAccount()" data-target="#newUserAccount">Agregar</button>
+        <button type="button" class="btn btn-primary d-none d-sm-block" data-toggle="modal" (click)="createNewAccount()" data-target="#newUserAccount">Agregar
+          <i class="fa fa-plus" aria-hidden="true"></i>
+        </button>
       </div>
       <div class="col-sm-12 pr-0 pl-0">
         <button type="button" class="btn btn-primary btn-block d-block d-sm-none" data-toggle="modal" (click)="createNewAccount()"
-          data-target="#newUserAccount">Agregar</button>
+          data-target="#newUserAccount">Agregar
+          <i class="fa fa-plus" aria-hidden="true"></i>
+        </button>
       </div>
     </div>
   </div>
@@ -20,7 +24,7 @@
             <th>Deuda actual</th>
             <th>Abono</th>
             <th>Tipo de pago</th>
-            <th>Detalles</th>
+            <th>Opciones</th>
           </tr>
         </thead>
         <tbody>
@@ -31,8 +35,11 @@
             <td>{{a.charge | currency:'₡'}}</td>
             <td>{{a.paymentTerm.name}}</td>
             <td class="text-center">
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newAccountPayment">Abono
+              <button type="button" class="btn btn-danger" (click)="createNewPayment(a.id)" data-toggle="modal" data-target="#newAccountPayment">Abono
                 <i class="fa fa-money" aria-hidden="true"></i>
+              </button>
+              <button type="button" class="btn btn-primary" [routerLink]="[ '/home/account',a.id]">Ver
+                <i class="fa fa fa-eye" aria-hidden="true"></i>
               </button>
             </td>
           </tr>
@@ -122,8 +129,8 @@
             <div class="form-group col-md-6">
               <label for="date">Fecha del abono</label>
               <input type="text" #date="ngModel" name="date" [(ngModel)]="payment.date" bsDatepicker [bsConfig]="{containerClass:'theme-dark-blue', showWeekNumbers: false}"
-                [maxDate]="today" [class.is-invalid]="date.invalid && (date.dirty || date.touched)" class="form-control"
-                id="date" required>
+                [maxDate]="today" [class.is-invalid]="date.invalid && (date.dirty || date.touched)" class="form-control" id="date"
+                required>
               <div class="invalid-feedback">*Debe ingresar una fecha</div>
             </div>
           </form>

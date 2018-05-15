@@ -70,7 +70,8 @@
                 <th>Deuda actual</th>
                 <th>Abono</th>
                 <th>Tipo de pago</th>
-                <th>Detalles</th>
+                <th>Cancelada</th>
+                <th>Opciones</th>
               </tr>
             </thead>
             <tbody>
@@ -80,9 +81,10 @@
                 <td>{{a.actualAmmount | currency:'₡'}}</td>
                 <td>{{a.charge | currency:'₡'}}</td>
                 <td>{{a.paymentTerm.name}}</td>
+                <td>{{a.already_pay?'Cancelada' : 'Pendiente'}}</td>
                 <td class="text-center">
-                  <button type="button" class="btn btn-primary">Ver
-                    <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+                  <button type="button" class="btn btn-primary" [routerLink]="[ '/home/account',a.id]">Ver
+                    <i class="fa fa-eye" aria-hidden="true"></i>
                   </button>
                 </td>
               </tr>

@@ -1,0 +1,85 @@
+<div class="container">
+  <div class="">
+    <div class="card">
+      <div class="card-header">
+        <h5>Detalles de la cuenta</h5>
+      </div>
+      <div class="card-body">
+        <form id="accountForm" #accountForm="ngForm" class="row">
+          <div class="form-group col-md-6">
+            <label for="name">Articulo</label>
+            <input type="text" #name="ngModel" name="name" [ngModel]="account.name" class="form-control" id="name" disabled>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="initialAmmount">Deuda inicial</label>
+            <input type="text" #initialAmmount="ngModel" name="initialAmmount" [ngModel]="account.initialAmmount" class="form-control" id="initialAmmount" disabled>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="actualAmmount">Deuda actual</label>
+            <input type="number" #actualAmmount="ngModel" name="id" [(ngModel)]="account.actualAmmount" [class.is-invalid]="actualAmmount.invalid && (actualAmmount.dirty || actualAmmount.touched)"
+              class="form-control editable" id="actualAmmount" required>
+            <div class="invalid-feedback">*Debe ingresar una cedula</div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="numberOfPayments">Número de pagos</label>
+            <input type="number" #numberOfPayments="ngModel" name="numberOfPayments" [(ngModel)]="account.numberOfPayments" [class.is-invalid]="numberOfPayments.invalid && (numberOfPayments.dirty || numberOfPayments.touched)"
+              class="form-control editable" id="numberOfPayments" required>
+            <div class="invalid-feedback">*Debe ingresar un telefono</div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="charge">Cuota</label>
+            <input type="number" #charge="ngModel" name="charge" [(ngModel)]="account.charge" [class.is-invalid]="charge.invalid && (charge.dirty || charge.touched)"
+              class="form-control editable" id="charge" required>
+            <div class="invalid-feedback">*Debe ingresar un email</div>
+          </div>
+          <div class="form-group col-md-6">
+            <div class="form-check">
+              <label class="form-check-label" for="already_pay">
+                <input type="checkbox" [class.is-invalid]="already_pay.invalid && (already_pay.dirty || already_pay.touched)" class="form-check-input editable"
+                  id="already_pay" #already_pay="ngModel" name="already_pay" [(ngModel)]="account.already_pay" required> ¿Cancelado?
+              </label>
+              <div class="invalid-feedback">*Debe escoger una ubicación</div>
+            </div>
+          </div>
+        </form>
+        <div class="btn-group-right" role="group">
+          <button type="button" class="btn btn-primary float-right" (click)="editCustomer()">{{btnEditar}}</button>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="card">
+      <div class="card-header">
+        <h5>Pagos de {{account.name}}</h5>
+      </div>
+      <div class="card-body">
+        <div class="btn-group-right" role="group">
+          <button type="button" class="btn btn-primary float-right" data-toggle="modal" (click)="createNewAccount()" data-target="#newUserAccount">Agregar</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id="paymentsTable" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th>Monto</th>
+                <th>Fecha</th>
+                <th>Cobrador</th>
+                <th>Aprobado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let p of account.payments">
+                <td>{{p.ammount | currency:'₡'}}</td>
+                <td>{{p.date | date: 'short'}}</td>
+                <td>{{p.user.name}}</td>
+                <td>{{p.approved ? 'Aprobado' : 'Sin aprobar'}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <br>
+  </div>
+</div>

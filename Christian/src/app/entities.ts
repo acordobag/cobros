@@ -62,12 +62,13 @@ export class Payment {
     approved: boolean;
     date: Date;
     user: User;
-    accountId: number;
+    account: Account;
 
     constructor() {
         this.ammount = 0;
         this.approved = false;
         this.date = new Date();
+        this.account= new Account();
     }
 }
 

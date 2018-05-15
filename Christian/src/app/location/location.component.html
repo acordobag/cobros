@@ -1,6 +1,6 @@
 <div class="card-body">
   <div class="btn-group col-sm-12" role="group">
-    <button type="button" class="btn btn-primary pull-right" data-toggle="modal" (click)="createNewLocation()" data-target="#newLocation">Agregar</button>
+    <button type="button" class="btn btn-primary pull-right" data-toggle="modal" (click)="createNewLocation()" data-target="#newLocation">Agregar <i class="fa fa-plus" aria-hidden="true"></i></button>
   </div>
 </div>
 <div class="card-body">
@@ -14,7 +14,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let l of locations" [routerLink]="[ '/home/location-detail',l.id]">
+        <tr *ngFor="let l of locations">
           <td>{{l.id}}</td>
           <td>{{l.name}}</td>
           <td>{{l.customers.length}}</td>

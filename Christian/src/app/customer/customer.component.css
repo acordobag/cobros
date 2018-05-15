@@ -2,7 +2,3 @@
     padding-right: 15px;
     padding-left: 15px;
 }
-table.dataTable tbody tr.selected {
-    color: black;
-    background-color: #e9ecef;
-}

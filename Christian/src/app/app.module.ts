@@ -20,6 +20,7 @@ import { LocationComponent } from './location/location.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import { TypeaheadModule, BsDatepickerModule } from 'ngx-bootstrap';
 import { PaymentsComponent } from './payments/payments.component';
+import { AccountDetailComponent } from './account-detail/account-detail.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { PaymentsComponent } from './payments/payments.component';
     CustomerDetailComponent,
     LocationComponent,
     AccountsComponent,
-    PaymentsComponent
+    PaymentsComponent,
+    AccountDetailComponent
   ],
   imports: [
     BrowserModule,

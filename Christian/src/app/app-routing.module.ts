@@ -10,6 +10,7 @@ import { CustomerDetailComponent } from './customer-detail/customer-detail.compo
 import { LocationComponent } from './location/location.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import { PaymentsComponent } from './payments/payments.component';
+import { AccountDetailComponent } from './account-detail/account-detail.component';
 
 const appRoutes: Routes = [
   { path: "", redirectTo: "login", pathMatch: "full" },
@@ -20,9 +21,10 @@ const appRoutes: Routes = [
     canActivate: [GuardService],
     children: [
       { path: "customers", component: CustomerComponent },
-      { path: "customer-detail/:id", component: CustomerDetailComponent },
+      { path: "customer/:id", component: CustomerDetailComponent },
       { path: "locations", component: LocationComponent },
       { path: "accounts", component: AccountsComponent },
+      { path: "account/:id", component: AccountDetailComponent },
       { path: "payments", component: PaymentsComponent }
     ]
   }

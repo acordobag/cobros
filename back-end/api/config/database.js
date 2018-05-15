@@ -4,6 +4,7 @@ var connection = new Sequelize("cobros", "adrian", "Castillo1097", {
   port:'3366',
   dialect: 'mysql',
   define: { timestamps: false },
+  logging: false,
   pool: {
     max: 5,
     min: 0,

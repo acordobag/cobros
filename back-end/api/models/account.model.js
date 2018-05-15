@@ -2,7 +2,7 @@ var config = require('../config/database');
 var Sequelize = require('sequelize');
 var connection = config.database;
 var Customer = require('./customer.model');
-var Payment = require('./payment.model');
+
 var PaymentTerm = require('./paymentTerm.model');
 
 module.exports = Account = connection.define('account', {
@@ -15,7 +15,7 @@ module.exports = Account = connection.define('account', {
     already_pay: Sequelize.BOOLEAN,
 });
 
-
+var Payment = require('./payment.model');
 Account.hasMany(Payment);
 Account.belongsTo(PaymentTerm);
 

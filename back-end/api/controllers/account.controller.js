@@ -2,6 +2,7 @@ var Account = require('../models/account.model');
 var Payment = require('../models/payment.model');
 var Customer = require('../models/customer.model');
 var Location = require('../models/location.model');
+var User = require('../models/user.model');
 var PaymentTerm = require('../models/paymentTerm.model');
 var config = require('../config/database');
 var bcrypt = require('bcrypt');
@@ -44,7 +45,8 @@ module.exports.findById = function (req, res) {
     Account.find({
         where: {
             id: req.body.id
-        }
+        },
+        include: [{model: Payment, include: [User]}]
     }).then(function (accounts) {
         if (accounts) {
             res.send(accounts);
@@ -61,29 +63,78 @@ module.exports.addPayment = function (req, res) {
         approved: req.body.approved,
         date: req.body.date,
         userId: req.body.user.id,
-        accountId: req.body.accountId
+        accountId: req.body.account.id
     }
 
     Payment.create(payment).then(function (ppayment) {
         if (ppayment) {
-            Account.find({
-                where: {
-                    id: payment.accountId
-                }
-            }).then(function (account) {
-                if (account) {
-                    account.updateAttributes({
-                        actualAmmount: account.actualAmmount - payment.ammount
-                    }).then(function () { res.send(ppayment); })
-
-                }
-            });
-
+            res.send(ppayment);
         } else if (!ppayment) {
             res.send({ status: 400, msj: "NO SE REGISTRO" });
         }
     });
 };
+
+module.exports.findAllPendingPayments = function (req, res) {
+    Payment.findAll({
+        where: { approved: false },
+        include: [User, Account]
+    }).then(function (payments) {
+        if (payments) {
+            res.send(payments);
+        } else if (!payments) {
+            res.send({ status: 400, msj: "NO HAY NINGUN REGISTRO" });
+        }
+    })
+}
+
+module.exports.approvePayment = function (req, res) {
+    var payment = {
+        id: req.body.id
+    }
+
+    Payment.find({
+        where: { id: payment.id }
+    }).then(function (ppayment) {
+        ppayment.updateAttributes({
+            approved: true
+        });
+        Account.find({
+            where: { id: ppayment.accountId }
+        }).then(function (paccount) {
+            paccount.updateAttributes({
+                actualAmmount: paccount.actualAmmount - ppayment.ammount
+            });
+            res.send({ status: 200, ppayment });
+        })
+    })
+}
+
+module.exports.approveListOfPayments = function (req, res) {
+    var payments = req.body.payments;
+    try {
+        payments.forEach(function (payment) {
+            Payment.find({
+                where: { id: payment.id }
+            }).then(function (ppayment) {
+                ppayment.updateAttributes({
+                    approved: true
+                });
+                Account.find({
+                    where: { id: ppayment.accountId }
+                }).then(function (paccount) {
+                    paccount.updateAttributes({
+                        actualAmmount: paccount.actualAmmount - ppayment.ammount
+                    });
+                })
+            })
+        });
+        res.send({ status: 200, ppayment });
+    } catch (error) {
+        res.send({ status: 400, msg: 'No se pudo concluir' });
+    }
+
+}
 
 module.exports.findAccountPayments = function (req, res) {
     Payment.find({
