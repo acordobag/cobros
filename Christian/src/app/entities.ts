@@ -68,7 +68,7 @@ export class Payment {
         this.ammount = 0;
         this.approved = false;
         this.date = new Date();
-        this.account= new Account();
+        this.account = new Account();
     }
 }
 
@@ -78,4 +78,15 @@ export class User {
     lastName: string;
     email: string;
     password: string;
+}
+
+export class Btn {
+    text: string;
+    color: string;
+    icon: string;
+
+    constructor(text: string) {
+        this.text = text;
+        this.color = 'btn-primary';
+    }
 }

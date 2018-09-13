@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
     this.http.post('auth', this.user, res => {
       if (res.token) {
         localStorage.setItem('currentUser', JSON.stringify(res));
-        this.router.navigate(["/home/customers"]);
+        this.router.navigate(["/home/customer"]);
       }else if(res.status==400){
         this.fail=true;
         this.message=res.msg;

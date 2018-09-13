@@ -15,12 +15,13 @@ import { GuardService } from './guards/guard.service';
 import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
 import { HttpService } from './services/http.service';
 import { NgxMaskModule } from 'ngx-mask'
-import { Options } from 'selenium-webdriver/ie';
 import { LocationComponent } from './location/location.component';
 import { AccountsComponent } from './accounts/accounts.component';
-import { TypeaheadModule, BsDatepickerModule } from 'ngx-bootstrap';
+import { TypeaheadModule, BsDatepickerModule, ModalModule } from 'ngx-bootstrap';
 import { PaymentsComponent } from './payments/payments.component';
 import { AccountDetailComponent } from './account-detail/account-detail.component';
+import { ControlsModule } from './controls/controls.module';
+import { McBreadcrumbsModule } from 'ngx-breadcrumbs';
 
 
 @NgModule({
@@ -42,10 +43,15 @@ import { AccountDetailComponent } from './account-detail/account-detail.componen
     RouterModule,
     AppRoutingModule,
     FormsModule,
+    ControlsModule,
     HttpModule,
+    ControlsModule,
     NgxMaskModule.forRoot(),
     TypeaheadModule.forRoot(),
-    BsDatepickerModule.forRoot()
+    BsDatepickerModule.forRoot(),
+    ModalModule.forRoot(),
+    McBreadcrumbsModule.forRoot()
+
   ],
   providers: [GuardService, HttpService],
   bootstrap: [AppComponent]

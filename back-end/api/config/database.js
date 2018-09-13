@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
-var connection = new Sequelize("cobros", "adrian", "Castillo1097", {
-  host: 'acordoba.dynu.com',
-  port:'3366',
+var connection = new Sequelize("cobros", "acordoba@cobros", "Castillo1097", {
+  host: 'cobros.mysql.database.azure.com',
+  port:'3306',
   dialect: 'mysql',
   define: { timestamps: false },
   logging: false,
@@ -20,3 +20,4 @@ module.exports = {
   //'database' : '''
 //Desarrollo
   //'database' : ''
+//var conn = mysql.createConnection({host: "{host_name}", user: "{your_username}", password: {your_password}, database: {your_database}, port: 3306, ssl:{ca:fs.readFileSync({ca-cert filename})}});

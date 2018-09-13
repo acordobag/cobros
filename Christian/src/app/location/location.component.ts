@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Customer, Location } from '../entities';
 import { HttpService } from '../services/http.service';
+import { CtTableComponent } from '../controls/ct-table/ct-table.component';
 
 declare var jquery: any;
 declare var $: any;
@@ -12,6 +13,9 @@ declare var $: any;
 })
 export class LocationComponent implements OnInit {
 
+  @ViewChild(CtTableComponent)
+  table: CtTableComponent;
+
   private locations: Location[];
   private customers: Customer[];
   private location: Location;
@@ -20,29 +24,15 @@ export class LocationComponent implements OnInit {
 
   ngOnInit() {
     this.createNewLocation();
-    this.createDataTable();
+    this.updateLocationList();
+    this.table.columns = { id: 'Id', name: 'Nombre'};
   }
 
-  createDataTable() {
+  updateLocationList() {
     this.http.get('location', res => {
       this.locations = res;
-      setTimeout(() => {
-        $("#locationTable").DataTable({
-          responsive: true,
-          select: true,
-          language: {
-            "info": "Mostrando pagina _PAGE_ de _PAGES_",
-            "infoEmpty": "No hay registros disponibles",
-            "lengthMenu": "Mostrando _MENU_ registros por pagina ",
-            "paginate": {
-              "first": "First",
-              "last": "Last",
-              "next": "Siguiente",
-              "previous": "Anterior"
-            }
-          }
-        });
-      });
+      this.table.data = this.locations;
+      this.table.rerender();
     });
 
   }
@@ -53,7 +43,7 @@ export class LocationComponent implements OnInit {
 
   saveCreatedLocation() {
     this.http.post('location', this.location, res => {
-      location.reload();
+      this.updateLocationList();
     })
   }
 

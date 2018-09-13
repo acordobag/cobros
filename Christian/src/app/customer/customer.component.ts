@@ -1,8 +1,10 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { Customer } from '../entities';
-import { Http } from '@angular/http';
+import { Component, OnInit, AfterViewInit, ViewChild, TemplateRef } from '@angular/core';
+import { Customer, Btn } from '../entities';
 import 'rxjs/add/operator/map';
 import { HttpService } from '../services/http.service';
+import { ModalDirective } from 'ngx-bootstrap';
+import { CtTableComponent } from '../controls/ct-table/ct-table.component';
+import { Router } from '@angular/router';
 
 declare var jquery: any;
 declare var $: any;
@@ -14,47 +16,34 @@ declare var $: any;
 })
 export class CustomerComponent implements OnInit, AfterViewInit {
 
+  @ViewChild(CtTableComponent)
+  table: CtTableComponent;
+
+  @ViewChild('newUser') newUser: ModalDirective;
   private customers: Customer[];
   private customer: Customer;
   private locations: Location[];
 
-  constructor(private http: HttpService) { }
+  constructor(private http: HttpService, private router: Router) { }
 
   ngOnInit(): void {
-    this.createNewCustomer();
+    this.customer = new Customer();
     this.updatedCustomerList();
     this.http.get('location', res => {
       this.locations = res;
-    })
+    });
+    this.table.columns = { citizenId: 'Cédula', fullName: 'Nombre', phone: 'Teléfono', email: 'Email' };
+    this.table.btn = new Btn('Detalle');
   }
 
   ngAfterViewInit(): void {
   }
 
-  createDataTable(): void {
-    $("#customerTable").DataTable({
-      responsive: true,
-      select: true,
-      language: {
-        "info": "Mostrando pagina _PAGE_ de _PAGES_",
-        "infoEmpty": "No hay registros disponibles",
-        "lengthMenu": "Mostrando _MENU_ registros por pagina ",
-        "paginate": {
-          "first": "First",
-          "last": "Last",
-          "next": "Siguiente",
-          "previous": "Anterior"
-        }
-      }
-    });
-  }
-
   updatedCustomerList() {
     this.http.get('customer', res => {
       this.customers = res;
-      setTimeout(() => {
-        this.createDataTable();
-      })
+      this.table.data = this.customers;
+      this.table.rerender();
     });
   }
 
@@ -62,10 +51,15 @@ export class CustomerComponent implements OnInit, AfterViewInit {
     this.customer = new Customer();
   }
 
+  rowClick(id): void{
+    this.router.navigate(['home/customer', id]);
+  }
+
   saveCreatedUser() {
+    this.newUser.hide();
     this.customer.fullName = this.customer.name + " " + this.customer.lastName;
     this.http.post('customer', this.customer, res => {
-      location.reload();
+      this.updatedCustomerList()
     })
   }
 

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { CustomerComponent } from './customer/customer.component';
 import { LoginComponent } from './login/login.component';
-import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { GuardService } from './guards/guard.service';
 import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
@@ -17,15 +16,22 @@ const appRoutes: Routes = [
   { path: "login", component: LoginComponent },
   {
     path: "home",
-    component: HomeComponent,
-    canActivate: [GuardService],
+    component: HomeComponent, canActivate: [GuardService], data: { breadcrumbs: true, text: 'Inicio' },
     children: [
-      { path: "customers", component: CustomerComponent },
-      { path: "customer/:id", component: CustomerDetailComponent },
-      { path: "locations", component: LocationComponent },
-      { path: "accounts", component: AccountsComponent },
-      { path: "account/:id", component: AccountDetailComponent },
-      { path: "payments", component: PaymentsComponent }
+      {
+        path: 'customer', data: { breadcrumbs: true, text: 'Clientes' }, children: [
+          { path: "", component: CustomerComponent },
+          { path: ":id", component: CustomerDetailComponent, data: { breadcrumbs: true, text: "{{params['id']}}" } }
+        ]
+      },
+      {
+        path: "account", data: { breadcrumbs: true, text: 'Cuentas' }, children: [
+          { path: "", component: AccountsComponent },
+          { path: ":id", component: AccountDetailComponent, data: { breadcrumbs: true, text: 'cuenta' } }
+        ]
+      },
+      { path: "location", component: LocationComponent, data: { breadcrumbs: true, text: 'Localizaciones' } },
+      { path: "payment", component: PaymentsComponent, data: { breadcrumbs: true, text: 'Pagos' } }
     ]
   }
 ]

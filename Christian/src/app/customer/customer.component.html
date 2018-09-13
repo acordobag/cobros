@@ -1,43 +1,25 @@
 <div class="card-body">
   <div class="btn-group col-sm-12" role="group">
-    <button type="button" class="btn btn-primary pull-right" data-toggle="modal" (click)="createNewCustomer()" data-target="#newUser">Agregar <i class="fa fa-plus" aria-hidden="true"></i></button>
+    <button type="button" class="btn btn-primary pull-right" (click)="createNewCustomer();newUser.show()">Agregar
+      <i class="fa fa-plus" aria-hidden="true"></i>
+    </button>
   </div>
 </div>
 <div class="card-body">
   <div class="table-responsive">
-    <table class="table table-bordered" id="customerTable" width="100%" cellspacing="0">
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Apellido</th>
-          <th>Cédula</th>
-          <th>Ubicación</th>
-          <th>Opciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let c of customers">
-          <td>{{c.name}}</td>
-          <td>{{c.lastName}}</td>
-          <td>{{c.citizenId}}</td>
-          <td>{{c.location.name}}</td>
-          <td class="text-center">
-            <button type="button" class="btn btn-primary" [routerLink]="[ '/home/customer',c.id]">Ver
-              <i class="fa fa fa-eye" aria-hidden="true"></i>
-            </button></td>
-        </tr>
-      </tbody>
-    </table>
+    <ct-table [id]="customerTable" (btnClick)="rowClick($event)"></ct-table>
   </div>
 </div>
 
-<div class="modal fade" id="newUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
+
+
+<div bsModal #newUser="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Nuevo usuario</h5>
-        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">×</span>
+        <h4 id="dialog-sizes-name1" class="modal-title pull-left">Nuevo usuario</h4>
+        <button type="button" class="close pull-right" (click)="newUser.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
@@ -83,10 +65,10 @@
             </div>
           </form>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-        <button class="btn btn-primary" [disabled]="form.invalid" (click)="saveCreatedUser()">Guardar</button>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" (click)="newUser.hide()">Cancelar</button>
+          <button class="btn btn-primary" [disabled]="form.invalid" (click)="saveCreatedUser()">Guardar</button>
+        </div>
       </div>
     </div>
   </div>

@@ -20,6 +20,7 @@ export class CustomerDetailComponent implements OnInit {
   private btnEditar: string;
   private selectedAccount: Account;
   private table: any;
+  private customerId: number;
 
   constructor(private route: ActivatedRoute, private http: HttpService) {
     this.customer = new Customer();
@@ -38,8 +39,8 @@ export class CustomerDetailComponent implements OnInit {
     });
 
     this.route.params.subscribe(params => {
-      let id = +params['id'];
-      this.http.get('customer/' + id, res => {
+      this.customerId = +params['id'];
+      this.http.get('customer/' + this.customerId, res => {
         this.customer = res;
         setTimeout(() => {
           this.table = $('#accountsTable').DataTable({

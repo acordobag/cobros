@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { HttpService } from '../services/http.service';
-import { Account, Customer, PaymentTerm, Payment } from '../entities';
+import { Account, Customer, PaymentTerm, Payment, Btn } from '../entities';
 import { NgForm, FormControl, NgModel } from '@angular/forms';
+import { CtTableComponent } from '../controls/ct-table/ct-table.component';
+import { ModalDirective } from 'ngx-bootstrap';
 
 declare var $: any;
 
@@ -12,7 +14,9 @@ declare var $: any;
 })
 export class AccountsComponent implements OnInit {
 
-  private table: any;
+  @ViewChild(CtTableComponent)
+  table: CtTableComponent;
+
   private accounts: Account[];
   private account: Account;
   private customers: Customer[];
@@ -23,6 +27,7 @@ export class AccountsComponent implements OnInit {
 
   @ViewChild('formAccount') formAccount: NgForm;
   @ViewChild('formPayment') formPayment: NgForm;
+  @ViewChild('newUserAccount') newUserAccount: ModalDirective;
 
   constructor(private http: HttpService) { }
 
@@ -32,39 +37,15 @@ export class AccountsComponent implements OnInit {
     this.updatedAccountList();
     this.loadComboBoxes();
     this.createNewAccount();
-  }
-
-  createDataTable() {
-    this.table = $('#accountsTable').DataTable({
-      responsive: true,
-      select: true,
-      "columnDefs": [
-        {
-          "targets": [0],
-          "visible": false,
-          "searchable": false
-        }
-      ],
-      language: {
-        "info": "Mostrando pagina _PAGE_ de _PAGES_",
-        "infoEmpty": "No hay registros disponibles",
-        "lengthMenu": "Mostrando _MENU_ registros por pagina ",
-        "paginate": {
-          "first": "First",
-          "last": "Last",
-          "next": "Siguiente",
-          "previous": "Anterior"
-        }
-      }
-    });
+    this.table.columns = { id: 'ID', name: 'Articulo', initialAmmount: 'Monto inicial', charge: 'Cuota' };
+    this.table.btn = new Btn('Detalle');
   }
 
   updatedAccountList() {
     this.http.get('account', res => {
       this.accounts = res;
-      setTimeout(() => {
-        this.createDataTable();
-      })
+      this.table.data = this.accounts;
+      this.table.rerender();
     });
   }
 
@@ -94,16 +75,17 @@ export class AccountsComponent implements OnInit {
   }
 
   saveCreatedAccount() {
+    this.newUserAccount.hide();
     this.account.initialAmmount = this.account.charge * this.account.numberOfPayments;
     this.account.actualAmmount = this.account.initialAmmount;
     this.http.post('account', this.account, res => {
-      location.reload();
+      this.updatedAccountList();
     });
   }
 
   saveCreatedPayment() {
     this.http.post('payment', this.payment, res => {
-      location.reload();
+      this.updatedAccountList();
     });
   }
 
