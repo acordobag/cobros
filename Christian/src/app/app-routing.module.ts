@@ -21,7 +21,7 @@ const appRoutes: Routes = [
       {
         path: 'customer', data: { breadcrumbs: true, text: 'Clientes' }, children: [
           { path: "", component: CustomerComponent },
-          { path: ":id", component: CustomerDetailComponent, data: { breadcrumbs: true, text: "{{params['id']}}" } }
+          { path: ":id", component: CustomerDetailComponent, data: { breadcrumbs: true, text: "cliente" } }
         ]
       },
       {

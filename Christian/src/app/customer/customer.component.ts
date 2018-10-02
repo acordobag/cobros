@@ -5,6 +5,7 @@ import { HttpService } from '../services/http.service';
 import { ModalDirective } from 'ngx-bootstrap';
 import { CtTableComponent } from '../controls/ct-table/ct-table.component';
 import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
 
 declare var jquery: any;
 declare var $: any;
@@ -20,6 +21,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
   table: CtTableComponent;
 
   @ViewChild('newUser') newUser: ModalDirective;
+  @ViewChild('form') form: NgForm;
   private customers: Customer[];
   private customer: Customer;
   private locations: Location[];
@@ -32,6 +34,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
     this.http.get('location', res => {
       this.locations = res;
     });
+    this.table.id = "customerTable";
     this.table.columns = { citizenId: 'Cédula', fullName: 'Nombre', phone: 'Teléfono', email: 'Email' };
     this.table.btn = new Btn('Detalle');
   }
@@ -48,6 +51,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
   }
 
   createNewCustomer(): void {
+    this.form.resetForm();
     this.customer = new Customer();
   }
 

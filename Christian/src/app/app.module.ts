@@ -22,7 +22,18 @@ import { PaymentsComponent } from './payments/payments.component';
 import { AccountDetailComponent } from './account-detail/account-detail.component';
 import { ControlsModule } from './controls/controls.module';
 import { McBreadcrumbsModule } from 'ngx-breadcrumbs';
+import { CurrencyMaskModule } from "ng2-currency-mask";
+import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask/src/currency-mask.config';
 
+export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
+  align: "left",
+  allowNegative: true,
+  decimal: ".",
+  precision: 2,
+  prefix: "₡",
+  suffix: "",
+  thousands: ","
+};
 
 @NgModule({
   declarations: [
@@ -46,6 +57,7 @@ import { McBreadcrumbsModule } from 'ngx-breadcrumbs';
     ControlsModule,
     HttpModule,
     ControlsModule,
+    CurrencyMaskModule,
     NgxMaskModule.forRoot(),
     TypeaheadModule.forRoot(),
     BsDatepickerModule.forRoot(),
@@ -53,7 +65,7 @@ import { McBreadcrumbsModule } from 'ngx-breadcrumbs';
     McBreadcrumbsModule.forRoot()
 
   ],
-  providers: [GuardService, HttpService],
+  providers: [GuardService, HttpService,{ provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

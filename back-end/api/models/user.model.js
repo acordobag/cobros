@@ -7,6 +7,7 @@ module.exports = User = connection.define('user', {
     lastName: Sequelize.STRING,
     email: Sequelize.STRING,
     password: Sequelize.STRING,
+    isDriver: Sequelize.BOOLEAN,
     token: Sequelize.STRING
 });
 

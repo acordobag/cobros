@@ -4,6 +4,7 @@ import { Account, Customer, PaymentTerm, Payment, Btn } from '../entities';
 import { NgForm, FormControl, NgModel } from '@angular/forms';
 import { CtTableComponent } from '../controls/ct-table/ct-table.component';
 import { ModalDirective } from 'ngx-bootstrap';
+import { Router } from '@angular/router';
 
 declare var $: any;
 
@@ -29,7 +30,7 @@ export class AccountsComponent implements OnInit {
   @ViewChild('formPayment') formPayment: NgForm;
   @ViewChild('newUserAccount') newUserAccount: ModalDirective;
 
-  constructor(private http: HttpService) { }
+  constructor(private http: HttpService, private router: Router) { }
 
   ngOnInit() {
     this.today = new Date();
@@ -38,6 +39,8 @@ export class AccountsComponent implements OnInit {
     this.loadComboBoxes();
     this.createNewAccount();
     this.table.columns = { id: 'ID', name: 'Articulo', initialAmmount: 'Monto inicial', charge: 'Cuota' };
+    this.table.currecyColumns = { initialAmmount: 'Monto inicial', charge: 'Cuota' }
+    this.table.id = "accountsTable";
     this.table.btn = new Btn('Detalle');
   }
 
@@ -81,6 +84,10 @@ export class AccountsComponent implements OnInit {
     this.http.post('account', this.account, res => {
       this.updatedAccountList();
     });
+  }
+
+  rowClick(id): void {
+    this.router.navigate(['home/account', id]);
   }
 
   saveCreatedPayment() {

@@ -16,6 +16,7 @@ module.exports.save = function (req, res) {
         lastName: req.body.lastName,
         email: req.body.email,
         password: pass,
+        isDriver: req.body.isDriver,
         token: ''
     };
 

@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpService } from '../services/http.service';
 import { ActivatedRoute } from '@angular/router';
-import { Account } from '../entities';
+import { Account, Payment } from '../entities';
+import { CtTableComponent } from '../controls/ct-table/ct-table.component';
+import { NgForm } from '@angular/forms';
+import { ModalDirective } from 'ngx-bootstrap';
 
 declare var $: any;
 
@@ -12,28 +15,59 @@ declare var $: any;
 })
 export class AccountDetailComponent implements OnInit {
 
+  @ViewChild(CtTableComponent) paymentsTable: CtTableComponent;
+  @ViewChild('formPayment') formPayment: NgForm;
+  @ViewChild('newUserAccount') newUserAccount: ModalDirective;
+  @ViewChild('newAccountPayment') newAccountPayment: ModalDirective;
+
   private account: Account;
-  private table: any;
   private btnEditar: string;
+  private accountId: number;
+  private payment: Payment;
 
   constructor(private route: ActivatedRoute, private http: HttpService) { }
 
   ngOnInit() {
     this.account = new Account();
+    this.payment = new Payment();
     this.btnEditar = "Editar";
     this.changeInputsState(true);
+    this.paymentsTable.columns = { id: 'ID', ammount: 'Monto pagado', date: 'Fecha' };
+    this.paymentsTable.currecyColumns = { ammount: 'Monto pagado' };
+    this.paymentsTable.dateColumns = { date: 'Fecha' };
+    this.paymentsTable.id = "paymentsTable";
     this.route.params.subscribe(params => {
-      let id = +params['id'];
-      this.http.get('account/' + id, res => {
-        this.account = res;
-        this.createDataTable();
-      });
+      this.accountId = params['id'];
+      this.updateComponent();
     });
 
   }
 
+  updateComponent(): void {
+    this.http.get('account/' + this.accountId, res => {
+      this.account = res;
+      this.paymentsTable.data = this.account.payments;
+      this.paymentsTable.rerender();
+    });
+  }
+
   changeInputsState(v: boolean): void {
     $('#accountForm :input.editable').prop('disabled', v);
+  }
+
+  createNewPayment(id) {
+    this.formPayment.resetForm();
+    this.payment = new Payment();
+    this.payment.account.id = this.account.id;
+    this.payment.ammount = this.account.charge;
+    this.payment.user = JSON.parse(localStorage.getItem('currentUser'));
+  }
+
+  saveCreatedPayment() {
+    this.newAccountPayment.hide();
+    this.http.post('payment', this.payment, res => {
+      this.updateComponent();
+    });
   }
 
   editCustomer() {
@@ -45,33 +79,6 @@ export class AccountDetailComponent implements OnInit {
       this.btnEditar = "Editar";
       this.changeInputsState(true);
     }
-  }
-
-  createDataTable() {
-    setTimeout(() => {
-      this.table = $('#paymentsTable').DataTable({
-        responsive: true,
-        select: true,
-        "columnDefs": [
-          {
-            "targets": [0],
-            "visible": false,
-            "searchable": false
-          }
-        ],
-        language: {
-          "info": "Mostrando pagina _PAGE_ de _PAGES_",
-          "infoEmpty": "No hay registros disponibles",
-          "lengthMenu": "Mostrando _MENU_ registros por pagina ",
-          "paginate": {
-            "first": "First",
-            "last": "Last",
-            "next": "Siguiente",
-            "previous": "Anterior"
-          }
-        }
-      });
-    });
   }
 
 }
