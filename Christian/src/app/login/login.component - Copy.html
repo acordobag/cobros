@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="card card-login mx-auto mt-5">
+    <div class="card-header">Login</div>
+    <div class="card-body">
+      <form #formLogin="ngForm">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Dirección de correo</label>
+          <input class="form-control" #email="ngModel" name="email" [(ngModel)]="user.email" id="exampleInputEmail1" type="email" aria-describedby="emailHelp"
+            placeholder="Dirección de correo" [class.is-invalid]="email.invalid && (email.dirty || email.touched)" required>
+          <div class="invalid-feedback">*Debe ingresar un email</div>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Contraseña</label>
+          <input class="form-control" #password="ngModel" name="password" [(ngModel)]="user.password" id="exampleInputPassword1" type="password"
+            placeholder="Contraseña" [class.is-invalid]="password.invalid && (password.dirty || password.touched)" required>
+          <div class="invalid-feedback">*Debe ingresar una Contraseña</div>
+        </div>
+        <div class="form-group">
+          <div class="form-check">
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox"> Remember Password</label>
+          </div>
+        </div>
+        <div *ngIf="fail" class="alert alert-dismissible alert-danger">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          {{message}}
+        </div>
+        <button [class.disabled]="!formLogin.valid" type="button" class="btn btn-primary btn-block" (click)="login()">Login</button>
+      </form>
+    </div>
+  </div>
+</div>

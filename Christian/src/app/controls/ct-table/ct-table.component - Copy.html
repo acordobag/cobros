@@ -1,0 +1,22 @@
+<table class="table table-bordered" [id]="id" width="100%" cellspacing="0">
+  <thead>
+    <tr>
+      <th *ngFor="let key of Object.keys(columns)">{{columns[key]}} </th>
+      <th *ngIf="btn" class="text-center">Detalle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let d of data">
+      <td *ngFor="let key of Object.keys(columns)">
+          <span *ngIf="!currecyColumns[key] && !dateColumns[key]">{{d[key]}}</span>
+          <span *ngIf="currecyColumns[key]">{{d[key] | currency: '₡'}}</span>
+          <span *ngIf="dateColumns[key]">{{d[key]| date: 'short'}}</span>
+      </td>
+      <td *ngIf="btn" class="text-center">
+        <button type="button" class="btn" [ngClass]="btn.color" (click)="btnOnClick(d.id)">{{btn.text}}
+          <i *ngIf="btn.icon" class="fa fa" [ngClass]="btn.icon" aria-hidden="true"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>

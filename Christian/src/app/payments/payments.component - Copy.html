@@ -1,0 +1,45 @@
+<div class="">
+  <div class="card-body">
+    <div class="col-md-12" role="group">
+      <div class="">
+        <button type="button" class="btn btn-danger d-none d-sm-block" data-toggle="modal" (click)="approveAllPayments()" data-target="#newUserAccount">Aprobar todos
+          <i class="fa fa-check-square-o" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="col-sm-12 pr-0 pl-0">
+        <button type="button" class="btn btn-danger btn-block d-block d-sm-none" data-toggle="modal" (click)="approveAllPayments()"
+          data-target="#newUserAccount">Aprobar todos
+          <i class="fa fa-check-square-o" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered" id="paymentsTable" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Monto</th>
+            <th>Fecha</th>
+            <th>Cuenta</th>
+            <th>Cobrador</th>
+            <th>Aprobar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of payments">
+            <td>{{p.ammount | currency:'₡'}}</td>
+            <td>{{p.date | date: 'short'}}</td>
+            <td>{{p.account.name}}</td>
+            <td>{{p.user.name}}</td>
+            <td class="text-center">
+              <button type="button" class="btn btn-danger" (click)="approveOnePayment(p)">Aprobar
+                <i class="fa fa-check-square-o" aria-hidden="true"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
