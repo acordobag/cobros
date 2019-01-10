@@ -21,6 +21,10 @@ export class CtTableComponent implements OnInit {
   @Input()
   columns: Object;
   @Input()
+  currecyColumns: Object;
+  @Input()
+  dateColumns: Object;
+  @Input()
   btn: Btn;
   @Input()
   pageRows: number = 10;
@@ -55,8 +59,9 @@ export class CtTableComponent implements OnInit {
       ],
       pageLength: this.pageRows
     };
-    let test = ['Sin datos'];
-    this.columns = this.columns ? this.columns : test;
+    this.currecyColumns = this.currecyColumns ? this.currecyColumns : ['Sin datos'];
+    this.dateColumns = this.dateColumns ? this.dateColumns : ['Sin datos'];
+    this.columns = this.columns ? this.columns : ['Sin datos'];
     this.dtTrigger.subscribe(() => {
       this.displayTable();
     });

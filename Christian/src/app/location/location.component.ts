@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Customer, Location } from '../entities';
 import { HttpService } from '../services/http.service';
 import { CtTableComponent } from '../controls/ct-table/ct-table.component';
+import { ModalDirective } from 'ngx-bootstrap';
+import { NgForm } from '@angular/forms';
 
 declare var jquery: any;
 declare var $: any;
@@ -15,7 +17,9 @@ export class LocationComponent implements OnInit {
 
   @ViewChild(CtTableComponent)
   table: CtTableComponent;
-
+  
+  @ViewChild('newLocation') newLocation: ModalDirective;
+  @ViewChild('form') form: NgForm;
   private locations: Location[];
   private customers: Customer[];
   private location: Location;
@@ -25,6 +29,7 @@ export class LocationComponent implements OnInit {
   ngOnInit() {
     this.createNewLocation();
     this.updateLocationList();
+    this.table.id = "locationsTable";
     this.table.columns = { id: 'Id', name: 'Nombre'};
   }
 
@@ -38,10 +43,12 @@ export class LocationComponent implements OnInit {
   }
 
   createNewLocation() {
+    this.form.resetForm();
     this.location = new Location();
   }
 
   saveCreatedLocation() {
+    this.newLocation.hide();
     this.http.post('location', this.location, res => {
       this.updateLocationList();
     })

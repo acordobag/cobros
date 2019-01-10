@@ -1,6 +1,6 @@
 var Sequelize = require('sequelize');
-var connection = new Sequelize("cobros", "acordoba@cobros", "Castillo1097", {
-  host: 'cobros.mysql.database.azure.com',
+var connection = new Sequelize("db", "user", "password", {
+  host: 'url',
   port:'3306',
   dialect: 'mysql',
   define: { timestamps: false },

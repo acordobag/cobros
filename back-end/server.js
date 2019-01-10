@@ -13,12 +13,14 @@ var Location = require('./api/models/location.model');
 var Account = require('./api/models/account.model');
 var Payment = require('./api/models/payment.model');
 var PaymentTerm = require('./api/models/paymentTerm.model');
+var Route = require('./api/models/route.model');
 
 Customer.build();
 Location.build();
 Account.build();
 Payment.build();
 PaymentTerm.build();
+Route.build();
 
 var routes = require('./api/routes/routes')
 

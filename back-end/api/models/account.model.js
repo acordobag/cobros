@@ -12,7 +12,7 @@ module.exports = Account = connection.define('account', {
     interestRate: Sequelize.DOUBLE,
     numberOfPayments: Sequelize.DOUBLE,
     charge: Sequelize.DOUBLE,
-    already_pay: Sequelize.BOOLEAN,
+    alreadyPay: Sequelize.BOOLEAN,
 });
 
 var Payment = require('./payment.model');

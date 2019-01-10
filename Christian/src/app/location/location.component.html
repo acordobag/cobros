@@ -1,21 +1,22 @@
 <div class="card-body">
   <div class="btn-group col-sm-12" role="group">
-    <button type="button" class="btn btn-primary pull-right" data-toggle="modal" (click)="createNewLocation()" data-target="#newLocation">Agregar <i class="fa fa-plus" aria-hidden="true"></i></button>
+    <button type="button" class="btn btn-primary pull-right" (click)="createNewLocation();newLocation.show()">Agregar
+      <i class="fa fa-plus" aria-hidden="true"></i></button>
   </div>
 </div>
 <div class="card-body">
   <div class="table-responsive">
-    <ct-table [id]="locationsTable"></ct-table>
+    <ct-table></ct-table>
   </div>
 </div>
 
-<div class="modal fade" id="newLocation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
+<div bsModal #newLocation="bs-modal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Nuevo usuario</h5>
-        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">×</span>
+        <h4 id="dialog-sizes-name1" class="modal-title pull-left">Nueva ubicación</h4>
+        <button type="button" class="close pull-right" (click)="newLocation.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
@@ -29,10 +30,10 @@
             </div>
           </form>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-        <button class="btn btn-primary" [disabled]="form.invalid" (click)="saveCreatedLocation()">Guardar</button>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" (click)="newLocation.hide()">Cancelar</button>
+          <button class="btn btn-primary" [disabled]="form.invalid" (click)="saveCreatedLocation()">Guardar</button>
+        </div>
       </div>
     </div>
   </div>
