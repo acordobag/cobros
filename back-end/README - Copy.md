@@ -1,1 +1,0 @@
-# Costa Rica Places Api

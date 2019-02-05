@@ -1,6 +1,6 @@
 var Sequelize = require('sequelize');
-var connection = new Sequelize("db", "user", "password", {
-  host: 'url',
+var connection = new Sequelize("cobros", "acordoba", "acordoba", {
+  host: '40.122.170.216',
   port:'3306',
   dialect: 'mysql',
   define: { timestamps: false },
@@ -16,8 +16,3 @@ module.exports = {
   'secret': 'jajaweonquepono',
   'database': connection
 }
-//Produccion
-  //'database' : '''
-//Desarrollo
-  //'database' : ''
-//var conn = mysql.createConnection({host: "{host_name}", user: "{your_username}", password: {your_password}, database: {your_database}, port: 3306, ssl:{ca:fs.readFileSync({ca-cert filename})}});
