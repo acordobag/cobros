@@ -46,7 +46,7 @@ module.exports.findById = function (req, res) {
         where: {
             id: req.body.id
         },
-        include: [{model: Payment, include: [User]}]
+        include: [{ model: Payment, include: [User] }]
     }).then(function (accounts) {
         if (accounts) {
             res.send(accounts);
@@ -99,17 +99,9 @@ module.exports.approvePayment = function (req, res) {
         ppayment.updateAttributes({
             approved: true
         });
-        Account.find({
-            where: { id: ppayment.accountId }
-        }).then(function (paccount) {
-            paccount.updateAttributes({
-                actualAmmount: paccount.actualAmmount - ppayment.ammount
-            });
-            res.send({ status: 200, ppayment });
-        })
+        res.send({ status: 200, ppayment });
     })
 }
-
 module.exports.approveListOfPayments = function (req, res) {
     var payments = req.body.payments;
     try {
@@ -120,13 +112,6 @@ module.exports.approveListOfPayments = function (req, res) {
                 ppayment.updateAttributes({
                     approved: true
                 });
-                Account.find({
-                    where: { id: ppayment.accountId }
-                }).then(function (paccount) {
-                    paccount.updateAttributes({
-                        actualAmmount: paccount.actualAmmount - ppayment.ammount
-                    });
-                })
             })
         });
         res.send({ status: 200, ppayment });

@@ -5,22 +5,7 @@ var config = require('./api/config/database');
 var connection = config.database;
 //Se declaran todos los accesos de las rutas
 connection.sync();
-
 //Generate Tables
-
-var Customer = require('./api/models/customer.model');
-var Location = require('./api/models/location.model');
-var Account = require('./api/models/account.model');
-var Payment = require('./api/models/payment.model');
-var PaymentTerm = require('./api/models/paymentTerm.model');
-var Route = require('./api/models/route.model');
-
-Customer.build();
-Location.build();
-Account.build();
-Payment.build();
-PaymentTerm.build();
-Route.build();
 
 var routes = require('./api/routes/routes')
 

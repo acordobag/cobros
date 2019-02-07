@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpService } from '../services/http.service';
-import { Payment } from '../entities';
+import { Payment, Btn } from '../entities';
+import { CtTableComponent } from '../controls/ct-table/ct-table.component';
 
 declare var $: any;
 
@@ -11,68 +12,37 @@ declare var $: any;
 })
 export class PaymentsComponent implements OnInit {
 
-  private table: any;
+  @ViewChild(CtTableComponent)
+  table: CtTableComponent;
   private payments: Payment[];
 
   constructor(private http: HttpService) { }
 
   ngOnInit() {
-    this.updatedPaymentList()
+    this.updatePaymentList();
+    this.table.columns = { id: 'ID', ammount: 'Monto', date: 'Fecha', account: 'Cliente' };
+    this.table.currecyColumns = { ammount: 'Monto'}
+    this.table.id = "authPaymetsTable";
+    this.table.btn = new Btn('Autorizar');
   }
 
-  updatedPaymentList() {
+  updatePaymentList() {
     this.http.get('payment', res => {
       this.payments = res;
-      setTimeout(() => {
-        this.createDataTable();
-      })
+      this.table.data = this.payments;
+      this.table.rerender();
     });
-  }
-
-  createDataTable() {
-    this.table = $('#paymentsTable').DataTable({
-      responsive: true,
-      select: true,
-      "columnDefs": [
-        {
-          "targets": [0],
-          "visible": false,
-          "searchable": false
-        }
-      ],
-      language: {
-        "info": "Mostrando pagina _PAGE_ de _PAGES_",
-        "infoEmpty": "No hay registros disponibles",
-        "lengthMenu": "Mostrando _MENU_ registros por pagina ",
-        "paginate": {
-          "first": "First",
-          "last": "Last",
-          "next": "Siguiente",
-          "previous": "Anterior"
-        }
-      }
-    });
-    /*     var self = this;
-        this.table.on('select', function (e, dt, type, indexes) {
-          if (type === 'row') {
-            var data = self.table.rows({ selected: true }).data();
-            self.http.get('account/' + data[0][0], res => {
-              self.selectedAccount = res;
-              self.createNewPayment();
-            });
-          }
-        }); */
   }
 
   approveOnePayment(p: Payment) {
     this.http.post('approveOnePayment', p, res => {
-      location.reload();
+      this.updatePaymentList();
     });
   }
 
   approveAllPayments() {
     this.http.post('approveListOfPayment', { payments: this.payments }, res => {
-      location.reload();
+      this.updatePaymentList();
     });
   }
 }
