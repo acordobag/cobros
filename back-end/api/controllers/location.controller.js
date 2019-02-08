@@ -1,28 +1,20 @@
 var Location = require('../models/Location.model');
 var Customer = require('../models/customer.model');
 
-module.exports.save = function (req, res) {
-
+module.exports.save = (req, res) => {
     var location = {
         name: req.body.name
     }
+    if (!location.name) { throw new Error('No se puede insertar un valor nulo'); }
+    Location.create(location)
+        .then((location) => { res.send(location); })
 
-    Location.create(location).then(function (location) {
-        if (location) {
-            res.send(location);
-        } else if (!location) {
-            res.send({ status: 400, msj: "NO SE REGISTRO!" });
-        }
-
-    });
 };
 
 module.exports.findAll = function (req, res) {
-    Location.findAll({ include: [{ model: Customer, as: 'customers' }] }).then(function (Locations) {
-        if (Locations) {
-            res.send(Locations);
-        } else if (!Locations) {
-            res.send({ status: 400, msj: "NO HAY NINGUN REGISTRO" });
-        }
-    });
+    Location.findAll({ include: [{ model: Customer, as: 'customers' }] })
+        .then((plocations) => {
+            res.send(plocations ? plocations : []);
+        })
+        .catch((err) => {  throw err });
 };

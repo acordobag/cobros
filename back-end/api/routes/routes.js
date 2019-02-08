@@ -14,78 +14,78 @@ router.param('id', function (req, res, next, id) {
 //Place routes
 
 router.route('/customer')
-    .get(function (req, res) {
-        CustomerController.findAll(req, res);
+    .get(function (req, res, next) {
+        CustomerController.findAll(req, res, next);
     })
-    .post(function (req, res) {
-        CustomerController.save(req, res)
+    .post(function (req, res, next) {
+        CustomerController.save(req, res, next);
     });
 
 router.route('/customer/:id')
-    .get(function (req, res) {
-        CustomerController.findById(req, res);
+    .get(function (req, res, next) {
+        CustomerController.findById(req, res, next);
     })
 router.route('/location')
-    .get(function (req, res) {
-        LocationController.findAll(req, res);
+    .get(function (req, res, next) {
+        LocationController.findAll(req, res, next);
     })
-    .post(function (req, res) {
-        LocationController.save(req, res)
+    .post(function (req, res, next) {
+        LocationController.save(req, res, next);
     });
 
 router.route('/user')
-    .get(function (req, res) {
-        UserController.findAll(req, res);
+    .get(function (req, res, next) {
+        UserController.findAll(req, res, next);
     })
-    .post(function (req, res) {
-        UserController.save(req, res)
+    .post(function (req, res, next) {
+        UserController.save(req, res, next);
     });
 
 router.route('/user/:id')
-    .get(function (req, res) {
-        UserController.findById(req, res);
+    .get(function (req, res, next) {
+        UserController.findById(req, res, next);
     })
 
 router.route('/auth')
-    .post(function (req, res) {
-        UserController.authenticate(req, res)
+    .post(function (req, res, next) {
+        UserController.authenticate(req, res, next);
     })
 
 router.route('/account')
-    .post(function (req, res) {
-        AccountController.save(req, res)
+    .post(function (req, res, next) {
+        AccountController.save(req, res, next);
     })
-    .get(function (req, res) {
-        AccountController.findAll(req, res);
+    .get(function (req, res, next) {
+        AccountController.findAll(req, res, next);
     })
 
 router.route('/payment')
-    .post(function (req, res) {
-        AccountController.addPayment(req, res)
+    .post(function (req, res, next) {
+        AccountController.addPayment(req, res, next);
     })
-    .get(function (req, res) {
-        AccountController.findAllPendingPayments(req, res);
+    .get(function (req, res, next) {
+        AccountController.findAllPendingPayments(req, res, next);
     })
 router.route('/approveOnePayment')
-    .post(function (req, res) {
-        AccountController.approvePayment(req, res)
+    .post(function (req, res, next) {
+        AccountController.approvePayment(req, res, next);
     })
 router.route('/approveListOfPayment')
-    .post(function (req, res) {
-        AccountController.approveListOfPayments(req, res)
+    .post(function (req, res, next) {
+        AccountController.approveListOfPayments(req, res, next);
     })
 
 router.route('/account/:id')
-    .get(function (req, res) {
-        AccountController.findById(req, res);
+    .get(function (req, res, next) {
+        AccountController.findById(req, res, next);
     })
 
 router.route('/paymentTerm')
-    .post(function (req, res) {
-        PaymentTermController.save(req, res)
+    .post(function (req, res, next) {
+        PaymentTermController.save(req, res, next);
     })
-    .get(function (req, res) {
-        PaymentTermController.findAll(req, res);
+    .get(function (req, res, next) {
+        PaymentTermController.findAll(req, res, next);
     })
 
 module.exports = router;

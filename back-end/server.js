@@ -10,15 +10,21 @@ connection.sync();
 var routes = require('./api/routes/routes')
 
 module.exports = app = express();
+
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use('/api', function (req, res, next) {
+app.use('/api', (req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'Origin, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, X-Response-Time, X-PINGOTHER, X-CSRF-Token,Authorization');
   res.setHeader('Access-Control-Allow-Credentials', true);
   next();
 }, routes);
+
+app.use((error, req, res, next) => {
+  console.log("ERROR: " + error);
+  res.status(500);
+  res.send({ error: error.message });
+});
 
 // Initialize the app.
 var server = app.listen(process.env.PORT || 8000, function () {
@@ -27,7 +33,7 @@ var server = app.listen(process.env.PORT || 8000, function () {
 });
 
 // Generic error handler used by all endpoints.
-function handleError(res, reason, message, code) {
-  console.log("ERROR: " + reason);
-  res.status(code || 500).json({ "error": message });
+function handleError(error, res, req, next) {
+  console.log("ERROR: " + error);
+  res.status(500).json({ "error": error });
 }

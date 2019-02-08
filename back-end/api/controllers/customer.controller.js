@@ -18,13 +18,11 @@ module.exports.save = function (req, res) {
         locationId: req.body.location.id
     };
 
-    Customer.create(customer).then(function (pcustomer) {
-        if (pcustomer) {
-            res.send(customer);
-        } else if (!pcustomer) {
-            res.send({ status: 400, msj: "NO SE REGISTRO!" })
-        }
-    });
+    Customer.create(customer)
+        .then(function (pcustomer) {
+            res.send(pcustomer);
+        })
+        .catch((err) => { res.status(500).send(err) });
 
 };
 

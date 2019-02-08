@@ -7,7 +7,7 @@ var PaymentTerm = require('../models/paymentTerm.model');
 var config = require('../config/database');
 var bcrypt = require('bcrypt');
 
-module.exports.save = function (req, res) {
+module.exports.save = (req, res, next) => {
 
     var account = {
         name: req.body.name,
@@ -21,42 +21,32 @@ module.exports.save = function (req, res) {
         already_pay: req.body.already_pay
     };
 
-    Account.create(account).then(function (paccount) {
-        if (paccount) {
+    Account.create(account)
+        .then((paccount) => {
             res.send(paccount);
-        } else if (!paccount) {
-            res.send({ status: 400, msj: "NO SE REGISTRO!" })
-        }
-    });
-
+        })
+        .catch(next);
 };
 
-module.exports.findAll = function (req, res) {
-    Account.findAll({ include: [PaymentTerm] }).then(function (accounts) {
-        if (accounts) {
-            res.send(accounts);
-        } else if (!accounts) {
-            res.send({ status: 400, msj: "NO HAY NINGUN REGISTRO" });
-        }
-    });
+module.exports.findAll = (req, res, next) => {
+    Account.findAll({ include: [PaymentTerm] })
+        .then(function (paccounts) {
+            res.send(paccounts);
+        });
 };
 
-module.exports.findById = function (req, res) {
+module.exports.findById = (req, res, next) => {
     Account.find({
-        where: {
-            id: req.body.id
-        },
+        where: { id: req.body.id },
         include: [{ model: Payment, include: [User] }]
-    }).then(function (accounts) {
-        if (accounts) {
-            res.send(accounts);
-        } else if (!accounts) {
-            res.send({ status: 400, msj: "NO HAY NINGUN REGISTRO" });
-        }
-    });
+    })
+        .then((paccounts) => {
+            res.send(paccounts);
+        })
+        .catch(next)
 };
 
-module.exports.addPayment = function (req, res) {
+module.exports.addPayment = (req, res, next) => {
 
     var payment = {
         ammount: req.body.ammount,
@@ -66,81 +56,49 @@ module.exports.addPayment = function (req, res) {
         accountId: req.body.account.id
     }
 
-    Payment.create(payment).then(function (ppayment) {
-        if (ppayment) {
+    Payment.create(payment)
+        .then((ppayment) => {
             res.send(ppayment);
-        } else if (!ppayment) {
-            res.send({ status: 400, msj: "NO SE REGISTRO" });
-        }
-    });
+        })
+        .catch(next);
 };
 
-module.exports.findAllPendingPayments = function (req, res) {
+module.exports.findAllPendingPayments = (req, res, next) => {
     Payment.findAll({
         where: { approved: false },
         include: [User, Account]
-    }).then(function (payments) {
-        if (payments) {
-            res.send(payments);
-        } else if (!payments) {
-            res.send({ status: 400, msj: "NO HAY NINGUN REGISTRO" });
-        }
-    })
-}
-
-module.exports.approvePayment = function (req, res) {
-    var payment = {
-        id: req.body.id
-    }
-
-    Payment.find({
-        where: { id: payment.id }
-    }).then(function (ppayment) {
-        ppayment.updateAttributes({
-            approved: true
-        });
-        res.send({ status: 200, ppayment });
-    })
-}
-module.exports.approveListOfPayments = function (req, res) {
-    var payments = req.body.payments;
-    try {
-        payments.forEach(function (payment) {
-            Payment.find({
-                where: { id: payment.id }
-            }).then(function (ppayment) {
-                ppayment.updateAttributes({
-                    approved: true
-                });
-            })
-        });
-        res.send({ status: 200, ppayment });
-    } catch (error) {
-        res.send({ status: 400, msg: 'No se pudo concluir' });
-    }
-
-}
-
-module.exports.findAccountPayments = function (req, res) {
-    Payment.find({
-        where: {
-            accountId: req.body.id
-        }
-    }).then(function (ppayments) {
-        if (ppayments) {
-            res.send(ppayments);
-        } else if (!ppayments) {
-            res.send({ status: 400, msj: "NO HAY NINGUN REGISTRO" });
-        }
+    }).then((payments) => {
+        res.send(payments);
     });
+}
+
+module.exports.approvePayment = (req, res, next) => {
+    Payment.find({ where: { id: req.body.id } })
+        .then((ppayment) => { return ppayment.updateAttributes({ approved: true }) })
+        .then((ppayment) => res.send({ status: 200, ppayment }))
+        .catch(next);
+}
+module.exports.approveListOfPayments = (req, res, next) => {
+    var payments = req.body.payments;
+    payments.forEach((payment) => {
+        Payment.find({ where: { id: payment.id } })
+            .then((ppayment) => { return ppayment.updateAttributes({ approved: true }) })
+            .then((ppayments) => res.send(ppayments))
+            .catch(next)
+    });
+}
+
+module.exports.findAccountPayments = (req, res, next) => {
+    Payment.find({ where: { accountId: req.body.id } })
+        .then((ppayments) => {
+            res.send(ppayments);
+        })
+        .catch(next);
 };
 
-module.exports.findAllPaymentsTerms = function (req, res) {
-    PaymentTerm.findAll().then(function (ppterms) {
-        if (ppterms) {
+module.exports.findAllPaymentsTerms = (req, res, next) => {
+    PaymentTerm.findAll()
+        .then((ppterms) => {
             res.send(ppterms);
-        } else if (!ppterms) {
-            res.send({ status: 400, msj: "NO HAY NINGUN REGISTRO" });
-        }
-    });
+        });
 };
