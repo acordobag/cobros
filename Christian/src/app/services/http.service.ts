@@ -9,7 +9,7 @@ declare var $: any;
 
 @Injectable()
 export class HttpService {
-  private apiServer = "http://acordoba.dynu.com:8000/api/";
+  private apiServer = "http://localhost:8000/api/";
   constructor(private http: Http) { }
 
   post(path: string, param: object, callback?): void {
