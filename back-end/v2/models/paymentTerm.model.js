@@ -1,10 +1,13 @@
-var config = require('../config/database');
-var Sequelize = require('sequelize');
-var connection = config.database;
-var Account = require('./account.model');
+'use strict'
 
-module.exports = PaymentTerm = connection.define('paymentTerm', {
-    name: Sequelize.STRING,
-});
+import db from '../db'
+const {sequelize, Sequelize} = db
+const model = () => {
+    const PaymentTerm = sequelize.define('paymentTerm', {
+        name: Sequelize.STRING,
+    })
+    return PaymentTerm
+}
 
-connection.sync();
+const Model = model()
+export default Model

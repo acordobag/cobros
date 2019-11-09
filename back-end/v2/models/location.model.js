@@ -1,12 +1,16 @@
-var config = require('../config/database');
-var Sequelize = require('sequelize');
-var connection = config.database;
-var Customer = require('./customer.model');
+'use strict'
 
-module.exports = Location = connection.define('location', {
-  name: Sequelize.STRING,
-});
+import db from '../db'
+const { sequelize, Sequelize } = db
 
-Location.hasMany(Customer,{ as: "customers" });
+const model = () => {
 
-connection.sync();
+  const Location = sequelize.define('location', {
+    name: Sequelize.STRING,
+  })
+
+  return Location
+}
+
+const Model = model()
+export default Model

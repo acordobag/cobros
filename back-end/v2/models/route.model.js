@@ -1,23 +1,15 @@
-var config = require('../config/database');
-var Sequelize = require('sequelize');
-var connection = config.database;
-var User = require('./user.model');
-var Customer = require('./user.model');
+'use strict'
 
-module.exports = Route = connection.define('route', {
-    name: Sequelize.STRING,
-    state: Sequelize.INTEGER
-});
+import db from '../db'
+const { sequelize, Sequelize } = db
 
-Route.belongsTo(User, {as: 'driver'});
-Route.belongsTo(User, {as: 'createdBy'});
+const model = () => {
+    const Route = sequelize.define('route', {
+        name: Sequelize.STRING,
+        state: Sequelize.INTEGER
+    })
+    return Route
+}
 
-module.exports = RouteDetail = connection.define('routeDetail', {
-    state: Sequelize.INTEGER, //Crear un enum con los estados
-    commtent: Sequelize.STRING  
-});
-
-RouteDetail.belongsTo(Customer);
-RouteDetail.belongsTo(Route)
-
-connection.sync();
+const Model = model()
+export default Model

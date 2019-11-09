@@ -1,55 +1,59 @@
-var Customer = require('../models/customer.model');
-var Location = require('../models/location.model');
-var Account = require('../models/account.model');
-var PaymentTerm = require('../models/paymentTerm.model');
-var config = require('../config/database');
-var bcrypt = require('bcryptjs');
+import Customer from '../models/customer.model'
+import Location from '../models/location.model'
+import Account from '../models/account.model'
+import PaymentTerm from '../models/paymentTerm.model'
 
 
-module.exports.save = function (req, res) {
+async function save(req, res, next) {
+    try {
+        let customer = {
+            citizenId: req.body.citizenId,
+            name: req.body.name,
+            lastName: req.body.lastName,
+            fullName: req.body.fullName,
+            email: req.body.email,
+            phone: req.body.phone,
+            locationId: req.body.location.id
+        }
+        customer = await Customer.create(customer)
+        res.status(200).send(customer).end()
+    } catch (e) {
+        next(e)
+    }
 
-    var customer = {
-        citizenId: req.body.citizenId,
-        name: req.body.name,
-        lastName: req.body.lastName,
-        fullName: req.body.fullName,
-        email: req.body.email,
-        phone: req.body.phone,
-        locationId: req.body.location.id
-    };
+}
 
-    Customer.create(customer)
-        .then(function (pcustomer) {
-            res.send(pcustomer);
+async function findAll(req, res, next) {
+    try {
+        let customers = await Customer.findAll({ include: [Location, Account] })
+        res.status(200).send(customers).end();
+    } catch (e) {
+        next(e)
+    }
+
+
+}
+
+async function findById(req, res) {
+    try {
+        let customer = await Customer.findOne({
+            where: {
+                id: req.body.id
+            },
+            include: [Location, {
+                model: Account,
+                include: [PaymentTerm]
+            }]
         })
-        .catch((err) => { res.status(500).send(err) });
+        res.status(200).send(customer).end();
+    } catch (e) {
+        next(e)
+    }
 
-};
+}
 
-module.exports.findAll = function (req, res) {
-    Customer.findAll({ include: [Location, Account] }).then(function (pcustomers) {
-        if (pcustomers) {
-            res.send(pcustomers);
-        } else if (!pcustomers) {
-            res.send({ status: 400, msj: "NO HAY NINGUN REGISTRO" });
-        }
-    });
-};
-
-module.exports.findById = function (req, res) {
-    Customer.findOne({
-        where: {
-            id: req.body.id
-        },
-        include: [Location, {
-            model: Account,
-            include: [PaymentTerm]
-        }]
-    }).then(function (pcustomers) {
-        if (pcustomers) {
-            res.send(pcustomers);
-        } else if (!pcustomers) {
-            res.send({ status: 400, msj: "NO HAY NINGUN REGISTRO" });
-        }
-    });
-};
+export default {
+    save,
+    findAll,
+    findById
+}

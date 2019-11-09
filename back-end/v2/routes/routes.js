@@ -1,10 +1,12 @@
-var express = require('express');
-var router = express.Router();
-var CustomerController = require('../controllers/customer.controller');
-var LocationController = require('../controllers/location.controller');
-var UserController = require('../controllers/user.controller');
-var AccountController = require('../controllers/account.controller');
-var PaymentTermController = require('../controllers/paymentTerm.controller');
+import express from 'express'
+
+import CustomerController from '../controllers/customer.controller'
+import LocationController from '../controllers/location.controller'
+import UserController from '../controllers/user.controller'
+import AccountController from '../controllers/account.controller'
+import PaymentTermController from '../controllers/paymentTerm.controller'
+
+var router = express.Router()
 
 router.param('id', function (req, res, next, id) {
     req.body.id = id;

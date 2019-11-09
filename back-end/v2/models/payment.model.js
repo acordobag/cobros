@@ -1,16 +1,15 @@
-var config = require('../config/database');
-var Sequelize = require('sequelize');
-var connection = config.database;
-var User = require('./user.model');
-var Account = require('./account.model');
+'use strict'
 
-module.exports = Payment = connection.define('payment', {
-    ammount: Sequelize.DOUBLE,
-    approved: Sequelize.BOOLEAN,
-    date: Sequelize.DATE
-});
+import db from '../db'
+const {sequelize, Sequelize} = db
+const model = () => {
+    const Payment = sequelize.define('payment', {
+        ammount: Sequelize.DOUBLE,
+        approved: Sequelize.BOOLEAN,
+        date: Sequelize.DATE
+    })
+    return Payment
+}
 
-Payment.belongsTo(User);
-Payment.belongsTo(Account);
-
-connection.sync();
+const Model = model()
+export default Model

@@ -1,10 +1,13 @@
 
 'use strict'
+const fs = require('fs')
+const path = require('path')
+
 export default {
     enviroment: 'development',
-    port: port || 'localhost',
-    host: ip,
-    clientUrl: `http://${ip}:8080`,
+    port: 8080,
+    host: '',
+    clientUrl: `http://localhost:8080`,
     authentication: {
       jwtSecret: 'CAca1978'
     },
@@ -34,7 +37,7 @@ export default {
       host: '35.194.81.30',
       username: 'mano',
       password: 'Mano2019',
-      database: 'cobros',
+      database: 'cobros_v2',
       dialect: 'mysql',
       // timezone: 'America/Costa_Rica',
       logging: msg => {
@@ -44,6 +47,7 @@ export default {
           }
         })
       },
+      define: { timestamps: false },
       pool: {
         max: 5,
         min: 0,

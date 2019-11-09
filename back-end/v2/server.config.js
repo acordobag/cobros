@@ -5,14 +5,10 @@ if (enviroment === 'development') require('longjohn')
 
 import express from 'express'
 import cors from 'cors'
-import morgan from 'morgan'
 import path from 'path'
-import sockets from './sockets'
-import router from './router'
-require('./cronjobs')
+import router from './routes/routes'
 
 export default (app, server) => {
-  sockets(server)
 
   app.disable('x-powered-by')
 

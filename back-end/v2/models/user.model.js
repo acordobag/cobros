@@ -1,14 +1,20 @@
-var config = require('../config/database');
-var Sequelize = require('sequelize');
-var connection = config.database;
+'use strict'
 
-module.exports = User = connection.define('user', {
-    name: Sequelize.STRING,
-    lastName: Sequelize.STRING,
-    email: Sequelize.STRING,
-    password: Sequelize.STRING,
-    isDriver: Sequelize.BOOLEAN,
-    token: Sequelize.STRING
-});
+import db from '../db'
+const { sequelize, Sequelize } = db
 
-connection.sync();
+const model = () => {
+    const User = sequelize.define('user', {
+        name: Sequelize.STRING,
+        lastName: Sequelize.STRING,
+        email: Sequelize.STRING,
+        password: Sequelize.STRING,
+        isDriver: Sequelize.BOOLEAN,
+        token: Sequelize.STRING
+    })
+
+    return User
+}
+
+const Model = model()
+export default Model

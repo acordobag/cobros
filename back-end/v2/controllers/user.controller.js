@@ -1,74 +1,81 @@
 //Requerimos el modelo  de usuarios
-var User = require('../models/user.model.js');
-var jwt = require('jwt-simple');
-var config = require('../config/database');
-var bcrypt = require('bcryptjs');
+import User from '../models/user.model.js'
+import jwt from 'jwt-simple'
+import config from '../config/index'
+import bcrypt from 'bcryptjs'
 
-module.exports.save = function (req, res) {
-
-    var pass = '';
-    if (req.body.password) {
-        pass = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(8), null);
-    }
-
-    var user = {
-        name: req.body.name,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        password: pass,
-        isDriver: req.body.isDriver,
-        token: ''
-    };
-
-    User.create(user).then(function (puser) {
-        if (puser) {
-            res.send(puser);
-        } else if (!puser) {
-            res.send({ msj: "No se creo el usuario!" });
+async function save(req, res, next) {
+    try {
+        let pass = '';
+        if (req.body.password) {
+            pass = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(8), null);
         }
-    });
+
+        let user = {
+            name: req.body.name,
+            lastName: req.body.lastName,
+            email: req.body.email,
+            password: pass,
+            isDriver: req.body.isDriver,
+            token: ''
+        };
+
+        user = await User.create(user)
+        res.status(200).send(user).end()
+    } catch (e) {
+        next(e)
+    }
 
 };
 
 
 //Funcion que autentica un usuario
-module.exports.authenticate = function (req, res) {
-    User.findOne({
-        where: {
-            email: req.body.email
-        }
-    }).then(function (user) {
+async function authenticate(req, res, next) {
+    try {
+        let user = await User.findOne({ where: { email: req.body.email } })
         if (!user) {
-            return res.send({ status: 400, success: false, msg: 'Correo incorrecto.' });
+            return res.send({ status: 400, success: false, msg: 'Correo incorrecto.' })
         } else {
-            var isMatch = bcrypt.compareSync(req.body.password, user.password);
+            var isMatch = bcrypt.compareSync(req.body.password, user.password)
             if (isMatch) {
-                var token = jwt.encode(user, config.secret);
-                user.token = 'JWT ' + token;
-                user.password = '';
-                res.send(user);
+                var token = jwt.encode(user, config.authentication.jwtSecret)
+                user.token = 'JWT ' + token
+                user.password = ''
+                res.send(user)
             } else {
-                return res.send({ status: 400, success: false, msg: 'Contraseña incorrecta.' });
+                return res.send({ status: 400, success: false, msg: 'Contraseña incorrecta.' })
             }
         }
-    });
-};
+    } catch (e) {
+        next(e)
+    }
 
 
-module.exports.findById = function (req, res) {
-    User.findOne({ _id: req.body.id }, function (err, user) {
-        if (err) {
-            res.send(err);
-        } else {
-            user.password = "";
-            res.send(user);
-        }
-    });
-};
+}
+
+
+async function findById(req, res, next) {
+    try {
+        let user = await User.findOne({ _id: req.body.id })
+        res.status(200).send(user).end()
+    } catch (e) {
+        next(e)
+    }
+}
 
 //Find all
-module.exports.finAll = function (req, res) {
-    User.findAll().then(function (users) {
-        res.send(users);
-    });
-};
+async function finAll(req, res, next) {
+    try {
+        let users = await User.findAll()
+        res.status(200).send(users).end()
+    } catch (e) {
+        next(e)
+    }
+}
+
+export default {
+    save,
+    authenticate,
+    findById,
+    finAll
+}
