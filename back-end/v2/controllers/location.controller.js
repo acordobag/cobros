@@ -17,7 +17,7 @@ async function save(req, res, next) {
 
 async function findAll(req, res, next) {
     try {
-        // { include: [{ model: Customer, as: 'customers' }] }
+        // 
         let locations = await Location.findAll()
         res.status(200).send(locations).end()
     } catch (e) {

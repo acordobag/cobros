@@ -5,11 +5,10 @@ const { sequelize, Sequelize } = db
 
 const model = () => {
 
-  const Location = sequelize.define('location', {
-    name: Sequelize.STRING,
-  })
-
-  return Location
+    const Location = sequelize.define('location', {
+        name: Sequelize.STRING
+    })
+    return Location
 }
 
 const Model = model()

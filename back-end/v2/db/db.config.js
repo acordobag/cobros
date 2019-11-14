@@ -14,16 +14,21 @@ export default async () => {
     // User relations
     //Account relations 
     Account.hasMany(Payment);
-    Account.belongsTo(PaymentTerm);   
-    Customer.hasMany(Account);  
-    Location.hasMany(Customer); 
+    Account.belongsTo(PaymentTerm); 
+
+    Customer.belongsTo(Location);
+    Customer.hasMany(Account);   
+
+    Location.hasMany(Customer,{ as: "customers" });
+
     Payment.belongsTo(User);
     Payment.belongsTo(Account);
-    RouteDetail.belongsTo(Customer);
-    RouteDetail.belongsTo(Route);
+
     Route.belongsTo(User, { as: 'driver' });
     Route.belongsTo(User, { as: 'createdBy' });
-
+    
+    RouteDetail.belongsTo(Customer);
+    RouteDetail.belongsTo(Route);
 
     try {
         await db.sync({

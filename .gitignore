@@ -7,9 +7,9 @@ christian/dist
 /out-tsc
 
 # dependencies
-/Christian/node_modules
-/back-end/node_modules
-/back-end/v2/node_modules
+Christian/node_modules
+back-end/v1/node_modules
+back-end/v2/node_modules
 
 # IDEs and editors
 */.idea
