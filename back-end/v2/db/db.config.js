@@ -4,7 +4,7 @@ import db from './index'
 import Account from '../models/account.model'
 import Customer from '../models/customer.model'
 import User from '../models/user.model'
-import Location from '../models/location.model'
+import Zone from '../models/zone.model'
 import Payment from '../models/payment.model'
 import Route from '../models/route.model'
 import RouteDetail from '../models/routeDetail.model'
@@ -16,10 +16,10 @@ export default async () => {
     Account.hasMany(Payment);
     Account.belongsTo(PaymentTerm); 
 
-    Customer.belongsTo(Location);
+    Customer.belongsTo(Zone);
     Customer.hasMany(Account);   
 
-    Location.hasMany(Customer,{ as: "customers" });
+    Zone.hasMany(Customer,{ as: "customers" });
 
     Payment.belongsTo(User);
     Payment.belongsTo(Account);

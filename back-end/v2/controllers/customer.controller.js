@@ -1,5 +1,5 @@
 import Customer from '../models/customer.model'
-import Location from '../models/location.model'
+import Zone from '../models/zone.model'
 import Account from '../models/account.model'
 import PaymentTerm from '../models/paymentTerm.model'
 
@@ -13,7 +13,7 @@ async function save(req, res, next) {
             fullName: req.body.fullName,
             email: req.body.email,
             phone: req.body.phone,
-            locationId: req.body.location.id
+            zoneId: req.body.zone.id
         }
         customer = await Customer.create(customer)
         res.status(200).send(customer).end()
@@ -25,7 +25,7 @@ async function save(req, res, next) {
 
 async function findAll(req, res, next) {
     try {
-        let customers = await Customer.findAll({ include: [Location, Account] })
+        let customers = await Customer.findAll({ include: [Zone, Account] })
         res.status(200).send(customers).end();
     } catch (e) {
         next(e)
@@ -40,7 +40,7 @@ async function findById(req, res) {
             where: {
                 id: req.body.id
             },
-            include: [Location, {
+            include: [Zone, {
                 model: Account,
                 include: [PaymentTerm]
             }]

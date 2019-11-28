@@ -34,7 +34,7 @@ export class LocationComponent implements OnInit {
   }
 
   updateLocationList() {
-    this.http.get('location', res => {
+    this.http.get('zone', res => {
       this.locations = res;
       this.table.data = this.locations;
       this.table.rerender();

@@ -31,7 +31,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.customer = new Customer();
     this.updatedCustomerList();
-    this.http.get('location', res => {
+    this.http.get('zone', res => {
       this.locations = res;
     });
     this.table.id = "customerTable";
