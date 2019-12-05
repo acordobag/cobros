@@ -2,6 +2,7 @@
 import chalk from 'chalk'
 import db from './index'
 import Account from '../models/account.model'
+import Address from '../models/address.model'
 import Customer from '../models/customer.model'
 import User from '../models/user.model'
 import Zone from '../models/zone.model'
@@ -17,7 +18,8 @@ export default async () => {
     Account.belongsTo(PaymentTerm); 
 
     Customer.belongsTo(Zone);
-    Customer.hasMany(Account);   
+    Customer.hasMany(Account);
+    Customer.hasMany(Address);   
 
     Zone.hasMany(Customer,{ as: "customers" });
 

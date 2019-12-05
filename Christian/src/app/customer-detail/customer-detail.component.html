@@ -37,10 +37,10 @@
             <div class="invalid-feedback">*Debe ingresar un email</div>
           </div>
           <div class="form-group col-md-6">
-            <label for="location">Ubicación</label>
-            <select [compareWith]="compareFn" [class.is-invalid]="location.invalid && (location.dirty || location.touched)" class="form-control"
-              id="location" #location="ngModel" name="location" [(ngModel)]="customer.location" required>
-              <option [ngValue]="location" *ngFor="let location of locations">{{location.name}}</option>
+            <label for="zone">Ubicación</label>
+            <select [compareWith]="compareFn" [class.is-invalid]="zone.invalid && (zone.dirty || zone.touched)" class="form-control"
+              id="zone" #location="ngModel" name="zone" [(ngModel)]="customer.zone" required>
+              <option [ngValue]="zone" *ngFor="let zone of zones">{{zone.name}}</option>
             </select>
             <div class="invalid-feedback">*Debe escoger una ubicación</div>
           </div>

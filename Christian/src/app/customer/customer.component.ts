@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, ViewChild, TemplateRef } from '@angular/core';
-import { Customer, Btn } from '../entities';
+import { Customer, Btn, Zone } from '../entities';
 import 'rxjs/add/operator/map';
 import { HttpService } from '../services/http.service';
 import { ModalDirective } from 'ngx-bootstrap';
@@ -24,7 +24,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
   @ViewChild('form') form: NgForm;
   private customers: Customer[];
   private customer: Customer;
-  private locations: Location[];
+  private zones: Zone[];
 
   constructor(private http: HttpService, private router: Router) { }
 
@@ -32,7 +32,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
     this.customer = new Customer();
     this.updatedCustomerList();
     this.http.get('zone', res => {
-      this.locations = res;
+      this.zones = res;
     });
     this.table.id = "customerTable";
     this.table.columns = { citizenId: 'Cédula', fullName: 'Nombre', phone: 'Teléfono', email: 'Email' };

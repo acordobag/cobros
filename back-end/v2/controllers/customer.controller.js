@@ -1,6 +1,7 @@
 import Customer from '../models/customer.model'
 import Zone from '../models/zone.model'
 import Account from '../models/account.model'
+import Address from '../models/address.model'
 import PaymentTerm from '../models/paymentTerm.model'
 
 
@@ -25,7 +26,7 @@ async function save(req, res, next) {
 
 async function findAll(req, res, next) {
     try {
-        let customers = await Customer.findAll({ include: [Zone, Account] })
+        let customers = await Customer.findAll({ include: [Zone, Account, Address] })
         res.status(200).send(customers).end();
     } catch (e) {
         next(e)

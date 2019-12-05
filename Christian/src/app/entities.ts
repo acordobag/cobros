@@ -5,7 +5,7 @@ export class Customer {
     citizenId: string;
     name: string;
     lastName: string;
-    location: Location;
+    zone: Zone;
     email: string;
     phone: number;
     accounts: Array<Account>;
@@ -18,7 +18,7 @@ export class Customer {
         this.lastName = "";
         this.email = "";
         this.phone = undefined;
-        this.location = undefined;
+        this.zone = undefined;
         this.accounts = new Array<Account>();
         this.fullName = "";
     }
