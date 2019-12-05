@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Customer, Location } from '../entities';
+import { Customer, Zone } from '../entities';
 import { HttpService } from '../services/http.service';
 import { CtTableComponent } from '../controls/ct-table/ct-table.component';
 import { ModalDirective } from 'ngx-bootstrap';
@@ -9,25 +9,25 @@ declare var jquery: any;
 declare var $: any;
 
 @Component({
-  selector: 'app-location',
-  templateUrl: './location.component.html',
-  styleUrls: ['./location.component.css']
+  selector: 'app-zone',
+  templateUrl: './zone.component.html',
+  styleUrls: ['./zone.component.css']
 })
-export class LocationComponent implements OnInit {
+export class ZoneComponent implements OnInit {
 
   @ViewChild(CtTableComponent)
   table: CtTableComponent;
   
-  @ViewChild('newLocation') newLocation: ModalDirective;
+  @ViewChild('newZone') newZone: ModalDirective;
   @ViewChild('form') form: NgForm;
-  private locations: Location[];
+  private zones: Zone[];
   private customers: Customer[];
-  private location: Location;
+  private zone: Zone;
 
   constructor(private http: HttpService) { }
 
   ngOnInit() {
-    this.createNewLocation();
+    this.createNewZone();
     this.updateLocationList();
     this.table.id = "locationsTable";
     this.table.columns = { id: 'Id', name: 'Nombre'};
@@ -35,21 +35,21 @@ export class LocationComponent implements OnInit {
 
   updateLocationList() {
     this.http.get('zone', res => {
-      this.locations = res;
-      this.table.data = this.locations;
+      this.zones = res;
+      this.table.data = this.zones;
       this.table.rerender();
     });
 
   }
 
-  createNewLocation() {
+  createNewZone() {
     this.form.resetForm();
-    this.location = new Location();
+    this.zone = new Zone();
   }
 
-  saveCreatedLocation() {
-    this.newLocation.hide();
-    this.http.post('location', this.location, res => {
+  saveCreatedZone() {
+    this.newZone.hide();
+    this.http.post('zone', this.zone, res => {
       this.updateLocationList();
     })
   }

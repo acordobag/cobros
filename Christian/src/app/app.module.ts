@@ -15,7 +15,7 @@ import { GuardService } from './guards/guard.service';
 import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
 import { HttpService } from './services/http.service';
 import { NgxMaskModule } from 'ngx-mask'
-import { LocationComponent } from './location/location.component';
+import { ZoneComponent } from './zone/zone.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import { TypeaheadModule, BsDatepickerModule, ModalModule } from 'ngx-bootstrap';
 import { PaymentsComponent } from './payments/payments.component';
@@ -44,7 +44,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     LoginComponent,
     HomeComponent,
     CustomerDetailComponent,
-    LocationComponent,
+    ZoneComponent,
     AccountsComponent,
     PaymentsComponent,
     AccountDetailComponent

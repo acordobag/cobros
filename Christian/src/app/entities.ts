@@ -24,7 +24,7 @@ export class Customer {
     }
 }
 
-export class Location {
+export class Zone {
     id: number;
     name: string;
     customers: Array<Customer>;

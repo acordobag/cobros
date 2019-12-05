@@ -1,6 +1,6 @@
 <div class="card-body">
   <div class="btn-group col-sm-12" role="group">
-    <button type="button" class="btn btn-primary pull-right" (click)="createNewLocation();newLocation.show()">Agregar
+    <button type="button" class="btn btn-primary pull-right" (click)="createNewZone();newZone.show()">Agregar
       <i class="fa fa-plus" aria-hidden="true"></i></button>
   </div>
 </div>
@@ -15,7 +15,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 id="dialog-sizes-name1" class="modal-title pull-left">Nueva ubicación</h4>
-        <button type="button" class="close pull-right" (click)="newLocation.hide()" aria-label="Close">
+        <button type="button" class="close pull-right" (click)="newZone.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -24,15 +24,15 @@
           <form #form="ngForm" class="row">
             <div class="form-group col-md-6">
               <label for="name">Nombre</label>
-              <input type="text" #name="ngModel" name="name" [(ngModel)]="location.name" [class.is-invalid]="name.invalid && (name.dirty || name.touched)"
+              <input type="text" #name="ngModel" name="name" [(ngModel)]="zone.name" [class.is-invalid]="name.invalid && (name.dirty || name.touched)"
                 class="form-control" id="name" required>
               <div class="invalid-feedback">*Debe ingresar un nombre</div>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" (click)="newLocation.hide()">Cancelar</button>
-          <button class="btn btn-primary" [disabled]="form.invalid" (click)="saveCreatedLocation()">Guardar</button>
+          <button class="btn btn-secondary" type="button" (click)="newZone.hide()">Cancelar</button>
+          <button class="btn btn-primary" [disabled]="form.invalid" (click)="saveCreatedZone()">Guardar</button>
         </div>
       </div>
     </div>
