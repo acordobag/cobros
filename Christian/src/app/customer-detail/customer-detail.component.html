@@ -39,7 +39,7 @@
           <div class="form-group col-md-6">
             <label for="zone">Ubicación</label>
             <select [compareWith]="compareFn" [class.is-invalid]="zone.invalid && (zone.dirty || zone.touched)" class="form-control"
-              id="zone" #location="ngModel" name="zone" [(ngModel)]="customer.zone" required>
+              id="zone" #zone="ngModel" name="zone" [(ngModel)]="customer.zone" required>
               <option [ngValue]="zone" *ngFor="let zone of zones">{{zone.name}}</option>
             </select>
             <div class="invalid-feedback">*Debe escoger una ubicación</div>
