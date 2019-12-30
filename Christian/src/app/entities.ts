@@ -10,6 +10,7 @@ export class Customer {
     phone: number;
     accounts: Array<Account>;
     fullName: String;
+    addresses : Array<Address>;
 
     constructor() {
         this.id = undefined;
@@ -50,6 +51,20 @@ export class Account {
 
     constructor() {
         this.customer = new Customer();
+    }
+}
+
+export class Address {
+    street: string;
+    city: string;
+    state: string;
+    country:string;
+    latitude: number;
+    longitude: number;
+    isPreferred: number;
+    customer: Customer;
+    
+    constructor() {
     }
 }
 export class PaymentTerm {

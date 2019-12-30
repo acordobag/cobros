@@ -41,7 +41,7 @@ async function findById(req, res) {
             where: {
                 id: req.body.id
             },
-            include: [Zone, {
+            include: [Zone, Address, {
                 model: Account,
                 include: [PaymentTerm]
             }]

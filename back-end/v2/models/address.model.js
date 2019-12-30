@@ -11,7 +11,7 @@ const model = () => {
         country: Sequelize.STRING,
         latitude: Sequelize.DOUBLE,
         longitude: Sequelize.DOUBLE,
-        isPrefered: Sequelize.BOOLEAN
+        isPreferred: Sequelize.BOOLEAN
     })
 
     return Anddress

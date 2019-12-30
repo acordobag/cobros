@@ -17,7 +17,7 @@ declare var $: any;
 })
 export class CustomerComponent implements OnInit, AfterViewInit {
 
-  @ViewChild(CtTableComponent)
+  @ViewChild('customersTable')
   table: CtTableComponent;
 
   @ViewChild('newUser') newUser: ModalDirective;

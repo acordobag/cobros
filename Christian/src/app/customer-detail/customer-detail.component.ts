@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { Customer, Account, PaymentTerm, Payment, Zone } from '../entities';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Customer, Account, PaymentTerm, Payment, Zone, Btn, Address } from '../entities';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpService } from '../services/http.service';
+import * as CONFIG from '../Settings/app.config';
+import { CtTableComponent } from '../controls/ct-table/ct-table.component';
+import { ModalDirective } from 'ngx-bootstrap';
 
 declare var $: any;
 
@@ -14,7 +17,8 @@ export class CustomerDetailComponent implements OnInit {
 
   private customer: Customer;
   private zones: Array<Zone>;
-  private account: Account;
+  private account: Account; 
+  private address: Address; 
   private payment: Payment;
   private paymentTerms: Array<PaymentTerm>;
   private btnEditar: string;
@@ -22,15 +26,34 @@ export class CustomerDetailComponent implements OnInit {
   private table: any;
   private customerId: number;
 
-  constructor(private route: ActivatedRoute, private http: HttpService) {
+  @ViewChild('addressTable')
+  addressTable: CtTableComponent;
+  @ViewChild('accountsTable')
+  accountsTable: CtTableComponent;
+  @ViewChild('newAddress') newAddress: ModalDirective;
+  @ViewChild('newAccount') newAccount: ModalDirective;
+
+  constructor(private route: ActivatedRoute, private http: HttpService, private router: Router) {
     this.customer = new Customer();
     this.zones = new Array<Zone>();
   }
 
   ngOnInit() {
+    //Tables initialization
+    //Addresses
+    this.addressTable.id = "addressTable";
+    this.addressTable.columns = { id: 'Id', street: 'Calle', city: 'Cantón', state: 'Provincia' };
+    this.addressTable.btn = new Btn('Detalle');
+    //Accounts
+    this.accountsTable.id = "accountsTable";
+    this.accountsTable.columns = { id: 'Id', name: 'Artículo', initialAmmount: 'Precio', actualAmmount: 'Saldo', charge: 'Monto cuota', numberOfPayments: 'Nº Cuotas', };
+    this.accountsTable.currecyColumns = { initialAmmount: 'Precio', actualAmmount: 'Saldo', charge: 'Monto cuota' }
+    this.accountsTable.btn = new Btn('Detalle');
+
     this.btnEditar = "Editar";
     this.changeInputsState(true);
     this.createNewAccount();
+    this.createNewAddress();
     this.http.get('zone', res => {
       this.zones = res;
     });
@@ -40,52 +63,32 @@ export class CustomerDetailComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       this.customerId = +params['id'];
-      this.http.get('customer/' + this.customerId, res => {
-        this.customer = res;
-        setTimeout(() => {
-          this.table = $('#accountsTable').DataTable({
-            responsive: true,
-            select: true,
-            "columnDefs": [
-              {
-                "targets": [0],
-                "visible": false,
-                "searchable": false
-              }
-            ],
-            language: {
-              "info": "Mostrando pagina _PAGE_ de _PAGES_",
-              "infoEmpty": "No hay registros disponibles",
-              "lengthMenu": "Mostrando _MENU_ registros por pagina ",
-              "paginate": {
-                "first": "First",
-                "last": "Last",
-                "next": "Siguiente",
-                "previous": "Anterior"
-              }
-            }
-          });
-          var self = this;
-          this.table.on('select', function (e, dt, type, indexes) {
-            if (type === 'row') {
-              var data = self.table.rows({ selected: true }).data();
-              self.http.get('account/' + data[0][0], res => {
-                this.selectedAccount = res
-              });
-            }
-          });
-        });
-      });
+      this.loadCustomerData();
+    });
+  }
+
+  loadCustomerData(): void{
+    this.http.get('customer/' + this.customerId, res => {
+      this.customer = res;
+      this.addressTable.data = this.customer.addresses;
+      this.addressTable.rerender();
+      this.accountsTable.data = this.customer.accounts;
+      this.accountsTable.rerender();
     });
   }
 
   changeInputsState(v: boolean): void {
     $('#customerForm :input').prop('disabled', v);
   }
-  
+
   createNewAccount() {
     this.account = new Account();
     this.account.customer = this.customer;
+  }
+
+  createNewAddress() {
+    this.address = new Address();
+    this.address.customer = this.customer;
   }
 
   createNewPayment() {
@@ -97,7 +100,8 @@ export class CustomerDetailComponent implements OnInit {
     this.account.initialAmmount = this.account.charge * this.account.numberOfPayments;
     this.account.actualAmmount = this.account.initialAmmount;
     this.http.post('account', this.account, res => {
-      location.reload();
+      this.newAccount.hide();
+      this.loadCustomerData();
     });
   }
 
@@ -111,6 +115,11 @@ export class CustomerDetailComponent implements OnInit {
       this.changeInputsState(true);
     }
   }
+
+  accountClick(id): void {
+    this.router.navigate(['home/customer', id]);
+  }
+
 
   compareFn(i1, i2) {
     return i1 && i2 ? i1.id === i2.id : i1 === i2;
