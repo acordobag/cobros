@@ -8,8 +8,8 @@ christian/dist
 
 # dependencies
 Christian/node_modules
-back-end/v1/node_modules
-back-end/v2/node_modules
+Api-v1/node_modules
+Api-v2/node_modules
 back-end/v1/package-lock.json
 back-end/v2/package-lock.json
 
