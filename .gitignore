@@ -2,6 +2,7 @@
 
 # compiled output
 christian/dist
+Api-v2/dist
 /dist-server
 /tmp
 /out-tsc
