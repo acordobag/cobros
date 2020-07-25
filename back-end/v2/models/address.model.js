@@ -9,6 +9,7 @@ const model = () => {
         city: Sequelize.STRING,
         state: Sequelize.STRING,
         country: Sequelize.STRING,
+        detail : Sequelize.STRING,
         latitude: Sequelize.DOUBLE,
         longitude: Sequelize.DOUBLE,
         isPreferred: Sequelize.BOOLEAN

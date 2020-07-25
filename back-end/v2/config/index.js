@@ -34,10 +34,10 @@ export default {
       secret: ""
     },
     dbSettings: {
-      host: '35.194.81.30',
-      username: 'mano',
-      password: 'Mano2019',
-      database: 'cobros_v2',
+      host: '104.196.65.72',
+      username: 'cftravel',
+      password: 'CfTravel20',
+      database: 'carley',
       dialect: 'mysql',
       // timezone: 'America/Costa_Rica',
       logging: msg => {

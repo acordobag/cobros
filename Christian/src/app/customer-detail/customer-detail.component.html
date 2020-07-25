@@ -63,7 +63,7 @@
       <div class="card-body">
         <div class="btn-group-right" role="group">
           <button type="button" class="btn btn-primary float-right"
-            (click)="createNewAccount();newAddress.show()">Agregar</button>
+            (click)="createNewAddress();newAddress.show()">Agregar</button>
         </div>
       </div>
       <div class="card-body">
@@ -157,57 +157,68 @@
 
 <!-- Modal de abonos de cuentas del cliente -->
 <div bsModal #newAddress="bs-modal" class="modal fade" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-lg" >
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="paymentLabel">Agregar dirección a {{customer.name}}</h5>
-        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">×</span>
+        <h5 class="modal-title">Agregar cuenta a {{customer.name}}</h5>
+        <button class="close" type="button" (click)="newAddress.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <div class="container">
           <form #formAddress="ngForm" class="row">
+
             <div class="form-group col-md-6">
-              <label for="name">Abono</label>
-              <input type="text" #name="ngModel" name="name" [(ngModel)]="account.name"
-                [class.is-invalid]="name.invalid && (name.dirty || name.touched)" class="form-control" id="name"
-                required>
-              <div class="invalid-feedback">*Debe ingresar un nombre de articulo</div>
+              <label for="state">Provincia</label>
+              <select (change)="stateChange()" [compareWith]="compareFn"
+                [class.is-invalid]="state.invalid && (state.dirty || state.touched)" class="form-control" id="state"
+                #state="ngModel" name="state" [(ngModel)]="address.state" required>
+                <option *ngFor="let s of _states; let i = index" [value]="s">{{s}}</option>
+              </select>
+              <div class="invalid-feedback">*Debe escoger una provincia</div>
             </div>
 
             <div class="form-group col-md-6">
               <label for="city">Cantón</label>
-              <input type="text" #city="ngModel" name="city" [(ngModel)]="address.city"
-                [class.is-invalid]="city.invalid && (city.dirty || city.touched)" class="form-control"
-                id="city" required>
-              <div class="invalid-feedback">*Debe ingresar un numero</div>
+              <select (change)="cityChange()" [compareWith]="compareFn"
+                [class.is-invalid]="state.invalid && (state.dirty || state.touched)" class="form-control" id="city"
+                #city="ngModel" name="city" [(ngModel)]="address.city" required>
+                <option *ngFor="let c of _cities; let i = index" [value]="c">{{c}}</option>
+              </select>
+              <div class="invalid-feedback">*Debe escoger un cantón</div>
             </div>
 
             <div class="form-group col-md-6">
-              <label for="state">Provincia</label>
-              <input type="text" id="state" #state="ngModel" name="state" [(ngModel)]="address.state" required
-                [class.is-invalid]="state.invalid && (state.dirty || state.touched)" class="form-control"
-                id="state" required>
-              <!-- <select [compareWith]="compareFn" [class.is-invalid]="state.invalid && (state.dirty || state.touched)"
-                class="form-control" id="state" #state="ngModel" name="state" [(ngModel)]="Address.state" required>
-                <option value="SJ">San José</option>
-                <option value="AL">Alajuela</option>
-                <option value="HE">Heredia</option>
-                <option value="CA">Cartago</option>
-                <option value="LI">Limón</option>
-                <option value="GU">Guanacaste</option>
-                <option value="PU">Puntarenas</option>
-              </select> -->
-              <div class="invalid-feedback">*Debe escoger una provincia</div>
+              <label for="street">Distrito</label>
+              <select [compareWith]="compareFn"
+                [class.is-invalid]="state.invalid && (state.dirty || state.touched)" class="form-control" id="street"
+                #street="ngModel" name="street" [(ngModel)]="address.street" required>
+                <option *ngFor="let st of _streets; let i = index" [value]="st">{{st}}</option>
+              </select>
+              <div class="invalid-feedback">*Debe escoger un distrito</div>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="isPrefered">Dirección preferida?
+                <input type="checkbox" #isPrefered="ngModel" name="isPrefered" [(ngModel)]="address.isPrefered"
+                  id="isPrefered">
+              </label>
+            </div>
+
+            <div class="form-group col-md-12">
+              <label for="id">Indicaciones</label>
+              <textarea class="form-control" name="detail" #detail="ngModel" id="detail" cols="60" rows="4"
+                [(ngModel)]="address.detail" required></textarea>
+              <div class="invalid-feedback">*Debe poner las indicaciones</div>
             </div>
 
           </form>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-        <button class="btn btn-primary" [disabled]="formAddress.invalid" (click)="saveCreatedAccount()">Guardar</button>
+        <button class="btn btn-secondary" type="button" (click)="newAddress.hide()">Cancelar</button>
+        <button class="btn btn-primary" [disabled]="formAddress.invalid" (click)="saveCreatedAddress()">Guardar</button>
       </div>
     </div>
   </div>

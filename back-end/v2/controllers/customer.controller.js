@@ -50,7 +50,6 @@ async function findById(req, res) {
     } catch (e) {
         next(e)
     }
-
 }
 
 export default {

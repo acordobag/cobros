@@ -24,9 +24,9 @@ export class HttpService {
   //   this.deepGet(path);
   // }
 
-  get(path: string, callback?): void {
+  get(path: string, callback?, url: boolean = false): void {
     this.showSpinner();
-    this.http.get(this.apiServer + path)
+    this.http.get(url ? path : (this.apiServer + path))
       .map(res => res.json())
       .catch((e: any) => Observable.throw(this.handleError(e.json())))
       .subscribe((res) => { this.hideSpinner(); callback(res); })

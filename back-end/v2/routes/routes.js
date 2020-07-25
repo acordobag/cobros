@@ -5,6 +5,7 @@ import ZoneController from '../controllers/zone.controller'
 import UserController from '../controllers/user.controller'
 import AccountController from '../controllers/account.controller'
 import PaymentTermController from '../controllers/paymentTerm.controller'
+import AddressController from '../controllers/address.controller'
 
 var router = express.Router()
 
@@ -88,6 +89,11 @@ router.route('/paymentTerm')
     })
     .get(function (req, res, next) {
         PaymentTermController.findAll(req, res, next);
+    })
+
+router.route('/address')
+    .post(function (req, res, next) {
+        AddressController.save(req, res, next);
     })
 
 module.exports = router;

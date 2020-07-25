@@ -17,14 +17,18 @@ export class CustomerDetailComponent implements OnInit {
 
   private customer: Customer;
   private zones: Array<Zone>;
-  private account: Account; 
-  private address: Address; 
+  private account: Account;
+  private address: Address;
   private payment: Payment;
   private paymentTerms: Array<PaymentTerm>;
   private btnEditar: string;
   private selectedAccount: Account;
   private table: any;
   private customerId: number;
+
+  private _states;
+  private _cities;
+  private _streets;
 
   @ViewChild('addressTable')
   addressTable: CtTableComponent;
@@ -42,7 +46,7 @@ export class CustomerDetailComponent implements OnInit {
     //Tables initialization
     //Addresses
     this.addressTable.id = "addressTable";
-    this.addressTable.columns = { id: 'Id', street: 'Calle', city: 'Cantón', state: 'Provincia' };
+    this.addressTable.columns = { id: 'Id',state: 'Provincia', city: 'Cantón', street: 'Distrito' };
     this.addressTable.btn = new Btn('Detalle');
     //Accounts
     this.accountsTable.id = "accountsTable";
@@ -61,13 +65,17 @@ export class CustomerDetailComponent implements OnInit {
       this.paymentTerms = res;
     });
 
+    this.http.get('https://ubicaciones.paginasweb.cr/provincias.json', res => {
+      this._states = Object.values(res);
+    }, true);
+
     this.route.params.subscribe(params => {
       this.customerId = +params['id'];
       this.loadCustomerData();
     });
   }
 
-  loadCustomerData(): void{
+  loadCustomerData(): void {
     this.http.get('customer/' + this.customerId, res => {
       this.customer = res;
       this.addressTable.data = this.customer.addresses;
@@ -105,6 +113,13 @@ export class CustomerDetailComponent implements OnInit {
     });
   }
 
+  saveCreatedAddress() {
+    this.http.post('address', this.address, res => {
+      this.newAddress.hide();
+      this.loadCustomerData();
+    });
+  }
+
   editCustomer() {
     if (this.btnEditar == "Editar") {
       this.btnEditar = "Guardar";
@@ -120,6 +135,18 @@ export class CustomerDetailComponent implements OnInit {
     this.router.navigate(['home/customer', id]);
   }
 
+
+  stateChange(){
+    this.http.get(`https://ubicaciones.paginasweb.cr/provincia/${this._states.indexOf(this.address.state)+1}/cantones.json`, res => {
+      this._cities = Object.values(res);
+    }, true);
+  }
+
+  cityChange(){
+    this.http.get(`https://ubicaciones.paginasweb.cr/provincia/${this._states.indexOf(this.address.state)+1}/canton/${this._cities.indexOf(this.address.city)+1}/distritos.json`, res => {
+      this._streets = Object.values(res);
+    }, true);
+  }
 
   compareFn(i1, i2) {
     return i1 && i2 ? i1.id === i2.id : i1 === i2;

@@ -10,7 +10,7 @@ export class Customer {
     phone: number;
     accounts: Array<Account>;
     fullName: String;
-    addresses : Array<Address>;
+    addresses: Array<Address>;
 
     constructor() {
         this.id = undefined;
@@ -55,16 +55,20 @@ export class Account {
 }
 
 export class Address {
+    id: number;
     street: string;
     city: string;
     state: string;
-    country:string;
+    country: string;
     latitude: number;
     longitude: number;
+    detail: string;
     isPreferred: number;
     customer: Customer;
-    
+
     constructor() {
+        this.customer = new Customer();
+        this.country = 'CR'
     }
 }
 export class PaymentTerm {

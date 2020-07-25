@@ -5,8 +5,8 @@ async function save(req, res, next) {
         let paymentTerm = {
             name: req.body.name
         }
-        payment = await PaymentTerm.create(paymentTerm)
-        res.status(200).send(payment).end()
+        paymentTerm = await PaymentTerm.create(paymentTerm)
+        res.status(200).send(paymentTerm).end()
     } catch (e) {
         next(e)
     }
