@@ -30,7 +30,7 @@
       ],
       "scripts": [
         "assets/vendor/jquery/jquery.min.js",
-        "assets/vendor/datatables/jquery.datatables.js",
+        "assets/vendor/datatables/jquery.dataTables.js",
         "assets/vendor/datatables/datatables.bootstrap4.js",
         "assets/vendor/bootstrap/js/bootstrap.bundle.min.js",
         "assets/vendor/jquery-easing/jquery.easing.min.js",
