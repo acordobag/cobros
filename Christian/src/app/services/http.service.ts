@@ -9,7 +9,7 @@ declare var $: any;
 
 @Injectable()
 export class HttpService {
-  private apiServer = "http://localhost:8080/api/";
+  private apiServer = "http://104.196.65.72:8080/api/";
   constructor(private http: Http) { }
 
   post(path: string, param: object, callback?): void {
