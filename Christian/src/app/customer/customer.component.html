@@ -64,7 +64,7 @@
                 class="form-control" id="mail" email required>
               <div class="invalid-feedback">*Debe ingresar un email</div>
             </div>
-            <div class="form-group col-md-6">
+            <!-- <div class="form-group col-md-6">
               <label for="zone">Ubicación</label>
               <select [compareWith]="compareFn" [class.is-invalid]="zone.invalid && (zone.dirty || zone.touched)"
                 class="form-control" id="zone" #zone="ngModel" name="zone" [(ngModel)]="customer.zone"
@@ -72,7 +72,7 @@
                 <option [ngValue]="zone" *ngFor="let zone of zones">{{zone.name}}</option>
               </select>
               <div class="invalid-feedback">*Debe escoger una ubicación</div>
-            </div>
+            </div> -->
           </form>
         </div>
         <div class="modal-footer">

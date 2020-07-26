@@ -42,7 +42,7 @@ export class HttpService {
 
   private handleError(error: any) {
     this.hideSpinner();
-    console.log(error.message);
+    console.error(error.error);
   }
 
 }

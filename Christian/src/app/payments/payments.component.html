@@ -16,7 +16,7 @@
   </div>
   <div class="card-body">
     <div class="table-responsive">
-      <ct-table></ct-table>
+      <ct-table #paymentsTable (btnClick)="approveOnePayment($event)"></ct-table>
     </div>
   </div>
 </div>

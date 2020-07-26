@@ -39,14 +39,14 @@
               required>
             <div class="invalid-feedback">*Debe ingresar un email</div>
           </div>
-          <div class="form-group col-md-6">
+          <!-- <div class="form-group col-md-6">
             <label for="zone">Ubicación</label>
             <select [compareWith]="compareFn" [class.is-invalid]="zone.invalid && (zone.dirty || zone.touched)"
               class="form-control" id="zone" #zone="ngModel" name="zone" [(ngModel)]="customer.zone" required>
               <option [ngValue]="zone" *ngFor="let zone of zones">{{zone.name}}</option>
             </select>
             <div class="invalid-feedback">*Debe escoger una ubicación</div>
-          </div>
+          </div> -->
         </form>
         <div class="btn-group-right" role="group">
           <button type="button" class="btn btn-primary float-right" (click)="editCustomer()">{{btnEditar}}</button>
@@ -174,6 +174,7 @@
               <select (change)="stateChange()" [compareWith]="compareFn"
                 [class.is-invalid]="state.invalid && (state.dirty || state.touched)" class="form-control" id="state"
                 #state="ngModel" name="state" [(ngModel)]="address.state" required>
+                <option value="">Seleccione una opción</option>
                 <option *ngFor="let s of _states; let i = index" [value]="s">{{s}}</option>
               </select>
               <div class="invalid-feedback">*Debe escoger una provincia</div>
@@ -184,6 +185,7 @@
               <select (change)="cityChange()" [compareWith]="compareFn"
                 [class.is-invalid]="state.invalid && (state.dirty || state.touched)" class="form-control" id="city"
                 #city="ngModel" name="city" [(ngModel)]="address.city" required>
+                <option value="">Seleccione una opción</option>
                 <option *ngFor="let c of _cities; let i = index" [value]="c">{{c}}</option>
               </select>
               <div class="invalid-feedback">*Debe escoger un cantón</div>
@@ -194,6 +196,7 @@
               <select [compareWith]="compareFn"
                 [class.is-invalid]="state.invalid && (state.dirty || state.touched)" class="form-control" id="street"
                 #street="ngModel" name="street" [(ngModel)]="address.street" required>
+                <option value="">Seleccione una opción</option>
                 <option *ngFor="let st of _streets; let i = index" [value]="st">{{st}}</option>
               </select>
               <div class="invalid-feedback">*Debe escoger un distrito</div>

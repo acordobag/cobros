@@ -132,7 +132,7 @@ export class CustomerDetailComponent implements OnInit {
   }
 
   accountClick(id): void {
-    this.router.navigate(['home/customer', id]);
+    this.router.navigate(['home/account', id]);
   }
 
 

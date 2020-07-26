@@ -12,7 +12,7 @@ declare var $: any;
 })
 export class PaymentsComponent implements OnInit {
 
-  @ViewChild(CtTableComponent)
+  @ViewChild('paymentsTable')
   table: CtTableComponent;
   private payments: Payment[];
 
@@ -20,8 +20,9 @@ export class PaymentsComponent implements OnInit {
 
   ngOnInit() {
     this.updatePaymentList();
-    this.table.columns = { id: 'ID', ammount: 'Monto', date: 'Fecha', account: 'Cliente' };
-    this.table.currecyColumns = { ammount: 'Monto'}
+    this.table.columns = { id: 'ID', customerName:'Cliente', productName: 'Articulo', ammount: 'Monto', date: 'Fecha', driverName: 'Conductor' };
+    this.table.currecyColumns = { ammount: 'Monto' }
+    this.table.dateColumns = { date: 'Fecha' };
     this.table.id = "authPaymetsTable";
     this.table.btn = new Btn('Autorizar');
   }
@@ -34,8 +35,8 @@ export class PaymentsComponent implements OnInit {
     });
   }
 
-  approveOnePayment(p: Payment) {
-    this.http.post('approveOnePayment', p, res => {
+  approveOnePayment(id: number) {
+    this.http.post('approveOnePayment', { id: id }, res => {
       this.updatePaymentList();
     });
   }

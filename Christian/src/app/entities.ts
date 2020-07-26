@@ -82,7 +82,6 @@ export class Payment {
     date: Date;
     user: User;
     account: Account;
-
     constructor() {
         this.ammount = 0;
         this.approved = false;
