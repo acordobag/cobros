@@ -3,6 +3,7 @@
 # compiled output
 christian/dist
 Api-v2/dist
+Api-v2/db/db.log
 /dist-server
 /tmp
 /out-tsc
