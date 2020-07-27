@@ -111,7 +111,7 @@
       </div>
       <div class="modal-body">
         <div class="container">
-          <form #form="ngForm" class="row">
+          <form #formAccount="ngForm" class="row">
             <div class="form-group col-md-6">
               <label for="itemName">Articulo</label>
               <input type="text" #itemName="ngModel" name="itemName" [(ngModel)]="account.name"
@@ -146,14 +146,16 @@
             <div class="form-group col-md-6" *ngIf="account.paymentTerm">
               <label for="paymentTerm">Día de pago 1</label>
 
-              <input *ngIf="account.paymentTerm && (account.paymentTerm==3 || account.paymentTerm.id==2)" currencyMask #payDayOne="ngModel" name="charge"
-                [(ngModel)]="account.payDayOne" [class.is-invalid]="payDayOne.invalid && (payDayOne.dirty || payDayOne.touched)"
-                class="form-control" id="payDayOne" required>
+              <input *ngIf="account.paymentTerm && (account.paymentTerm.id==3 || account.paymentTerm.id==2)"
+                type="number" #payDayOne="ngModel" name="payDayOne" [(ngModel)]="account.payDayOne"
+                [class.is-invalid]="payDayOne.invalid && (payDayOne.dirty || payDayOne.touched)" class="form-control"
+                id="payDayOne" required>
 
-              <select *ngIf="account.paymentTerm && account.paymentTerm.id==1" [compareWith]="compareFn" [(ngModel)]="account.payDayOne"
-                [class.is-invalid]="payDayOneM.invalid && (payDayOneM.dirty || payDayOneM.touched)"
-                class="form-control" id="paymentTerm" #payDayOneM="ngModel" name="payDayOneM" required>
-                <option [value]="d.value" *ngFor="let d of paymentFreqChange()">{{d.des}}</option>
+              <select *ngIf="account.paymentTerm && account.paymentTerm.id==1" [compareWith]="compareFn"
+                [(ngModel)]="account.payDayOne"
+                [class.is-invalid]="payDayOneM.invalid && (payDayOneM.dirty || payDayOneM.touched)" class="form-control"
+                id="paymentTerm" #payDayOneM="ngModel" name="payDayOneM" required>
+                <option [value]="d.val" *ngFor="let d of paymentFreqChange()">{{d.des}}</option>
               </select>
 
               <div class="invalid-feedback">*Debe escoger una opción</div>
@@ -161,9 +163,9 @@
 
             <div *ngIf="account.paymentTerm && account.paymentTerm.id==2" class="form-group col-md-6">
               <label for="paymentTerm">Día de pago 2</label>
-              <input  currencyMask #payDayTwo="ngModel" name="payDayTwo"
-                [(ngModel)]="account.payDayTwo" [class.is-invalid]="payDayTwo.invalid && (payDayTwo.dirty || payDayTwo.touched)"
-                class="form-control" id="payDayTwo" required>
+              <input type="number" #payDayTwo="ngModel" name="payDayTwo" [(ngModel)]="account.payDayTwo"
+                [class.is-invalid]="payDayTwo.invalid && (payDayTwo.dirty || payDayTwo.touched)" class="form-control"
+                id="payDayTwo" required>
 
               <div class="invalid-feedback">*Debe escoger una opción</div>
             </div>
@@ -172,7 +174,8 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-secondary" type="button" (click)="newAccount.hide()">Cancelar</button>
-        <button class="btn btn-primary" [disabled]="form.invalid" (click)="saveCreatedAccount()">Guardar</button>
+        <button class="btn btn-primary" [disabled]="formAccount.invalid"
+          (click)="saveCreatedAccount();formAccount.reset()">Guardar</button>
       </div>
     </div>
   </div>

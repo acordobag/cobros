@@ -17,6 +17,8 @@ async function save(req, res, next) {
             interestRate: req.body.interestRate,
             numberOfPayments: req.body.numberOfPayments,
             charge: req.body.charge,
+            payDayOne: req.body.payDayOne,
+            payDayTwo: req.body.payDayTwo,
             paymentTermId: req.body.paymentTerm.id,
             customerId: req.body.customer.id
         }

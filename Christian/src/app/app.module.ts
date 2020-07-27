@@ -15,7 +15,6 @@ import { GuardService } from './guards/guard.service';
 import { CustomerDetailComponent } from './customer-detail/customer-detail.component';
 import { HttpService } from './services/http.service';
 import { NgxMaskModule } from 'ngx-mask'
-import { ZoneComponent } from './zone/zone.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import { TypeaheadModule, BsDatepickerModule, ModalModule } from 'ngx-bootstrap';
 import { PaymentsComponent } from './payments/payments.component';
@@ -25,6 +24,7 @@ import { McBreadcrumbsModule } from 'ngx-breadcrumbs';
 import { CurrencyMaskModule } from "ng2-currency-mask";
 import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask/src/currency-mask.config';
 import { UtilService } from './services/util.service';
+import { RouteComponent } from './route/route.component';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: "left",
@@ -45,10 +45,10 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     LoginComponent,
     HomeComponent,
     CustomerDetailComponent,
-    ZoneComponent,
     AccountsComponent,
     PaymentsComponent,
-    AccountDetailComponent
+    AccountDetailComponent,
+    RouteComponent
   ],
   imports: [
     BrowserModule,
