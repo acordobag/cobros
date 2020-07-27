@@ -2,7 +2,7 @@
   <thead>
     <tr>
       <th *ngFor="let key of Object.keys(columns)">{{columns[key]}} </th>
-      <th *ngIf="btn" class="text-center">Detalle</th>
+      <th *ngIf="btn" class="text-center">Acciones</th>
     </tr>
   </thead>
   <tbody>
@@ -13,7 +13,7 @@
           <span *ngIf="dateColumns[key]">{{d[key]| date: 'short'}}</span>
       </td>
       <td *ngIf="btn" class="text-center">
-        <button type="button" class="btn" [ngClass]="btn.color" (click)="btnOnClick(d.id)">{{btn.text}}
+        <button *ngIf="showBtnFn(d)" type="button" class="btn" [ngClass]="btn.color" (click)="btnOnClick(d.id)">{{btn.text}}
           <i *ngIf="btn.icon" class="fa fa" [ngClass]="btn.icon" aria-hidden="true"></i>
         </button>
       </td>

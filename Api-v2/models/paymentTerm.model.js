@@ -5,6 +5,7 @@ const {sequelize, Sequelize} = db
 const model = () => {
     const PaymentTerm = sequelize.define('paymentTerm', {
         name: Sequelize.STRING,
+        monthPayments:Sequelize.DOUBLE
     })
     return PaymentTerm
 }

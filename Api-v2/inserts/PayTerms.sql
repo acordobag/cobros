@@ -1,14 +1,9 @@
-INSERT INTO `carley`.`paymentTerms`
-(`name`)
-VALUES
-('Semanal');
+/*
+-- Query: SELECT * FROM carley.paymentTerms
+LIMIT 0, 1000
 
-INSERT INTO `carley`.`paymentTerms`
-(`name`)
-VALUES
-('Quincenal');
-
-INSERT INTO `carley`.`paymentTerms`
-(`name`)
-VALUES
-('Mensual');
+-- Date: 2020-07-26 17:58
+*/
+INSERT INTO `` (`id`,`name`,`monthPayments`) VALUES (1,'Semanal',4);
+INSERT INTO `` (`id`,`name`,`monthPayments`) VALUES (2,'Quincenal',2);
+INSERT INTO `` (`id`,`name`,`monthPayments`) VALUES (3,'Mensual',1);

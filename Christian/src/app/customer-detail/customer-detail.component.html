@@ -143,6 +143,30 @@
               </select>
               <div class="invalid-feedback">*Debe escoger una opción</div>
             </div>
+            <div class="form-group col-md-6" *ngIf="account.paymentTerm">
+              <label for="paymentTerm">Día de pago 1</label>
+
+              <input *ngIf="account.paymentTerm && (account.paymentTerm==3 || account.paymentTerm.id==2)" currencyMask #payDayOne="ngModel" name="charge"
+                [(ngModel)]="account.payDayOne" [class.is-invalid]="payDayOne.invalid && (payDayOne.dirty || payDayOne.touched)"
+                class="form-control" id="payDayOne" required>
+
+              <select *ngIf="account.paymentTerm && account.paymentTerm.id==1" [compareWith]="compareFn" [(ngModel)]="account.payDayOne"
+                [class.is-invalid]="payDayOneM.invalid && (payDayOneM.dirty || payDayOneM.touched)"
+                class="form-control" id="paymentTerm" #payDayOneM="ngModel" name="payDayOneM" required>
+                <option [value]="d.value" *ngFor="let d of paymentFreqChange()">{{d.des}}</option>
+              </select>
+
+              <div class="invalid-feedback">*Debe escoger una opción</div>
+            </div>
+
+            <div *ngIf="account.paymentTerm && account.paymentTerm.id==2" class="form-group col-md-6">
+              <label for="paymentTerm">Día de pago 2</label>
+              <input  currencyMask #payDayTwo="ngModel" name="payDayTwo"
+                [(ngModel)]="account.payDayTwo" [class.is-invalid]="payDayTwo.invalid && (payDayTwo.dirty || payDayTwo.touched)"
+                class="form-control" id="payDayTwo" required>
+
+              <div class="invalid-feedback">*Debe escoger una opción</div>
+            </div>
           </form>
         </div>
       </div>
@@ -160,7 +184,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Agregar cuenta a {{customer.name}}</h5>
+        <h5 class="modal-title">Agregar dirección a {{customer.name}}</h5>
         <button class="close" type="button" (click)="newAddress.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -193,9 +217,8 @@
 
             <div class="form-group col-md-6">
               <label for="street">Distrito</label>
-              <select [compareWith]="compareFn"
-                [class.is-invalid]="state.invalid && (state.dirty || state.touched)" class="form-control" id="street"
-                #street="ngModel" name="street" [(ngModel)]="address.street" required>
+              <select [compareWith]="compareFn" [class.is-invalid]="state.invalid && (state.dirty || state.touched)"
+                class="form-control" id="street" #street="ngModel" name="street" [(ngModel)]="address.street" required>
                 <option value="">Seleccione una opción</option>
                 <option *ngFor="let st of _streets; let i = index" [value]="st">{{st}}</option>
               </select>

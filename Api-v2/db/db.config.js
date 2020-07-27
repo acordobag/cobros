@@ -10,6 +10,9 @@ import Payment from '../models/payment.model'
 import Route from '../models/route.model'
 import RouteDetail from '../models/routeDetail.model'
 import PaymentTerm from '../models/paymentTerm.model'
+import settings from '../config'
+const config = settings.dbSettings
+
 
 export default async () => {
     // User relations
@@ -36,7 +39,8 @@ export default async () => {
 
     try {
         await db.sync({
-            //alter: true
+            alter: config.alter,
+            force: config.force
         })
     } catch (e) {
         console.log(e)

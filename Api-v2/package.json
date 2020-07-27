@@ -5,7 +5,8 @@
   "main": "v2.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "babel-node v2.js --presets env"
+    "start": "babel-node v2.js --presets env",
+    "dev" : "nodemon --exec npm run start"
   },
   "engines": {
     "node": "^8.12.0"
@@ -23,6 +24,7 @@
     "morgan": "^1.9.1",
     "mysql2": "^1.5.1",
     "nodemailer": "^4.4.2",
+    "nodemon": "^2.0.4",
     "path": "^0.12.7",
     "sequelize": "^4.32.2"
   }

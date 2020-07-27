@@ -11,7 +11,30 @@ const model = () => {
         interestRate: Sequelize.DOUBLE,
         numberOfPayments: Sequelize.DOUBLE,
         charge: Sequelize.DOUBLE,
-        alreadyPay: Sequelize.BOOLEAN,
+        payDayOne: Sequelize.STRING,
+        payDayTwo: Sequelize.STRING,
+        status: {
+            type: Sequelize.ENUM,
+            values: [
+                'active', //Pending
+                'paid', //Paid
+                'due'
+            ],
+            defaultValue: 'active'
+        },
+        desStatus: {
+            type: Sequelize.VIRTUAL,
+            get() {
+                switch (this.getDataValue('status')) {
+                    case 'active':
+                        return 'Al día'
+                    case 'paid':
+                        return 'Pagado'
+                    case 'due':
+                        return 'Atrasado'
+                }
+            }
+        }
     })
     return Account
 }

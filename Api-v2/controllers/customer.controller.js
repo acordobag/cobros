@@ -13,8 +13,7 @@ async function save(req, res, next) {
             lastName: req.body.lastName,
             fullName: req.body.fullName,
             email: req.body.email,
-            phone: req.body.phone,
-            zoneId: req.body.zone.id
+            phone: req.body.phone
         }
         customer = await Customer.create(customer)
         res.status(200).send(customer).end()

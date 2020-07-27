@@ -20,9 +20,9 @@ export class PaymentsComponent implements OnInit {
 
   ngOnInit() {
     this.updatePaymentList();
-    this.table.columns = { id: 'ID', customerName:'Cliente', productName: 'Articulo', ammount: 'Monto', date: 'Fecha', driverName: 'Conductor' };
+    this.table.columns = { id: 'ID', customerName: 'Cliente', productName: 'Articulo', ammount: 'Monto', desStatus: 'Estado', createDate: 'Fecha', driverName: 'Conductor' };
     this.table.currecyColumns = { ammount: 'Monto' }
-    this.table.dateColumns = { date: 'Fecha' };
+    this.table.dateColumns = { createDate: 'Fecha' };
     this.table.id = "authPaymetsTable";
     this.table.btn = new Btn('Autorizar');
   }

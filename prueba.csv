@@ -1,0 +1,3 @@
+"id";"name";"initialAmmount";"actualAmmount";"interestRate";"numberOfPayments";"charge";"alreadyPay";"paymentTermId";"customerId"
+2;"iPad mini";600000.0;0.0;0.0;24.0;25000.0;1;2;2
+3;"iPhone X";1080000.0;1080000.0;0.0;24.0;45000.0;0;3;1

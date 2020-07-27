@@ -28,6 +28,10 @@ export class CtTableComponent implements OnInit {
   btn: Btn;
   @Input()
   pageRows: number = 10;
+  @Input()
+  btnShowColunm: string;
+  @Input()
+  btnShowValues: string[];
 
   @Output()
   btnClick = new EventEmitter()
@@ -86,6 +90,15 @@ export class CtTableComponent implements OnInit {
     if (this.dt) {
       this.dt.destroy(true);
     }
+  }
+
+  showBtnFn(row) {
+    if(!this.btnShowValues) return true
+    for (const v of this.btnShowValues) {
+      if (row[this.btnShowColunm] == v)
+        return true;
+    }
+    return false
   }
 
   private displayTable(): void {

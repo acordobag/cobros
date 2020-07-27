@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpService } from '../services/http.service';
 import { ActivatedRoute } from '@angular/router';
-import { Account, Payment } from '../entities';
+import { Account, Payment, Btn } from '../entities';
 import { CtTableComponent } from '../controls/ct-table/ct-table.component';
 import { NgForm } from '@angular/forms';
 import { ModalDirective } from 'ngx-bootstrap';
@@ -32,10 +32,13 @@ export class AccountDetailComponent implements OnInit {
     this.payment = new Payment();
     this.btnEditar = "Editar";
     this.changeInputsState(true);
-    this.paymentsTable.columns = { id: 'ID', ammount: 'Monto pagado', date: 'Fecha' };
+    this.paymentsTable.columns = { id: 'ID', ammount: 'Monto pagado', desStatus: 'Estado', createDate: 'Fecha' };
     this.paymentsTable.currecyColumns = { ammount: 'Monto pagado' };
-    this.paymentsTable.dateColumns = { date: 'Fecha' };
+    this.paymentsTable.dateColumns = { createDate: 'Fecha' };
     this.paymentsTable.id = "paymentsTable";
+    this.paymentsTable.btn = new Btn('Aplicar');
+    this.paymentsTable.btnShowColunm = 'status';
+    this.paymentsTable.btnShowValues = ['pending'];
     this.route.params.subscribe(params => {
       this.accountId = params['id'];
       this.updateComponent();
@@ -79,6 +82,11 @@ export class AccountDetailComponent implements OnInit {
       this.btnEditar = "Editar";
       this.changeInputsState(true);
     }
+  }
+
+
+  compareFn(i1, i2) {
+    return i1 && i2 ? i1.id === i2.id : i1 === i2;
   }
 
 }

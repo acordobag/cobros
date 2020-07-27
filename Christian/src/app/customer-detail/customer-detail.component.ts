@@ -5,6 +5,7 @@ import { HttpService } from '../services/http.service';
 import * as CONFIG from '../Settings/app.config';
 import { CtTableComponent } from '../controls/ct-table/ct-table.component';
 import { ModalDirective } from 'ngx-bootstrap';
+import { UtilService } from '../services/util.service';
 
 declare var $: any;
 
@@ -37,7 +38,7 @@ export class CustomerDetailComponent implements OnInit {
   @ViewChild('newAddress') newAddress: ModalDirective;
   @ViewChild('newAccount') newAccount: ModalDirective;
 
-  constructor(private route: ActivatedRoute, private http: HttpService, private router: Router) {
+  constructor(private route: ActivatedRoute, private http: HttpService, private router: Router, private utilService: UtilService) {
     this.customer = new Customer();
     this.zones = new Array<Zone>();
   }
@@ -46,7 +47,7 @@ export class CustomerDetailComponent implements OnInit {
     //Tables initialization
     //Addresses
     this.addressTable.id = "addressTable";
-    this.addressTable.columns = { id: 'Id',state: 'Provincia', city: 'Cantón', street: 'Distrito' };
+    this.addressTable.columns = { id: 'Id', state: 'Provincia', city: 'Cantón', street: 'Distrito' };
     this.addressTable.btn = new Btn('Detalle');
     //Accounts
     this.accountsTable.id = "accountsTable";
@@ -136,16 +137,20 @@ export class CustomerDetailComponent implements OnInit {
   }
 
 
-  stateChange(){
-    this.http.get(`https://ubicaciones.paginasweb.cr/provincia/${this._states.indexOf(this.address.state)+1}/cantones.json`, res => {
+  stateChange() {
+    this.http.get(`https://ubicaciones.paginasweb.cr/provincia/${this._states.indexOf(this.address.state) + 1}/cantones.json`, res => {
       this._cities = Object.values(res);
     }, true);
   }
 
-  cityChange(){
-    this.http.get(`https://ubicaciones.paginasweb.cr/provincia/${this._states.indexOf(this.address.state)+1}/canton/${this._cities.indexOf(this.address.city)+1}/distritos.json`, res => {
+  cityChange() {
+    this.http.get(`https://ubicaciones.paginasweb.cr/provincia/${this._states.indexOf(this.address.state) + 1}/canton/${this._cities.indexOf(this.address.city) + 1}/distritos.json`, res => {
       this._streets = Object.values(res);
     }, true);
+  }
+
+  paymentFreqChange() {
+    return this.utilService.daysOfWeek();
   }
 
   compareFn(i1, i2) {

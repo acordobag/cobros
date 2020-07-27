@@ -3,8 +3,9 @@ import Payment from '../models/payment.model'
 import User from '../models/user.model'
 import Customer from '../models/customer.model'
 import PaymentTerm from '../models/paymentTerm.model'
-import { CONNREFUSED } from 'dns'
-import { exception } from 'console'
+import db from '../db'
+const { Sequelize } = db
+const Op = Sequelize.Op
 
 
 async function save(req, res, next) {
@@ -17,8 +18,7 @@ async function save(req, res, next) {
             numberOfPayments: req.body.numberOfPayments,
             charge: req.body.charge,
             paymentTermId: req.body.paymentTerm.id,
-            customerId: req.body.customer.id,
-            already_pay: req.body.already_pay
+            customerId: req.body.customer.id
         }
         account = await Account.create(account)
         res.status(200).send(account).end()
@@ -55,8 +55,8 @@ async function addPayment(req, res, next) {
     try {
         let payment = {
             ammount: req.body.ammount,
-            approved: req.body.approved,
-            date: req.body.date,
+            createDate: req.body.createDate,
+            status: 'paid',
             userId: req.body.user.id,
             accountId: req.body.account.id
         }
@@ -70,7 +70,11 @@ async function addPayment(req, res, next) {
 async function findAllPendingPayments(req, res, next) {
     try {
         let payments = await Payment.findAll({
-            where: { approved: false },
+            where: {
+                status: {
+                    [Op.in]: ['paid']
+                }
+            },
             include: [User, { model: Account, include: [Customer] }]
         })
         let newArray = []
@@ -78,12 +82,13 @@ async function findAllPendingPayments(req, res, next) {
             newArray.push({
                 accountId: p.accountId,
                 ammount: p.ammount,
-                approved: p.approved,
-                date: p.date,
+                status: p.status,
+                createDate: p.createDate,
+                desStatus: p.desStatus,
                 id: p.id,
                 driverName: p.user.name,
                 productName: p.account.name,
-                customerName: `${p.account.customer.name} ${p.account.customer.lastName}`
+                customerName: p.account.customer.fullName
             })
         }
         res.status(200).send(newArray).end()
@@ -101,6 +106,17 @@ async function approvePayment(req, res, next) {
         next(e)
     }
 }
+
+async function applyPayment(req, res, next) {
+    try {
+        let payment = await Payment.findOne({ where: { id: req.body.id } })
+        payment.status = 'paid'
+        res.status(200).send({}).end()
+    } catch (e) {
+        next(e)
+    }
+}
+
 async function approveListOfPayments(req, res, next) {
     try {
         let payments = req.body.payments
@@ -116,6 +132,18 @@ async function approveListOfPayments(req, res, next) {
 async function findAccountPayments(req, res, next) {
     try {
         let payments = await Payment.find({ where: { accountId: req.body.id } })
+        let newArray
+        for (let p of payments) {
+            newArray.push({
+                accountId: p.accountId,
+                ammount: p.ammount,
+                status: p.status,
+                date: p.date,
+                desStatus: p.desStatus,
+                id: p.id,
+                driverName: p.user.name,
+            })
+        }
         res.status(200).send(payments).end()
     } catch (e) {
         next(e)
@@ -134,13 +162,13 @@ async function findAllPaymentsTerms(req, res, next) {
 
 async function _approvePayment(id, next) {
     let payment = await Payment.findOne({ where: { id: id } })
-    payment.approved = true
+    payment.status = 'approved'
     let account = await Account.findOne({ where: { id: payment.accountId } })
     let newActualAmmount = (account.actualAmmount - payment.ammount)
     if (newActualAmmount < 0) {
         throw "El pago no puede ser mayor que el saldo restante. Saldo: " + account.actualAmmount
     } else if (newActualAmmount == 0) {
-        account.alreadyPay = true
+        account.status = 'paid'
         account.actualAmmount = newActualAmmount
     } else {
         account.actualAmmount = newActualAmmount
@@ -154,6 +182,7 @@ export default {
     findAll,
     findById,
     addPayment,
+    applyPayment,
     findAllPendingPayments,
     approvePayment,
     approveListOfPayments,

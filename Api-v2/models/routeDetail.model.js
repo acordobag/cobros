@@ -6,7 +6,7 @@ const { sequelize, Sequelize } = db
 const model = () => {
     const RouteDetail = sequelize.define('routeDetail', {
         state: Sequelize.INTEGER, //Crear un enum con los estados
-        commtent: Sequelize.STRING
+        comment: Sequelize.STRING
     })
 
     return RouteDetail

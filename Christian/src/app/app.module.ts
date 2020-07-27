@@ -24,6 +24,7 @@ import { ControlsModule } from './controls/controls.module';
 import { McBreadcrumbsModule } from 'ngx-breadcrumbs';
 import { CurrencyMaskModule } from "ng2-currency-mask";
 import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask/src/currency-mask.config';
+import { UtilService } from './services/util.service';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: "left",
@@ -65,7 +66,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     McBreadcrumbsModule.forRoot()
 
   ],
-  providers: [GuardService, HttpService,{ provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig }],
+  providers: [GuardService, HttpService,{ provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig }, UtilService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,11 +1,9 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/compiler/src/core";
 
 export class Customer {
     id: number;
     citizenId: string;
     name: string;
     lastName: string;
-    zone: Zone;
     email: string;
     phone: number;
     accounts: Array<Account>;
@@ -19,7 +17,6 @@ export class Customer {
         this.lastName = "";
         this.email = "";
         this.phone = undefined;
-        this.zone = undefined;
         this.accounts = new Array<Account>();
         this.fullName = "";
     }
@@ -47,8 +44,8 @@ export class Account {
     paymentTerm: PaymentTerm;
     customer: Customer;
     payments: Array<Payment>;
-    already_pay: boolean;
-
+    payDayOne: string;
+    payDayTwo: string;
     constructor() {
         this.customer = new Customer();
     }
@@ -79,13 +76,13 @@ export class PaymentTerm {
 export class Payment {
     ammount: number;
     approved: boolean;
-    date: Date;
+    createDate: Date;
     user: User;
     account: Account;
     constructor() {
         this.ammount = 0;
         this.approved = false;
-        this.date = new Date();
+        this.createDate = new Date();
         this.account = new Account();
     }
 }
@@ -108,3 +105,4 @@ export class Btn {
         this.color = 'btn-primary';
     }
 }
+

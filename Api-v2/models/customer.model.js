@@ -10,7 +10,13 @@ const model = () => {
         lastName: Sequelize.STRING,
         email: Sequelize.STRING,
         phone: Sequelize.STRING,
-        fullName: Sequelize.STRING
+        reputation: Sequelize.STRING,
+        fullName: {
+            type: Sequelize.VIRTUAL,
+            get() {
+                return this.getDataValue('name') + ' ' + this.getDataValue('lastName')
+            }
+        }
     })
 
     return Customer

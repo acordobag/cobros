@@ -33,11 +33,8 @@
             <div class="invalid-feedback">*Debe ingresar un monto</div>
           </div>
           <div class="form-group col-md-6">
-            <div class="form-check">
-              <label class="form-check-label" for="already_pay">
-                <input type="checkbox"class="form-check-input editable" id="already_pay" #already_pay="ngModel" name="already_pay" [(ngModel)]="account.alreadyPay" required> ¿Cancelado?
-              </label>
-            </div>
+            <label for="status">Estado</label>
+            <input type="text" #name="ngModel" name="status" [ngModel]="account.desStatus" class="form-control" id="name" disabled>
           </div>
         </form>
         <div class="btn-group-right" role="group">
@@ -86,7 +83,7 @@
               </div>
               <div class="form-group col-md-6">
                 <label for="date">Fecha del abono</label>
-                <input type="text" #date="ngModel" name="date" [(ngModel)]="payment.date" bsDatepicker [bsConfig]="{dateInputFormat: 'DD/MM/YYYY',containerClass:'theme-dark-blue', showWeekNumbers: false}"
+                <input type="text" #date="ngModel" name="date" [(ngModel)]="payment.createDate" bsDatepicker [bsConfig]="{dateInputFormat: 'DD/MM/YYYY',containerClass:'theme-dark-blue', showWeekNumbers: false}"
                   [maxDate]="today" [class.is-invalid]="date.invalid && (date.dirty || date.touched)" class="form-control" id="date"
                   required>
                 <div class="invalid-feedback">*Debe ingresar una fecha</div>
