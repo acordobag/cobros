@@ -7,7 +7,7 @@ INSERT INTO `carley`.`users`
 VALUES
 ('Christian',
 'Arley',
-'amcordobag@gmail.com',
+'carley',
 '$2a$08$SfALzbP6c9b5jBbisHq5COSsXw24330dkkk/6VI29QQTy/bz17Bgi', /*hash 123*/
 1);
 
@@ -20,6 +20,6 @@ INSERT INTO `carley`.`users`
 VALUES
 ('Adrian',
 'Cordoba',
-'amcordobag@gmail.com',
+'acordoba',
 '$2a$08$SfALzbP6c9b5jBbisHq5COSsXw24330dkkk/6VI29QQTy/bz17Bgi',
 1);

@@ -1,7 +1,11 @@
 'use strict'
 
+import Payment from './payment.model'
+import User from './user.model'
+import PaymentTerm from './paymentTerm.model'
 import db from '../db'
 const { sequelize, Sequelize } = db
+const Op = Sequelize.Op
 
 const model = () => {
     const Account = sequelize.define('account', {
@@ -38,6 +42,34 @@ const model = () => {
     })
     return Account
 }
-
 const Model = model()
+
+function findById(id) {
+    return Model.findOne({
+        where: {
+            id: id
+        },
+        include: [
+            PaymentTerm,
+            { model: Payment, include: [{ model: User, attributes: { exclude: ['password'] } }] }
+        ]
+    })
+
+}
+
+function findAllActive() {
+    return Model.findAll({
+        where: {
+            status: {
+                [Op.notIn]: ['paid']
+            }
+        },
+        include: [PaymentTerm]
+    })
+
+}
+
+Model.findById = findById
+Model.findAllActive = findAllActive
+
 export default Model

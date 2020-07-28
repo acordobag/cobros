@@ -1,12 +1,6 @@
 import Account from '../models/account.model'
 import Payment from '../models/payment.model'
-import User from '../models/user.model'
-import Customer from '../models/customer.model'
 import PaymentTerm from '../models/paymentTerm.model'
-import db from '../db'
-const { Sequelize } = db
-const Op = Sequelize.Op
-
 
 async function save(req, res, next) {
     try {
@@ -22,6 +16,9 @@ async function save(req, res, next) {
             paymentTermId: req.body.paymentTerm.id,
             customerId: req.body.customer.id
         }
+        account.initialAmmount = account.charge * account.numberOfPayments;
+        account.actualAmmount = account.initialAmmount;
+
         account = await Account.create(account)
         res.status(200).send(account).end()
     } catch (e) {
@@ -33,7 +30,7 @@ async function save(req, res, next) {
 
 async function findAll(req, res, next) {
     try {
-        let accounts = await Account.findAll({ include: [PaymentTerm] })
+        let accounts = await Account.findAllActive();
         res.status(200).send(accounts).end()
     } catch (e) {
         next(e)
@@ -43,10 +40,7 @@ async function findAll(req, res, next) {
 
 async function findById(req, res, next) {
     try {
-        let account = await Account.findOne({
-            where: { id: req.body.id },
-            include: [{ model: Payment, include: [User] }]
-        })
+        let account = await Account.findById(req.body.id)
         res.status(200).send(account).end()
     } catch (e) {
         next(e)
@@ -71,14 +65,7 @@ async function addPayment(req, res, next) {
 
 async function findAllPendingPayments(req, res, next) {
     try {
-        let payments = await Payment.findAll({
-            where: {
-                status: {
-                    [Op.in]: ['paid']
-                }
-            },
-            include: [User, { model: Account, include: [Customer] }]
-        })
+        let payments = await Payment.findPendings()
         let newArray = []
         for (let p of payments) {
             newArray.push({
@@ -111,7 +98,7 @@ async function approvePayment(req, res, next) {
 
 async function applyPayment(req, res, next) {
     try {
-        let payment = await Payment.findOne({ where: { id: req.body.id } })
+        let payment = await Payment.findById(req.body.id)
         payment.status = 'paid'
         res.status(200).send({}).end()
     } catch (e) {
@@ -165,7 +152,7 @@ async function findAllPaymentsTerms(req, res, next) {
 async function _approvePayment(id, next) {
     let payment = await Payment.findOne({ where: { id: id } })
     payment.status = 'approved'
-    let account = await Account.findOne({ where: { id: payment.accountId } })
+    let account = await Account.findById(payment.accountId)
     let newActualAmmount = (account.actualAmmount - payment.ammount)
     if (newActualAmmount < 0) {
         throw "El pago no puede ser mayor que el saldo restante. Saldo: " + account.actualAmmount
@@ -177,6 +164,10 @@ async function _approvePayment(id, next) {
     }
     await payment.save()
     await account.save()
+}
+
+async function _createPayments() {
+    
 }
 
 export default {

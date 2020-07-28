@@ -11,7 +11,7 @@ export const config = {
         ],
         language: {
             "info": "Mostrando pagina _PAGE_ de _PAGES_",
-            "infoEmpty": "No hay registros disponibles",
+            "zeroRecords": "No hay registros disponibles",
             "lengthMenu": "Mostrando _MENU_ registros por pagina ",
             "paginate": {
                 "first": "First",

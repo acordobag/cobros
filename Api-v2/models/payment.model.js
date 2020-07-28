@@ -1,7 +1,11 @@
 'use strict'
 
+import Account from './account.model'
+import Customer from './customer.model'
+import User from './user.model'
 import db from '../db'
 const { sequelize, Sequelize } = db
+const Op = Sequelize.Op
 
 const model = () => {
 
@@ -42,4 +46,34 @@ const model = () => {
 }
 
 const Model = model()
+
+function findById(id, det = false) {
+    return Model.findOne({
+        where: {
+            id: id
+        },
+        include: [
+            { model: User, attributes: { exclude: ['password'] } }
+        ]
+    })
+    
+}
+
+function findPendings() {
+    return Model.findAll({
+        where: {
+            status: {
+                [Op.in]: ['paid']
+            }
+        },
+        include: [
+            { model: User, attributes: { exclude: ['password'] } },
+            { model: Account, include: [Customer] }
+        ]
+    })
+}
+
+Model.findById = findById
+Model.findPendings = findPendings
+
 export default Model

@@ -10,7 +10,7 @@ const model = () => {
         email: Sequelize.STRING,
         password: Sequelize.STRING,
         isDriver: Sequelize.BOOLEAN,
-        token: Sequelize.STRING
+        token: Sequelize.VIRTUAL
     })
 
     return User

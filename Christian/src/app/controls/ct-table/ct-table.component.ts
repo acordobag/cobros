@@ -47,7 +47,9 @@ export class CtTableComponent implements OnInit {
       responsive: true,
       language: {
         "info": "Mostrando pagina _PAGE_ de _PAGES_",
-        "infoEmpty": "No hay registros disponibles",
+        "infoEmpty": "No se encontraron resultados",
+        "infoFiltered": "(filtrado de _MAX_ registros)",
+        "zeroRecords": "No hay registros disponibles",
         "lengthMenu": "Mostrando _MENU_ registros por pagina ",
         "search": "Buscar:",
         "paginate": {

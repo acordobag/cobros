@@ -106,8 +106,6 @@ export class CustomerDetailComponent implements OnInit {
   }
 
   saveCreatedAccount() {
-    this.account.initialAmmount = this.account.charge * this.account.numberOfPayments;
-    this.account.actualAmmount = this.account.initialAmmount;
     this.http.post('account', this.account, res => {
       this.newAccount.hide();
       this.loadCustomerData();

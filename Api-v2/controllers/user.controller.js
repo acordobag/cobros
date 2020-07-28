@@ -53,7 +53,6 @@ async function authenticate(req, res, next) {
 
 }
 
-
 async function findById(req, res, next) {
     try {
         let user = await User.findOne({ _id: req.body.id })
