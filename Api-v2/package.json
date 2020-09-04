@@ -26,6 +26,6 @@
     "nodemailer": "^4.4.2",
     "nodemon": "^2.0.4",
     "path": "^0.12.7",
-    "sequelize": "^4.32.2"
+    "sequelize": "^5.15.1"
   }
 }
