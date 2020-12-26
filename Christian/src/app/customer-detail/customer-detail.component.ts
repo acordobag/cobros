@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Customer, Account, PaymentTerm, Payment, Zone, Btn, Address } from '../entities';
+import { Customer, Account, PaymentTerm, Payment, Btn, Address } from '../entities';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpService } from '../services/http.service';
 import * as CONFIG from '../Settings/app.config';
@@ -17,7 +17,6 @@ declare var $: any;
 export class CustomerDetailComponent implements OnInit {
 
   private customer: Customer;
-  private zones: Array<Zone>;
   private account: Account;
   private address: Address;
   private payment: Payment;
@@ -40,7 +39,6 @@ export class CustomerDetailComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private http: HttpService, private router: Router, private utilService: UtilService) {
     this.customer = new Customer();
-    this.zones = new Array<Zone>();
   }
 
   ngOnInit() {
@@ -59,9 +57,6 @@ export class CustomerDetailComponent implements OnInit {
     this.changeInputsState(true);
     this.createNewAccount();
     this.createNewAddress();
-    this.http.get('zone', res => {
-      this.zones = res;
-    });
     this.http.get('paymentTerm', res => {
       this.paymentTerms = res;
     });

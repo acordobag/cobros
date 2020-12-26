@@ -5,7 +5,7 @@ const path = require('path')
 
 export default {
   enviroment: 'development',
-  port: 8080,
+  port: 4500,
   host: 'localhost',
   clientUrl: `localhost:8080`,
   authentication: {

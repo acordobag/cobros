@@ -16,8 +16,7 @@ async function save(req, res, next) {
             lastName: req.body.lastName,
             email: req.body.email,
             password: pass,
-            isDriver: req.body.isDriver,
-            token: ''
+            isDriver: req.body.isDriver
         };
 
         user = await User.create(user)
@@ -47,6 +46,7 @@ async function authenticate(req, res, next) {
             }
         }
     } catch (e) {
+        console.log(e)
         next(e)
     }
 
