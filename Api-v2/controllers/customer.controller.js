@@ -50,6 +50,23 @@ async function findById(req, res) {
     }
 }
 
+async function findCustomerWithAccounts(req, res) {
+    try {
+        let customer = await Customer.findOne({
+            where: {
+                id: req.body.id
+            },
+            include: [Address, {
+                model: Account,
+                include: [PaymentTerm]
+            }]
+        })
+        res.status(200).send(customer).end();
+    } catch (e) {
+        next(e)
+    }
+}
+
 export default {
     save,
     findAll,

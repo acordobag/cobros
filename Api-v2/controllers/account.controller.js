@@ -150,24 +150,29 @@ async function findAllPaymentsTerms(req, res, next) {
 }
 
 async function _approvePayment(id, next) {
-    let payment = await Payment.findOne({ where: { id: id } })
-    payment.status = 'approved'
-    let account = await Account.findById(payment.accountId)
-    let newActualAmmount = (account.actualAmmount - payment.ammount)
-    if (newActualAmmount < 0) {
-        throw "El pago no puede ser mayor que el saldo restante. Saldo: " + account.actualAmmount
-    } else if (newActualAmmount == 0) {
-        account.status = 'paid'
-        account.actualAmmount = newActualAmmount
-    } else {
-        account.actualAmmount = newActualAmmount
+    try {
+        let payment = await Payment.findOne({ where: { id: id } })
+        payment.status = 'approved'
+        let account = await Account.findById(payment.accountId)
+        let newActualAmmount = (account.actualAmmount - payment.ammount)
+        if (newActualAmmount < 0) {
+            throw "El pago no puede ser mayor que el saldo restante. Saldo: " + account.actualAmmount
+        } else if (newActualAmmount == 0) {
+            account.status = 'paid'
+            account.actualAmmount = newActualAmmount
+        } else {
+            account.actualAmmount = newActualAmmount
+        }
+        await payment.save()
+        await account.save()
+
+    } catch (e) {
+        next(e)
     }
-    await payment.save()
-    await account.save()
 }
 
 async function _createPayments() {
-    
+
 }
 
 export default {

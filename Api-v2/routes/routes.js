@@ -1,7 +1,7 @@
 import express from 'express'
 
 import CustomerController from '../controllers/customer.controller'
-import ZoneController from '../controllers/zone.controller'
+import RouterController from '../controllers/route.controller'
 import UserController from '../controllers/user.controller'
 import AccountController from '../controllers/account.controller'
 import PaymentTermController from '../controllers/paymentTerm.controller'
@@ -28,13 +28,13 @@ router.route('/customer/:id')
     .get(function (req, res, next) {
         CustomerController.findById(req, res, next);
     })
-router.route('/zone')
-    .get(function (req, res, next) {
-        ZoneController.findAll(req, res, next);
-    })
-    .post(function (req, res, next) {
-        ZoneController.save(req, res, next);
-    });
+// router.route('/zone')
+//     .get(function (req, res, next) {
+//         ZoneController.findAll(req, res, next);
+//     })
+//     .post(function (req, res, next) {
+//         ZoneController.save(req, res, next);
+//     });
 
 router.route('/user')
     .get(function (req, res, next) {
@@ -94,6 +94,11 @@ router.route('/paymentTerm')
 router.route('/address')
     .post(function (req, res, next) {
         AddressController.save(req, res, next);
+    })
+
+router.route('/routes')
+    .post(function (req, res, next) {
+        RouteController.createRoute(req, res, next);
     })
 
 module.exports = router;

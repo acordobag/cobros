@@ -3,7 +3,7 @@ import Address from '../models/address.model'
 
 async function save(req, res, next) {
     try {
-        let account = {
+        let address = {
             street: req.body.street,
             city: req.body.city,
             state: req.body.state,
@@ -13,8 +13,8 @@ async function save(req, res, next) {
             isPreferred: req.body.isPreferred,
             customerId: req.body.customer.id,
         }
-        account = await Address.create(account)
-        res.status(200).send(account).end()
+        address = await Address.create(address)
+        res.status(200).send(address).end()
     } catch (e) {
         next(e)
         console.error(e)
@@ -22,6 +22,42 @@ async function save(req, res, next) {
 
 }
 
+async function _retriveAddresses(location) {
+    let addresses = [];
+    try {
+        if (location.state && location.city && location.street) {
+            //Retrive all addresses of this street and write customer into location detail
+            addresses = await Address.findAll({
+                where: {
+                    state: location.state,
+                    city: location.city,
+                    street: location.street
+                }
+            })
+        } else if (location.state && location.city) {
+            //Retrive all addresses of this street and write customer into location detail
+            addresses = await Address.findAll({
+                where: {
+                    state: location.state,
+                    city: location.city
+                }
+            })
+        } else if (location.state) {
+            //Retrive all addresses of this street and write customer into location detail
+            addresses = await Address.findAll({
+                where: {
+                    state: location.state,
+                }
+            })
+        }
+
+        return addresses;
+    } catch (e) {
+        next(e)
+    }
+}
+
 export default {
-    save
+    save,
+    _retriveAddresses
 }
