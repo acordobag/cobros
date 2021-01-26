@@ -33,7 +33,7 @@ export default async () => {
     Route.belongsTo(User, { as: 'driver' });
     Route.belongsTo(User, { as: 'createdBy' });
 
-    RouteDetail.belongsTo(Customer);
+    RouteDetail.belongsTo(Account);
     RouteDetail.belongsTo(Route);
 
     try {

@@ -35,16 +35,26 @@ async function findAll(req, res, next) {
 
 async function findById(req, res) {
     try {
+        let customer = _findById(req.body.id)
+        res.status(200).send(customer).end();
+    } catch (e) {
+        next(e)
+    }
+}
+
+
+async function _findById(id) {
+    try {
         let customer = await Customer.findOne({
             where: {
-                id: req.body.id
+                id: id
             },
             include: [Address, {
                 model: Account,
                 include: [PaymentTerm]
             }]
         })
-        res.status(200).send(customer).end();
+        return customer;
     } catch (e) {
         next(e)
     }
@@ -70,5 +80,6 @@ async function findCustomerWithAccounts(req, res) {
 export default {
     save,
     findAll,
-    findById
+    findById,
+    _findById
 }

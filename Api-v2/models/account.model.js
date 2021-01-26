@@ -69,7 +69,21 @@ function findAllActive() {
 
 }
 
+function findAllAcWDuePayByCId(cId) {
+    console.log(cId)
+    return Model.findAll({
+        where: {
+            status: {
+                [Op.notIn]: ['paid'],
+            },
+            customerId: cId
+        },
+        include: [PaymentTerm, Payment]
+    })
+}
+
 Model.findById = findById
 Model.findAllActive = findAllActive
+Model.findAllAcWDuePayByCId = findAllAcWDuePayByCId
 
 export default Model

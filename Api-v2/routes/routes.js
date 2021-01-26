@@ -1,7 +1,7 @@
 import express from 'express'
 
 import CustomerController from '../controllers/customer.controller'
-import RouterController from '../controllers/route.controller'
+import RouteController from '../controllers/route.controller'
 import UserController from '../controllers/user.controller'
 import AccountController from '../controllers/account.controller'
 import PaymentTermController from '../controllers/paymentTerm.controller'

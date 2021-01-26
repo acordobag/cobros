@@ -1,6 +1,8 @@
 import Route from '../models/route.model'
 import RouteDetail from '../models/routeDetail.model'
+import AccountController from './account.controller';
 import AddressController from './address.controller';
+import CustomerController from './customer.controller';
 
 
 async function createRoute(req, res, next) {
@@ -16,20 +18,25 @@ async function createRoute(req, res, next) {
         let locations = req.body.locations
 
         for (let i = 0; i < locations.length; i++) {
-            const customers = await AddressController._retriveAddresses(locations[i]);
+            const addressList = await AddressController._retriveAddresses(locations[i]);
 
-            for (let j = 0; index < customers.length; j++) {
+            for (let j = 0; j < addressList.length; j++) {
+                const customer = await CustomerController._findById(addressList[j].customerId);
 
                 //check if customer has accounts 
+                //have to asociate the route detail with pending accounts
+                const unpaidCustomerAcc = await AccountController.getCustomerUnPaidAccounts(customer.id, next);
+
                 //check if is day to generate customer due payment
-
-
-                const detail = {
-                    routerId: newRoute.id,
-                    customerId: customers[j].id,
-                    state: 0
+                for (let f = 0; f < unpaidCustomerAcc.length; f++) {
+                    const account = unpaidCustomerAcc[f];
+                    const detail = {
+                        routerId: newRoute.id,
+                        accountId: account.id,
+                        state: 0
+                    }
+                    await RouteDetail.create(detail);
                 }
-                await RouteDetail.create(detail);
             }
         }
 

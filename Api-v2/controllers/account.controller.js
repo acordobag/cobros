@@ -175,6 +175,30 @@ async function _createPayments() {
 
 }
 
+async function getCustomerUnPaidAccounts(customerId, next) {
+    try {
+        const daysBetwen = 2;
+        let accounts = await Account.findAllAcWDuePayByCId(customerId);
+        let unpaid = [];
+        let today = new Date().getDate();
+        let daysBefore = new Date();
+        let daysAfter = new Date();
+        daysBefore.setDate(today - daysBetwen);
+        daysAfter.setDate(today + daysBetwen);
+        for (let i = 0; i < accounts.length; i++) {
+            const acc = accounts[i];
+            if ((acc.payDayOne >= daysBefore.getDate() && acc.payDayOne <= daysAfter.getDate()) || (acc.payDayTwo >= daysBefore.getDate() && acc.payDayTwo <= daysAfter.getDate())) {
+                unpaid.push(acc);
+            }
+        }
+        //Falta la logica de los días de la semana
+        return unpaid
+
+    } catch (e) {
+        next(e)
+    }
+}
+
 export default {
     save,
     findAll,
@@ -185,5 +209,6 @@ export default {
     approvePayment,
     approveListOfPayments,
     findAccountPayments,
-    findAllPaymentsTerms
+    findAllPaymentsTerms,
+    getCustomerUnPaidAccounts
 }
