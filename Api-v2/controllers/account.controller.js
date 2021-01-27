@@ -177,22 +177,34 @@ async function _createPayments() {
 
 async function getCustomerUnPaidAccounts(customerId, next) {
     try {
-        const daysBetwen = 2;
-        let accounts = await Account.findAllAcWDuePayByCId(customerId);
+        const daysBetwen = 1;
         let unpaid = [];
-        let today = new Date().getDate();
-        let daysBefore = new Date();
-        let daysAfter = new Date();
-        daysBefore.setDate(today - daysBetwen);
-        daysAfter.setDate(today + daysBetwen);
-        for (let i = 0; i < accounts.length; i++) {
-            const acc = accounts[i];
-            if ((acc.payDayOne >= daysBefore.getDate() && acc.payDayOne <= daysAfter.getDate()) || (acc.payDayTwo >= daysBefore.getDate() && acc.payDayTwo <= daysAfter.getDate())) {
-                unpaid.push(acc);
+        let accounts = await Account.findAllAcWDuePayByCId(customerId);
+
+        if (accounts.length > 0) {
+
+            let today = new Date().getDate();
+            let daysBefore = new Date();
+            let daysAfter = new Date();
+            let todayWeekDay = "w" + new Date().getDay();
+
+            daysBefore.setDate(today - daysBetwen);
+            daysAfter.setDate(today + daysBetwen);
+
+            for (let i = 0; i < accounts.length; i++) {
+                const acc = accounts[i];
+                if (
+                    (acc.payDayOne >= daysBefore.getDate() && acc.payDayOne <= daysAfter.getDate()) || //Si el dida d pago esta entre hoy o mañana
+                    (acc.payDayTwo >= daysBefore.getDate() && acc.payDayTwo <= daysAfter.getDate()) ||
+                    (acc.payDayOne == todayWeekDay) //Si es igual al día de la semana
+                ) {
+                    //Si se cumple algun escenario lo meye al listado de cuentas por cobrar
+                    unpaid.push(acc);
+                }
             }
         }
         //Falta la logica de los días de la semana
-        return unpaid
+        return unpaid;
 
     } catch (e) {
         next(e)

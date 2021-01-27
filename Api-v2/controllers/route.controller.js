@@ -21,21 +21,20 @@ async function createRoute(req, res, next) {
             const addressList = await AddressController._retriveAddresses(locations[i]);
 
             for (let j = 0; j < addressList.length; j++) {
+
                 const customer = await CustomerController._findById(addressList[j].customerId);
-
-                //check if customer has accounts 
-                //have to asociate the route detail with pending accounts
-                const unpaidCustomerAcc = await AccountController.getCustomerUnPaidAccounts(customer.id, next);
-
-                //check if is day to generate customer due payment
-                for (let f = 0; f < unpaidCustomerAcc.length; f++) {
-                    const account = unpaidCustomerAcc[f];
-                    const detail = {
-                        routerId: newRoute.id,
-                        accountId: account.id,
-                        state: 0
+                if (customer) {
+                    const unpaidCustomerAcc = await AccountController.getCustomerUnPaidAccounts(customer.id, next);
+                    //check if is day to generate customer due payment
+                    for (let f = 0; f < unpaidCustomerAcc.length; f++) {
+                        const account = unpaidCustomerAcc[f];
+                        const detail = {
+                            routeId: newRoute.id,
+                            accountId: account.id,
+                            state: 0
+                        }
+                        await RouteDetail.create(detail);
                     }
-                    await RouteDetail.create(detail);
                 }
             }
         }

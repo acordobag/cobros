@@ -70,7 +70,6 @@ function findAllActive() {
 }
 
 function findAllAcWDuePayByCId(cId) {
-    console.log(cId)
     return Model.findAll({
         where: {
             status: {

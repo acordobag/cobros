@@ -1,0 +1,6 @@
+Un job que actualice los estados
+La pantalla de generaciín y visualización de rutas
+Que la generacion de cobros vea los clientes que no pagaron
+
+Para los prestamos un cargo por atraso para cuando no efectua el pagaron
+El pago debe actualizar el estado de la operación

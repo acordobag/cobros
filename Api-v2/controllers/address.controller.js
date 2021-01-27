@@ -31,7 +31,8 @@ async function _retriveAddresses(location) {
                 where: {
                     state: location.state,
                     city: location.city,
-                    street: location.street
+                    street: location.street,
+                    isPreferred: true
                 }
             })
         } else if (location.state && location.city) {
@@ -39,7 +40,8 @@ async function _retriveAddresses(location) {
             addresses = await Address.findAll({
                 where: {
                     state: location.state,
-                    city: location.city
+                    city: location.city,
+                    isPreferred: true
                 }
             })
         } else if (location.state) {
@@ -47,6 +49,7 @@ async function _retriveAddresses(location) {
             addresses = await Address.findAll({
                 where: {
                     state: location.state,
+                    isPreferred: true
                 }
             })
         }

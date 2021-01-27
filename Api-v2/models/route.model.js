@@ -6,7 +6,7 @@ const { sequelize, Sequelize } = db
 const model = () => {
     const Route = sequelize.define('route', {
         name: Sequelize.STRING,
-        state: Sequelize.INTEGER
+        state: Sequelize.INTEGER //0 creadso 1 activo 2 finalizado
     })
     return Route
 }

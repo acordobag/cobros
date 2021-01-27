@@ -35,7 +35,7 @@ async function findAll(req, res, next) {
 
 async function findById(req, res) {
     try {
-        let customer = _findById(req.body.id)
+        let customer = await _findById(req.body.id)
         res.status(200).send(customer).end();
     } catch (e) {
         next(e)
