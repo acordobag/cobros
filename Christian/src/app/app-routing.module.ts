@@ -9,6 +9,7 @@ import { CustomerDetailComponent } from './customer-detail/customer-detail.compo
 import { AccountsComponent } from './accounts/accounts.component';
 import { PaymentsComponent } from './payments/payments.component';
 import { AccountDetailComponent } from './account-detail/account-detail.component';
+import { RouteComponent } from './route/route.component';
 
 const appRoutes: Routes = [
   { path: "", redirectTo: "login", pathMatch: "full" },
@@ -29,7 +30,8 @@ const appRoutes: Routes = [
           { path: ":id", component: AccountDetailComponent, data: { breadcrumbs: true, text: 'cuenta' } }
         ]
       },
-      { path: "payment", component: PaymentsComponent, data: { breadcrumbs: true, text: 'Pagos' } }
+      { path: "payment", component: PaymentsComponent, data: { breadcrumbs: true, text: 'Pagos' } },
+      { path: "route", component: RouteComponent, data: { breadcrumbs: true, text: 'Rutas' } },
     ]
   }
 ]

@@ -1,3 +1,22 @@
-<p>
-  route works!
-</p>
+<div class="">
+  <div class="card-body">
+    <div class="col-md-12" role="group">
+      <div class="mb-3">
+        <button type="button" class="btn btn-primary d-none d-sm-block pull-right" (click)="approveAllPayments()">Crear nueva ruta
+          <i class="fa fa-check-square-o" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="col-sm-12 pr-0 pl-0 mb-3">
+        <button type="button" class="btn btn-danger btn-block d-block d-sm-none" (click)="approveAllPayments()"
+          data-target="#newUserAccount">Crear nueva ruta
+          <i class="fa fa-check-square-o" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <ct-table #routesTable (btnClick)="approveOnePayment($event)"></ct-table>
+    </div>
+  </div>
+</div>

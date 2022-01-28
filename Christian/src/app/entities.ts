@@ -106,3 +106,10 @@ export class Btn {
     }
 }
 
+export class Route {
+    id: number;
+    name: string;
+    state: string;
+    driver: any;
+}
+

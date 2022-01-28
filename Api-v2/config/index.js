@@ -34,7 +34,7 @@ export default {
     secret: ""
   },
   dbSettings: {
-    host: '104.196.65.72',
+    host: '35.211.212.134',
     username: 'cftravel',
     password: 'CfTravel20',
     database: 'carley',

@@ -16,7 +16,7 @@ async function save(req, res, next) {
             paymentTermId: req.body.paymentTerm.id,
             customerId: req.body.customer.id
         }
-        account.initialAmmount = account.charge * account.numberOfPayments;
+        account.initialAmmount = (account.charge) * (account.numberOfPayments * req.body.paymentTerm.monthPayments);
         account.actualAmmount = account.initialAmmount;
 
         account = await Account.create(account)
